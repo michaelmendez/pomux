@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <!-- Favicons -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- Viewport & Theme -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#4021a9" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#4021a9" media="(prefers-color-scheme: light)" />
+
+    <!-- Primary Meta Tags -->
+    <title>Pomux — Free Pomodoro Timer</title>
+    <meta name="title" content="Pomux — Free Pomodoro Timer" />
+    <meta
+      name="description"
+      content="Pomux is a free Pomodoro timer to help you stay focused and productive. Features Pomodoro, Short Break, and Long Break modes, session tracking, motivational quotes, a built-in lofi radio player, and offline PWA support."
+    />
+    <meta
+      name="keywords"
+      content="pomodoro timer, focus timer, productivity timer, pomodoro technique, study timer, pomodoro app, work timer, lofi radio, progressive web app, time management, break timer, free pomodoro, online timer, concentration timer"
+    />
+    <meta name="author" content="Pomux" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://pomux.netlify.app/" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://pomux.netlify.app/" />
+    <meta property="og:site_name" content="Pomux" />
+    <meta property="og:title" content="Pomux — Free Pomodoro Timer" />
+    <meta
+      property="og:description"
+      content="Free Pomodoro timer with lofi radio, session tracking, motivational quotes, and offline PWA support. Stay focused, stay productive."
+    />
+    <meta property="og:image" content="https://pomux.netlify.app/pwa-512x512.png" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+    <meta property="og:image:alt" content="Pomux — Your Productivity Companion" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:url" content="https://pomux.netlify.app/" />
+    <meta name="twitter:title" content="Pomux — Free Pomodoro Timer" />
+    <meta
+      name="twitter:description"
+      content="Free Pomodoro timer with lofi radio, session tracking, motivational quotes, and offline PWA support. Stay focused, stay productive."
+    />
+    <meta name="twitter:image" content="https://pomux.netlify.app/pwa-512x512.png" />
+    <meta name="twitter:image:alt" content="Pomux — Your Productivity Companion" />
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Pomux",
+        "url": "https://pomux.netlify.app/",
+        "description": "Free Pomodoro timer to help you stay focused and productive. Features Pomodoro, Short Break, and Long Break modes, session tracking, motivational quotes, a lofi radio player, and offline PWA support.",
+        "applicationCategory": "ProductivityApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires a modern web browser with JavaScript enabled.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "screenshot": "https://pomux.netlify.app/pwa-512x512.png",
+        "featureList": [
+          "Pomodoro timer (25 minutes)",
+          "Short Break timer (5 minutes)",
+          "Long Break timer (15 minutes)",
+          "Session counter with localStorage persistence",
+          "Sound notification on session end",
+          "Motivational quotes",
+          "Built-in lofi & synthwave radio player",
+          "Offline support",
+          "Progressive Web App (PWA) — installable"
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
