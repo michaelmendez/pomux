@@ -3,14 +3,14 @@ import logo from "@/assets/logo.webp";
 const Header = () => {
   return (
     <>
-      <header className="text-white px-4 py-3 sm:px-6 sm:py-4 bg-brand">
+      <header className="text-white px-4 py-2.25 sm:px-6 sm:py-4 bg-brand">
         <div className="flex items-center gap-0.5">
           <img
             src={logo}
             alt="Pomux logo"
             loading="eager"
             fetchPriority="high"
-            className="h-14 w-14 sm:h-16 sm:w-16 object-contain"
+            className="h-12 w-12 sm:h-16 sm:w-16 object-contain"
           />
           <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight font-[Outfit]">
             POMUX
@@ -20,7 +20,7 @@ const Header = () => {
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 1440 320"
-        className="w-full block h-20 -mt-px"
+        className="w-full block h-10 sm:h-20 -mt-px"
         preserveAspectRatio="none"
       >
         <path

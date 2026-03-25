@@ -103,7 +103,7 @@ function App() {
     <>
       <title>{isTimerRunning ? `${formatTime(seconds)} · ${APP_NAME}` : BASE_HEAD_TITLE}</title>
       <Header />
-      <main className="flex flex-1 flex-col items-center justify-center gap-6 xs:gap-2 px-4 sm:px-6 pb-44">
+      <main className="flex flex-1 flex-col items-center justify-center gap-4 xs:gap-2 px-4 sm:px-6 pb-40 sm:pb-44">
         <div className="flex flex-wrap justify-center gap-5 xs:gap-2">
           <Button
             isActive={activeButton === TIMER_TYPES.POMODORO}
