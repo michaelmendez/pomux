@@ -14,7 +14,7 @@ export default function Timer({ seconds, isRunning }: Readonly<TimerProps>) {
         isRunning ? "shadow-[0_0_60px_10px_rgba(65,0,202,0.4)]" : "shadow-none"
       }`}
     >
-      <span className="text-6xl xs:text-5xl md:text-9xl font-bold tracking-tight tabular-nums">
+      <span className="text-8xl xs:text-6xl md:text-9xl font-bold tracking-tight tabular-nums">
         {minutes}
         <span className={isRunning ? "animate-pulse" : ""}>:</span>
         {secs}
