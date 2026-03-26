@@ -1,23 +1,26 @@
-import Skeleton from "@/shared/ui/Skeleton";
+import { AUDIO_VOLUME } from "@/constants/consts";
+import { env } from "@/constants/env";
 import ProgressBar from "@/features/radio/components/ProgressBar";
 import StationControls from "@/features/radio/components/StationControls";
 import VolumeBar from "@/features/radio/components/VolumeBar";
-import { env } from "@/constants/env";
 import useApi from "@/hooks/useApi";
+import Skeleton from "@/shared/ui/Skeleton";
 import type { RadioStation } from "@/types/types";
 import { toHttps } from "@/utils/toHttps";
 import { useEffect, useRef, useState } from "react";
 
 const RADIO_STATIONS_URL = env.radioStationsUrl;
+const INITIAL_STATION_INDEX = 0;
+const STATION_INDEX_STEP = 1;
 
 export default function Station() {
   const { data, isLoading } = useApi<RadioStation[]>(RADIO_STATIONS_URL);
-  const [currentStationIndex, setCurrentStationIndex] = useState(0);
+  const [currentStationIndex, setCurrentStationIndex] = useState(INITIAL_STATION_INDEX);
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    audioRef.current = new Audio(toHttps(data?.at(0)?.url));
+    audioRef.current = new Audio(toHttps(data?.at(INITIAL_STATION_INDEX)?.url));
   }, [data]);
 
   const handlePlay = () => {
@@ -31,14 +34,20 @@ export default function Station() {
   };
 
   const handleNextPrev = (type: "next" | "prev") => {
-    const total = data?.length ?? 0;
+    const total = data?.length ?? INITIAL_STATION_INDEX;
     if (!total) return;
 
     let updatedStationIndex: number;
     if (type === "next") {
-      updatedStationIndex = currentStationIndex + 1 >= total ? 0 : currentStationIndex + 1;
+      updatedStationIndex =
+        currentStationIndex + STATION_INDEX_STEP >= total
+          ? INITIAL_STATION_INDEX
+          : currentStationIndex + STATION_INDEX_STEP;
     } else {
-      updatedStationIndex = currentStationIndex - 1 < 0 ? total - 1 : currentStationIndex - 1;
+      updatedStationIndex =
+        currentStationIndex - STATION_INDEX_STEP < INITIAL_STATION_INDEX
+          ? total - STATION_INDEX_STEP
+          : currentStationIndex - STATION_INDEX_STEP;
     }
 
     audioRef.current?.pause();
@@ -51,7 +60,7 @@ export default function Station() {
 
   const handleVolume = (volume: number) => {
     if (audioRef.current) {
-      audioRef.current.volume = volume / 100;
+      audioRef.current.volume = volume / AUDIO_VOLUME.MAX;
     }
   };
 

@@ -1,11 +1,10 @@
+import { SETTINGS_LIMITS } from "@/constants/consts";
 import { useSettings } from "@/contexts/useSettings";
 import Slider from "@/shared/ui/Slider";
+import { ensureNotificationPermission } from "@/utils/notifications";
 import { toMinutes, toSeconds } from "@/utils/timeConversion";
-import { Settings2, X } from "lucide-react";
+import { Bell, BellOff, Settings2, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-
-const MAX_MINUTES = 60;
-const MODAL_ANIMATION_MS = 220;
 
 export default function Settings() {
   const { settings, handleSettings } = useSettings();
@@ -17,16 +16,21 @@ export default function Settings() {
   const [pomodoro, setPomodoro] = useState(toMinutes(settings.durations.pomodoro));
   const [shortBreak, setShortBreak] = useState(toMinutes(settings.durations.shortBreak));
   const [longBreak, setLongBreak] = useState(toMinutes(settings.durations.longBreak));
+  const [isNotificationEnabled, setIsNotificationEnabled] = useState(
+    settings.isNotificationEnabled,
+  );
 
   const isDirty =
     pomodoro !== toMinutes(settings.durations.pomodoro) ||
     shortBreak !== toMinutes(settings.durations.shortBreak) ||
-    longBreak !== toMinutes(settings.durations.longBreak);
+    longBreak !== toMinutes(settings.durations.longBreak) ||
+    isNotificationEnabled !== settings.isNotificationEnabled;
 
   useEffect(() => {
     setPomodoro(toMinutes(settings.durations.pomodoro));
     setShortBreak(toMinutes(settings.durations.shortBreak));
     setLongBreak(toMinutes(settings.durations.longBreak));
+    setIsNotificationEnabled(settings.isNotificationEnabled);
   }, [settings]);
 
   useEffect(() => {
@@ -53,7 +57,7 @@ export default function Settings() {
     closeTimerRef.current = setTimeout(() => {
       setIsOpen(false);
       setIsClosing(false);
-    }, MODAL_ANIMATION_MS);
+    }, SETTINGS_LIMITS.MODAL_ANIMATION_MS);
 
     return () => {
       if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
@@ -69,10 +73,17 @@ export default function Settings() {
   const saveSettings = () => {
     handleSettings({
       durations: {
-        pomodoro: toSeconds(Math.max(1, Math.min(MAX_MINUTES, pomodoro))),
-        shortBreak: toSeconds(Math.max(1, Math.min(MAX_MINUTES, shortBreak))),
-        longBreak: toSeconds(Math.max(1, Math.min(MAX_MINUTES, longBreak))),
+        pomodoro: toSeconds(
+          Math.max(SETTINGS_LIMITS.MIN_MINUTES, Math.min(SETTINGS_LIMITS.MAX_MINUTES, pomodoro)),
+        ),
+        shortBreak: toSeconds(
+          Math.max(SETTINGS_LIMITS.MIN_MINUTES, Math.min(SETTINGS_LIMITS.MAX_MINUTES, shortBreak)),
+        ),
+        longBreak: toSeconds(
+          Math.max(SETTINGS_LIMITS.MIN_MINUTES, Math.min(SETTINGS_LIMITS.MAX_MINUTES, longBreak)),
+        ),
       },
+      isNotificationEnabled,
     });
     setIsClosing(true);
   };
@@ -81,6 +92,7 @@ export default function Settings() {
     setPomodoro(toMinutes(settings.durations.pomodoro));
     setShortBreak(toMinutes(settings.durations.shortBreak));
     setLongBreak(toMinutes(settings.durations.longBreak));
+    setIsNotificationEnabled(settings.isNotificationEnabled);
     setIsClosing(false);
     setIsEntering(true);
     setIsOpen(true);
@@ -92,6 +104,16 @@ export default function Settings() {
 
   const closeModal = () => {
     setIsClosing(true);
+  };
+
+  const handleNotifications = async () => {
+    if (isNotificationEnabled) {
+      setIsNotificationEnabled(false);
+      return;
+    }
+
+    const isEnabled = await ensureNotificationPermission();
+    setIsNotificationEnabled(isEnabled);
   };
 
   return (
@@ -165,14 +187,14 @@ export default function Settings() {
                   </label>
                   <Slider
                     value={pomodoro}
-                    min={1}
-                    max={MAX_MINUTES}
+                    min={SETTINGS_LIMITS.MIN_MINUTES}
+                    max={SETTINGS_LIMITS.MAX_MINUTES}
                     step={1}
                     onChange={(v) => setPomodoro(v)}
                     valueFormatter={(v) => `${v} min`}
-                    minLabel="1 min"
-                    midLabel="30 min"
-                    maxLabel="60 min"
+                    minLabel={`${SETTINGS_LIMITS.MIN_MINUTES} min`}
+                    midLabel={`${SETTINGS_LIMITS.MID_MINUTES} min`}
+                    maxLabel={`${SETTINGS_LIMITS.MAX_MINUTES} min`}
                   />
                 </div>
 
@@ -182,14 +204,14 @@ export default function Settings() {
                   </label>
                   <Slider
                     value={shortBreak}
-                    min={1}
-                    max={MAX_MINUTES}
+                    min={SETTINGS_LIMITS.MIN_MINUTES}
+                    max={SETTINGS_LIMITS.MAX_MINUTES}
                     step={1}
                     onChange={(v) => setShortBreak(v)}
                     valueFormatter={(v) => `${v} min`}
-                    minLabel="1 min"
-                    midLabel="30 min"
-                    maxLabel="60 min"
+                    minLabel={`${SETTINGS_LIMITS.MIN_MINUTES} min`}
+                    midLabel={`${SETTINGS_LIMITS.MID_MINUTES} min`}
+                    maxLabel={`${SETTINGS_LIMITS.MAX_MINUTES} min`}
                   />
                 </div>
 
@@ -199,15 +221,60 @@ export default function Settings() {
                   </label>
                   <Slider
                     value={longBreak}
-                    min={1}
-                    max={MAX_MINUTES}
+                    min={SETTINGS_LIMITS.MIN_MINUTES}
+                    max={SETTINGS_LIMITS.MAX_MINUTES}
                     step={1}
                     onChange={(v) => setLongBreak(v)}
                     valueFormatter={(v) => `${v} min`}
-                    minLabel="1 min"
-                    midLabel="30 min"
-                    maxLabel="60 min"
+                    minLabel={`${SETTINGS_LIMITS.MIN_MINUTES} min`}
+                    midLabel={`${SETTINGS_LIMITS.MID_MINUTES} min`}
+                    maxLabel={`${SETTINGS_LIMITS.MAX_MINUTES} min`}
                   />
+                </div>
+
+                <div className="rounded-xl border border-white/10 bg-white/3 p-4">
+                  <button
+                    type="button"
+                    onClick={handleNotifications}
+                    className={`group flex w-full items-center justify-between rounded-lg border px-4 py-3 text-left transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 ${
+                      isNotificationEnabled
+                        ? "border-indigo-300/30 bg-indigo-400/8 text-white/95 hover:bg-indigo-400/14 focus-visible:ring-indigo-300/45"
+                        : "border-white/16 bg-white/4 text-white/88 hover:bg-white/8 focus-visible:ring-white/35"
+                    }`}
+                  >
+                    <span className="flex items-center gap-3">
+                      <span
+                        className={`inline-flex h-9 w-9 items-center justify-center rounded-full border transition-colors ${
+                          isNotificationEnabled
+                            ? "border-indigo-300/35 bg-indigo-300/18"
+                            : "border-white/18 bg-white/7"
+                        }`}
+                      >
+                        {isNotificationEnabled ? <Bell size={17} /> : <BellOff size={17} />}
+                      </span>
+                      <span className="flex flex-col">
+                        <span className="text-sm font-semibold tracking-tight">
+                          {isNotificationEnabled
+                            ? "Desktop alerts are enabled"
+                            : "Enable desktop alerts"}
+                        </span>
+                        <span className="text-xs text-white/65">
+                          {isNotificationEnabled
+                            ? "You will get a notification when a session ends."
+                            : "Get notified when focus or break sessions complete."}
+                        </span>
+                      </span>
+                    </span>
+                    <span
+                      className={`rounded-full border px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider ${
+                        isNotificationEnabled
+                          ? "border-indigo-300/35 bg-indigo-300/18 text-indigo-100"
+                          : "border-white/16 bg-white/7 text-white/65"
+                      }`}
+                    >
+                      {isNotificationEnabled ? "On" : "Off"}
+                    </span>
+                  </button>
                 </div>
 
                 <div className="flex items-center justify-end gap-2 pt-1">

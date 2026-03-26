@@ -3,6 +3,7 @@ import {
   NOTIFICATION_SOUND_PATH,
   POMODOROS_BEFORE_LONG_BREAK,
   STORAGE_KEYS,
+  TIMER_NOTIFICATION_MESSAGES,
   TIMER_INTERVAL_MS,
   TIMER_TYPES,
 } from "@/constants/consts";
@@ -13,6 +14,7 @@ import TimerControlBar from "@/features/timer/components/TimerControlBar";
 import TimerSessionNav from "@/features/timer/components/TimerSessionNav";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import type { TimerTypes } from "@/types/types";
+import { notifySessionEnd } from "@/utils/notifications";
 import { useEffect, useRef, useState } from "react";
 
 type TimerLayoutProps = {
@@ -52,6 +54,15 @@ export default function TimerLayout({
     if (seconds === 0) {
       notificationRef.current.play();
 
+      if (settings.isNotificationEnabled) {
+        const notification =
+          activeButton === TIMER_TYPES.POMODORO
+            ? TIMER_NOTIFICATION_MESSAGES.POMODORO_COMPLETE
+            : TIMER_NOTIFICATION_MESSAGES.BREAK_COMPLETE;
+
+        notifySessionEnd(notification);
+      }
+
       let nextPomodoroCount = pomodoroCount;
       let nextType: TimerTypes;
 
@@ -83,6 +94,7 @@ export default function TimerLayout({
     setSeconds,
     setSessions,
     settings.durations,
+    settings.isNotificationEnabled,
   ]);
 
   useEffect(() => {

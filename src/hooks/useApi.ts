@@ -1,3 +1,4 @@
+import { API_RESPONSE_PREVIEW_CHARS } from "@/constants/consts";
 import { useEffect, useState } from "react";
 
 type UseApiReturn<T = null> = {
@@ -38,7 +39,7 @@ export default function useApi<T = null>(url: string): UseApiReturn<T | null> {
           if (!contentType.includes("application/json")) {
             const rawBody = await request.text();
             const preview = rawBody
-              .slice(0, 120)
+              .slice(0, API_RESPONSE_PREVIEW_CHARS)
               .replaceAll(/\s+/g, " ")
               .trim();
             const message = `Expected JSON but got ${contentType || "unknown content-type"}. Possible /api routing fallback to index.html.`;

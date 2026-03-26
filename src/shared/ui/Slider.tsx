@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
 
+const DEFAULT_SLIDER_VALUE = 100;
+const DEFAULT_SLIDER_MIN = 0;
+const DEFAULT_SLIDER_MAX = 100;
+const DEFAULT_SLIDER_STEP = 1;
+const PERCENT_MULTIPLIER = 100;
+const MIDPOINT_DIVISOR = 2;
+
 interface SliderProps {
   value?: number;
   onChange?: (value: number) => void;
@@ -17,11 +24,11 @@ interface SliderProps {
 }
 
 const Slider = ({
-  value = 100,
+  value = DEFAULT_SLIDER_VALUE,
   onChange,
-  min = 0,
-  max = 100,
-  step = 1,
+  min = DEFAULT_SLIDER_MIN,
+  max = DEFAULT_SLIDER_MAX,
+  step = DEFAULT_SLIDER_STEP,
   label,
   minLabel,
   midLabel,
@@ -43,8 +50,8 @@ const Slider = ({
     onChange?.(next);
   };
 
-  const valuePct = ((internalValue - min) / (max - min)) * 100;
-  const midTick = midLabel ?? `${Math.round((min + max) / 2)}`;
+  const valuePct = ((internalValue - min) / (max - min)) * PERCENT_MULTIPLIER;
+  const midTick = midLabel ?? `${Math.round((min + max) / MIDPOINT_DIVISOR)}`;
 
   return (
     <div className={className ?? "w-full"}>

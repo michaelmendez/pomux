@@ -13,6 +13,7 @@ export type Sessions = { pomodoro: number; shortBreak: number; longBreak: number
 
 export type SettingsContextProps = {
   durations: Durations;
+  isNotificationEnabled: boolean;
 };
 
 export type SettingsContextValue = {
@@ -25,6 +26,7 @@ type SettingsProviderProps = { children: React.ReactNode };
 export function SettingsProvider({ children }: Readonly<SettingsProviderProps>) {
   const [settings, setSettings] = useLocalStorage<SettingsContextProps>(STORAGE_KEYS.SETTINGS, {
     durations: DEFAULT_DURATIONS,
+    isNotificationEnabled: false,
   });
 
   const handleSettings = useCallback(
