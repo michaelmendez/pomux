@@ -337,7 +337,7 @@ export default function Settings() {
                     />
                   </section>
 
-                  <section className="space-y-3 rounded-xl bg-white/3 p-4">
+                  <section className="hidden space-y-3 rounded-xl bg-white/3 p-4 sm:block">
                     <div>
                       <h3 className="text-base font-semibold tracking-wide text-white/92">
                         Radio Visuals

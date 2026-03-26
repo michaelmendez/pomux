@@ -25,17 +25,18 @@ const styles = (
     className += isActive
       ? " bg-white/10 border border-white/20 text-white"
       : " bg-violet-600 border-0 text-white shadow-lg shadow-violet-950/50";
-    const ctaHover = isActive
-      ? " hover:bg-white/15 transition-all duration-200"
+    const ctaStateClass = isActive
+      ? " transition-all duration-200"
       : " hover:bg-violet-500 transition-all duration-200";
-    className += disabled ? " opacity-50 cursor-not-allowed" : ctaHover;
+    className += disabled ? " opacity-50 cursor-not-allowed" : ctaStateClass;
   } else {
     className += isActive
       ? " bg-white/90 text-zinc-900 border-transparent"
       : " bg-transparent text-white/90 border border-white/35";
-    className += disabled
-      ? " opacity-40 cursor-not-allowed"
+    const defaultStateClass = isActive
+      ? " transition-colors duration-200"
       : " hover:bg-white/10 hover:text-white transition-colors duration-200";
+    className += disabled ? " opacity-40 cursor-not-allowed" : defaultStateClass;
   }
 
   return className;
