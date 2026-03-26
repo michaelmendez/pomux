@@ -82,6 +82,15 @@ In Cloudflare Pages, add these as **Build environment variables**:
 
 Set `VITE_QUOTES_URL=/api/quote` in both environments.
 
+If you deploy via Wrangler CLI, make sure you include the Functions directory:
+
+```bash
+pnpm build
+pnpm deploy:pages
+```
+
+`deploy:pages` runs `wrangler pages deploy dist --project-name pomux --functions=functions`. Without `--functions`, `/api/quote` will fall back to HTML.
+
 ### Local Development
 
 `pnpm dev` works with `/api/quote` because Vite proxies that route to ZenQuotes during development.
