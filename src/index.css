@@ -76,3 +76,17 @@ body {
   cursor: pointer;
   box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.4);
 }
+
+/* Quote text on very short mobile screens (iPhone SE class devices). */
+.quote-clamp {
+  overflow-wrap: anywhere;
+}
+
+@media (width <= 375px) {
+  .quote-clamp {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+}

@@ -1,7 +1,7 @@
-import Skeleton from "@/shared/ui/Skeleton";
 import { env } from "@/constants/env";
 import fallbackQuotesData from "@/data/motivationalQuotes.json";
 import useApi from "@/hooks/useApi";
+import Skeleton from "@/shared/ui/Skeleton";
 import type { MotivationalQuote } from "@/types/types";
 import { useEffect, useRef, useState } from "react";
 
@@ -71,7 +71,7 @@ export default function MotivationalQuote() {
 
   if (isLoading) {
     return (
-      <div className="flex flex-col items-center gap-2 w-full max-w-xs sm:max-w-md md:max-w-lg text-center px-4">
+      <div className="flex flex-col items-center gap-2 w-full max-w-xs sm:max-w-md md:max-w-lg text-center px-4 xs:px-2">
         <Skeleton className="h-4 w-11/12 rounded-md" />
         <Skeleton className="h-4 w-8/12 rounded-md" />
         <Skeleton className="mt-1 h-3 w-28 rounded-md" />
@@ -80,16 +80,16 @@ export default function MotivationalQuote() {
   }
 
   return (
-    <div className="flex flex-col items-center gap-1 w-full max-w-xs sm:max-w-md md:max-w-lg text-center px-4">
+    <div className="flex flex-col items-center gap-1 w-full max-w-xs sm:max-w-md md:max-w-lg text-center px-4 xs:px-2">
       <div
-        className={`transition-all duration-500 ease-out motion-reduce:transition-none ${
+        className={`xs:min-h-[3.9rem] transition-all duration-500 ease-out motion-reduce:transition-none ${
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-1"
         }`}
       >
-        <blockquote className="text-sm italic text-zinc-300 leading-relaxed">
+        <blockquote className="quote-clamp text-sm xs:text-[0.84rem] italic text-zinc-300 leading-relaxed xs:leading-snug">
           &ldquo;{displayQuote?.q}&rdquo;
         </blockquote>
-        <span className="text-xs font-medium text-zinc-400 tracking-wide uppercase">
+        <span className="mt-1 text-xs xs:text-[10px] font-medium text-zinc-400 tracking-wide uppercase">
           — {displayQuote?.a}
         </span>
       </div>
