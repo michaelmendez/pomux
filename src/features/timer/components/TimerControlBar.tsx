@@ -1,5 +1,5 @@
-import Button from "@/shared/ui/Button";
 import { DEFAULT_DURATIONS, ICON_SIZE } from "@/constants/consts";
+import Button from "@/shared/ui/Button";
 import type { TimerTypes } from "@/types/types";
 import { Repeat, RotateCcw } from "lucide-react";
 
@@ -24,13 +24,19 @@ export default function TimerControlBar({
 }: Readonly<TimerControlBarProps>) {
   return (
     <div className="flex items-center gap-3">
-      <Button isActive={isTimerRunning} onClick={handleStartTimer}>
+      <Button
+        variant="cta"
+        isActive={isTimerRunning}
+        onClick={handleStartTimer}
+        className="font-semibold rounded-full px-8 py-2.5 text-sm tracking-wide"
+      >
         {isTimerRunning ? "Pause" : "Start"}
       </Button>
       <Button
         onClick={handleRefreshTime}
         title="Restart timer"
         disabled={seconds === DEFAULT_DURATIONS[activeButton]}
+        className="font-semibold rounded-full p-2.5 text-sm"
       >
         <RotateCcw size={ICON_SIZE.MD} />
       </Button>
@@ -38,6 +44,7 @@ export default function TimerControlBar({
         isActive={autoStart}
         onClick={() => setAutoStart((prev: boolean) => !prev)}
         title={autoStart ? "Auto-start on" : "Auto-start off"}
+        className="font-semibold rounded-full p-2.5 text-sm"
       >
         <Repeat size={ICON_SIZE.MD} />
       </Button>

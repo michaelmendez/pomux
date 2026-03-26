@@ -24,6 +24,15 @@ body {
   background-color: #09090b;
   color: #fff;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root > main {
+  background-image: radial-gradient(
+    ellipse 80% 60% at 50% 40%,
+    rgba(65, 0, 202, 0.06) 0%,
+    transparent 70%
+  );
 }
 
 #root {

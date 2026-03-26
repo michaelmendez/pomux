@@ -80,18 +80,18 @@ export default function MotivationalQuote() {
   }
 
   return (
-    <div className="flex flex-col items-center gap-1 w-full max-w-xs sm:max-w-md md:max-w-lg text-center px-4 xs:px-2">
+    <div className="flex flex-col items-center gap-1.5 w-full max-w-xs sm:max-w-md md:max-w-lg text-center px-4 xs:px-2">
       <div
         className={`xs:min-h-[3.9rem] transition-all duration-500 ease-out motion-reduce:transition-none ${
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-1"
         }`}
       >
-        <blockquote className="quote-clamp text-sm xs:text-[0.84rem] italic text-zinc-300 leading-relaxed xs:leading-snug">
+        <blockquote className="quote-clamp text-sm xs:text-[0.84rem] italic text-white/40 leading-relaxed xs:leading-snug font-light">
           &ldquo;{displayQuote?.q}&rdquo;
         </blockquote>
-        <span className="mt-1 text-xs xs:text-[10px] font-medium text-zinc-400 tracking-wide uppercase">
-          — {displayQuote?.a}
-        </span>
+        <cite className="mt-1.5 block text-[11px] xs:text-[10px] not-italic font-medium text-white/45 tracking-widest uppercase">
+          &mdash; {displayQuote?.a}
+        </cite>
       </div>
     </div>
   );

@@ -1,19 +1,19 @@
+import {
+  INITIAL_SESSIONS,
+  NOTIFICATION_SOUND_PATH,
+  POMODOROS_BEFORE_LONG_BREAK,
+  STORAGE_KEYS,
+  TIMER_INTERVAL_MS,
+  TIMER_TYPES,
+} from "@/constants/consts";
+import { useSettings } from "@/contexts/useSettings";
 import MotivationalQuote from "@/features/timer/components/MotivationalQuote";
 import Timer from "@/features/timer/components/Timer";
 import TimerControlBar from "@/features/timer/components/TimerControlBar";
 import TimerSessionNav from "@/features/timer/components/TimerSessionNav";
-import {
-  TIMER_TYPES,
-  STORAGE_KEYS,
-  NOTIFICATION_SOUND_PATH,
-  INITIAL_SESSIONS,
-  POMODOROS_BEFORE_LONG_BREAK,
-  TIMER_INTERVAL_MS,
-} from "@/constants/consts";
-import { useSettings } from "@/contexts/useSettings";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import type { TimerTypes } from "@/types/types";
-import { useState, useRef, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type TimerLayoutProps = {
   seconds: number;
@@ -35,11 +35,18 @@ export default function TimerLayout({
   const [sessions, setSessions] = useLocalStorage(STORAGE_KEYS.SESSIONS, INITIAL_SESSIONS);
   const { settings } = useSettings();
 
+  // Track running state in a ref so the reset effect only fires on mode/duration
+  // changes — NOT when the timer is merely paused/resumed.
+  const isTimerRunningRef = useRef(isTimerRunning);
   useEffect(() => {
-    if (!isTimerRunning) {
+    isTimerRunningRef.current = isTimerRunning;
+  }, [isTimerRunning]);
+
+  useEffect(() => {
+    if (!isTimerRunningRef.current) {
       setSeconds(settings.durations[activeButton]);
     }
-  }, [activeButton, isTimerRunning, setSeconds, settings.durations]);
+  }, [activeButton, settings.durations, setSeconds]);
 
   useEffect(() => {
     if (seconds === 0) {
@@ -124,7 +131,11 @@ export default function TimerLayout({
         sessions={sessions}
         handleResetSessions={handleResetSessions}
       />
-      <Timer seconds={seconds} isRunning={isTimerRunning} />
+      <Timer
+        seconds={seconds}
+        totalSeconds={settings.durations[activeButton]}
+        isRunning={isTimerRunning}
+      />
       <TimerControlBar
         isTimerRunning={isTimerRunning}
         handleStartTimer={handleStartTimer}

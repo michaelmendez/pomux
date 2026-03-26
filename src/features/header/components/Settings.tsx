@@ -1,5 +1,5 @@
-import Slider from "@/shared/ui/Slider";
 import { useSettings } from "@/contexts/useSettings";
+import Slider from "@/shared/ui/Slider";
 import { toMinutes, toSeconds } from "@/utils/timeConversion";
 import { Settings2, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -221,7 +221,7 @@ export default function Settings() {
                   <button
                     type="submit"
                     disabled={!isDirty}
-                    className="rounded-full bg-white px-5 py-2 text-base font-semibold text-black transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+                    className="rounded-full bg-violet-600 px-5 py-2 text-base font-semibold text-white shadow-lg shadow-violet-950/40 transition-all hover:bg-violet-500 disabled:cursor-not-allowed disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400/60"
                   >
                     Save
                   </button>
