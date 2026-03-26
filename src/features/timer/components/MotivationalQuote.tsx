@@ -86,7 +86,7 @@ export default function MotivationalQuote() {
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-1"
         }`}
       >
-        <blockquote className="quote-clamp text-sm xs:text-[0.84rem] italic text-white/75 leading-relaxed xs:leading-snug font-light">
+        <blockquote className="quote-clamp italic text-white/75 font-light">
           &ldquo;{displayQuote?.q}&rdquo;
         </blockquote>
         <cite className="mt-1.5 block text-[11px] xs:text-[10px] not-italic font-medium text-white/65 tracking-widest uppercase">

@@ -86,17 +86,27 @@ body {
   box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.4);
 }
 
-/* Quote text on very short mobile screens (iPhone SE class devices). */
+/* Quote text behavior to prevent long lines from breaking timer layout. */
 .quote-clamp {
   overflow-wrap: anywhere;
+  font-size: clamp(0.84rem, 1.55vw, 0.95rem);
+  line-height: 1.55;
+}
+
+@media (width <= 640px) {
+  .quote-clamp {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    font-size: clamp(0.78rem, 3.2vw, 0.9rem);
+    line-height: 1.45;
+  }
 }
 
 @media (width <= 375px) {
   .quote-clamp {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
-    overflow: hidden;
   }
 }
 
