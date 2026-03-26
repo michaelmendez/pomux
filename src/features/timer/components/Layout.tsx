@@ -139,7 +139,7 @@ export default function TimerLayout({
   };
 
   return (
-    <div className="mx-auto mt-8 flex w-full flex-col items-center gap-4 sm:mt-0 sm:gap-5">
+    <div className="mx-auto mt-8 flex w-full flex-col items-center gap-4 sm:mt-5 sm:gap-5 md:mt-6">
       <TimerSessionNav
         activeButton={activeButton}
         handleTimerClick={handleTimerClick}

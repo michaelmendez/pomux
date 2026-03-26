@@ -15,7 +15,7 @@ export default function Timer({ seconds, totalSeconds, isRunning }: Readonly<Tim
   const strokeDashoffset = CIRCUMFERENCE * (1 - progress);
 
   return (
-    <div className="relative flex items-center justify-center xs:w-52 xs:h-52 w-68 h-68 md:w-md md:h-112">
+    <div className="relative flex scale-[0.9] items-center justify-center xs:w-52 xs:h-52 w-68 h-68 md:scale-[0.94] md:w-md md:h-112 lg:scale-100">
       {/* Ambient glow when running */}
       <div
         className={`absolute inset-0 rounded-full transition-all duration-700 ease-in-out pointer-events-none ${
