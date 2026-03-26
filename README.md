@@ -18,10 +18,13 @@ Built with React 19, TypeScript, Tailwind CSS v4, and Vite.
 - Automatic Pomodoro cycle — every 4th Pomodoro triggers a long break, otherwise a short break; breaks return to Pomodoro automatically
 - Auto-start toggle — chains sessions without manual input, persisted in localStorage
 - Session counter per timer type, persisted in localStorage
-- Sound notification when a session ends
+- End-of-session alerts with independent toggles for desktop notifications and sound
+- Notification permission flow handled from Settings (user-triggered, no intrusive auto-prompt)
 - Motivational quotes from [ZenQuotes](https://zenquotes.io/) through a same-origin `/api/quote` proxy, rotating every 30 seconds with smooth transitions and offline fallbacks
 - Dynamic browser tab title showing the remaining time
 - Lofi/synthwave radio player powered by the [RadioBrowser API](https://www.radio-browser.info/) — no account required
+- Optional radio wave animation toggle (desktop)
+- Mobile-optimized radio section with a collapsible control panel to save vertical space
 - Installable as a Progressive Web App (PWA)
 - Fully responsive
 

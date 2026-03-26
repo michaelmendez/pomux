@@ -83,9 +83,13 @@ export default function Station() {
             <span className="block text-[11px] uppercase tracking-widest text-indigo-300/90 font-semibold">
               Radio
             </span>
-            <span className="mt-0.5 block truncate text-sm font-semibold text-white/82">
-              {isLoading ? "Loading..." : (stationName ?? "No Station")}
-            </span>
+            {isLoading ? (
+              <Skeleton className="mt-1 h-4 w-28 rounded-md" />
+            ) : (
+              <span className="mt-0.5 block truncate text-sm font-semibold text-white/82">
+                {stationName ?? "No Station"}
+              </span>
+            )}
           </span>
           <span className="inline-flex items-center gap-2 text-white/75">
             <span className="text-xs">{isMobileExpanded ? "Hide" : "Show"}</span>
