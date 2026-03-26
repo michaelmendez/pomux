@@ -22,6 +22,7 @@ export default function Station() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMobileExpanded, setIsMobileExpanded] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const stationName = data?.[currentStationIndex]?.name;
 
   useEffect(() => {
     audioRef.current = new Audio(toHttps(data?.at(INITIAL_STATION_INDEX)?.url));
@@ -83,7 +84,7 @@ export default function Station() {
               Radio
             </span>
             <span className="mt-0.5 block truncate text-sm font-semibold text-white/82">
-              {data?.[currentStationIndex]?.name ?? "Unknown Station"}
+              {isLoading ? "Loading..." : (stationName ?? "No Station")}
             </span>
           </span>
           <span className="inline-flex items-center gap-2 text-white/75">
@@ -106,13 +107,6 @@ export default function Station() {
         >
           <div className="overflow-hidden">
             <div className="flex flex-col items-center gap-2 px-2 pb-1 pt-1">
-              {isLoading ? (
-                <Skeleton className="mt-1 h-5 w-44 rounded-md" />
-              ) : (
-                <p className="mt-1 text-base font-semibold text-white/80 truncate">
-                  {data?.[currentStationIndex]?.name ?? "Unknown Station"}
-                </p>
-              )}
               <StationControls
                 isPlaying={isPlaying}
                 onPlay={handlePlay}
@@ -134,7 +128,7 @@ export default function Station() {
               <Skeleton className="mt-2 h-5 w-48 rounded-md" />
             ) : (
               <p className="mt-1.5 text-base font-semibold text-white/80 truncate">
-                {data?.[currentStationIndex]?.name ?? "Unknown Station"}
+                {stationName ?? "No Station"}
               </p>
             )}
           </div>

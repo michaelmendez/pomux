@@ -9,7 +9,7 @@ type UseApiReturn<T = null> = {
 
 export default function useApi<T = null>(url: string): UseApiReturn<T | null> {
   const [data, setData] = useState<T | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
