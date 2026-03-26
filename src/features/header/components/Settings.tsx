@@ -40,8 +40,8 @@ function SettingsToggleCard({
       >
         <span className="flex items-center gap-3">
           <span
-            className={`inline-flex h-7 w-7 items-center justify-center rounded-full transition-colors ${
-              enabled ? "bg-emerald-300/22 text-emerald-50" : "bg-rose-300/22"
+            className={`inline-flex items-center justify-center ${
+              enabled ? "text-emerald-50" : "text-white/82"
             }`}
           >
             {enabled ? enabledIcon : disabledIcon}
@@ -321,8 +321,8 @@ export default function Settings() {
                       disabledTitle="Enable notifications"
                       enabledDescription="You will get alerts when a session ends."
                       disabledDescription="Get alerts when focus or break sessions complete."
-                      enabledIcon={<Bell size={15} />}
-                      disabledIcon={<BellOff size={15} />}
+                      enabledIcon={<Bell size={18} />}
+                      disabledIcon={<BellOff size={18} />}
                     />
 
                     <SettingsToggleCard
@@ -332,8 +332,8 @@ export default function Settings() {
                       disabledTitle="Enable sound"
                       enabledDescription="Play a sound when a session ends."
                       disabledDescription="Mute end-of-session sound alerts."
-                      enabledIcon={<Volume2 size={15} />}
-                      disabledIcon={<VolumeX size={15} />}
+                      enabledIcon={<Volume2 size={18} />}
+                      disabledIcon={<VolumeX size={18} />}
                     />
                   </section>
 
@@ -355,10 +355,10 @@ export default function Settings() {
                       enabledDescription="Show radio wave motion while music is playing."
                       disabledDescription="Hide radio wave motion for a calmer layout."
                       enabledIcon={
-                        <span className="inline-block h-2.5 w-2.5 rounded-full bg-current" />
+                        <span className="inline-block h-3 w-3 rounded-full bg-current" />
                       }
                       disabledIcon={
-                        <span className="inline-block h-2.5 w-2.5 rounded-full border border-current" />
+                        <span className="inline-block h-3 w-3 rounded-full border border-current" />
                       }
                     />
                   </section>
