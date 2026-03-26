@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 
 type UseApiReturn<T = null> = {
   data: T;
-  isLoading: boolean,
+  isLoading: boolean;
   error: string;
-}
+};
 
 export default function useApi<T = null>(url: string): UseApiReturn<T | null> {
   const [data, setData] = useState<T | null>(null);
@@ -22,8 +22,14 @@ export default function useApi<T = null>(url: string): UseApiReturn<T | null> {
         const request = await fetch(url);
 
         if (!request.ok) {
-          setError("Something went wrong while fetching the request");
-          throw new Error(`HTTP error: ${request.status}`);
+          const message = `Request failed (${request.status} ${request.statusText})`;
+          setError(message);
+          console.error("[useApi] Non-OK response", {
+            url,
+            status: request.status,
+            statusText: request.statusText,
+          });
+          throw new Error(message);
         }
 
         if (!skip) {
@@ -31,7 +37,17 @@ export default function useApi<T = null>(url: string): UseApiReturn<T | null> {
           setData(data);
         }
       } catch (err) {
-        console.error(err); // SIMULATE LOG TO RUM LIKE SENTRY, DATADOG...
+        const message = err instanceof Error ? err.message : "Unknown network error";
+
+        if (!skip) {
+          setError(message);
+        }
+
+        console.error("[useApi] Fetch failed", {
+          url,
+          message,
+          error: err,
+        });
       } finally {
         if (!skip) {
           setIsLoading(false);
@@ -46,5 +62,5 @@ export default function useApi<T = null>(url: string): UseApiReturn<T | null> {
     };
   }, [url]);
 
-  return { data, isLoading, error }
+  return { data, isLoading, error };
 }

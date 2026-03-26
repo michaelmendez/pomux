@@ -7,6 +7,12 @@ export async function onRequestGet() {
     });
 
     if (!upstream.ok) {
+      console.error("[quote-api] Upstream request failed", {
+        status: upstream.status,
+        statusText: upstream.statusText,
+        url: ZEN_QUOTES_URL,
+      });
+
       return new Response(JSON.stringify({ error: "Failed to fetch quote upstream" }), {
         status: 502,
         headers: {
@@ -19,6 +25,8 @@ export async function onRequestGet() {
     const payload = await upstream.json();
 
     if (!Array.isArray(payload)) {
+      console.error("[quote-api] Invalid payload: expected array", { payloadType: typeof payload });
+
       return new Response(JSON.stringify({ error: "Invalid quote payload" }), {
         status: 502,
         headers: {
@@ -38,6 +46,8 @@ export async function onRequestGet() {
       }));
 
     if (quotes.length === 0) {
+      console.error("[quote-api] Invalid payload: no valid quotes after normalization");
+
       return new Response(JSON.stringify({ error: "Invalid quote payload" }), {
         status: 502,
         headers: {
@@ -54,7 +64,9 @@ export async function onRequestGet() {
         "cache-control": "public, max-age=600, s-maxage=600, stale-while-revalidate=1200",
       },
     });
-  } catch {
+  } catch (error) {
+    console.error("[quote-api] Unexpected error", { error });
+
     return new Response(JSON.stringify({ error: "Unable to fetch quote" }), {
       status: 502,
       headers: {

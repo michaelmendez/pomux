@@ -58,6 +58,25 @@ export default function MotivationalQuote() {
     };
   }, [quotes.length]);
 
+  useEffect(() => {
+    if (error) {
+      console.error("[MotivationalQuote] Falling back to local quotes due to API error", {
+        url: MOTIVATIONAL_QUOTES_URL,
+        error,
+      });
+      return;
+    }
+
+    if (!isLoading && (!data || data.length === 0)) {
+      console.warn(
+        "[MotivationalQuote] Falling back to local quotes because API returned no data",
+        {
+          url: MOTIVATIONAL_QUOTES_URL,
+        },
+      );
+    }
+  }, [data, error, isLoading]);
+
   const displayQuote = quotes[activeIndex % quotes.length];
 
   if (isLoading) {
