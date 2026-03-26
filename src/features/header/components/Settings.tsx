@@ -3,8 +3,69 @@ import { useSettings } from "@/contexts/useSettings";
 import Slider from "@/shared/ui/Slider";
 import { ensureNotificationPermission } from "@/utils/notifications";
 import { toMinutes, toSeconds } from "@/utils/timeConversion";
-import { Bell, BellOff, Settings2, X } from "lucide-react";
+import { Bell, BellOff, Settings2, Volume2, VolumeX, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+
+type SettingsToggleCardProps = {
+  enabled: boolean;
+  onClick: () => void;
+  enabledTitle: string;
+  disabledTitle: string;
+  enabledDescription: string;
+  disabledDescription: string;
+  enabledIcon: React.ReactNode;
+  disabledIcon: React.ReactNode;
+};
+
+function SettingsToggleCard({
+  enabled,
+  onClick,
+  enabledTitle,
+  disabledTitle,
+  enabledDescription,
+  disabledDescription,
+  enabledIcon,
+  disabledIcon,
+}: Readonly<SettingsToggleCardProps>) {
+  return (
+    <div className="rounded-xl bg-white/2 p-3">
+      <button
+        type="button"
+        onClick={onClick}
+        className={`group flex w-full items-center justify-between rounded-lg px-4 py-3.5 text-left transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 ${
+          enabled
+            ? "bg-emerald-500/14 text-emerald-50 hover:bg-emerald-500/20 focus-visible:ring-emerald-300/45"
+            : "bg-rose-400/10 text-white/92 hover:bg-rose-400/16 focus-visible:ring-rose-300/35"
+        }`}
+      >
+        <span className="flex items-center gap-3">
+          <span
+            className={`inline-flex h-9 w-9 items-center justify-center rounded-full transition-colors ${
+              enabled ? "bg-emerald-300/22 text-emerald-50" : "bg-rose-300/22"
+            }`}
+          >
+            {enabled ? enabledIcon : disabledIcon}
+          </span>
+          <span className="flex flex-col">
+            <span className="text-base font-semibold tracking-tight">
+              {enabled ? enabledTitle : disabledTitle}
+            </span>
+            <span className={`text-sm ${enabled ? "text-white/90" : "text-white/82"}`}>
+              {enabled ? enabledDescription : disabledDescription}
+            </span>
+          </span>
+        </span>
+        <span
+          className={`rounded-full px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider ${
+            enabled ? "bg-emerald-300/22 text-emerald-50" : "bg-rose-300/24 text-rose-100"
+          }`}
+        >
+          {enabled ? "On" : "Off"}
+        </span>
+      </button>
+    </div>
+  );
+}
 
 export default function Settings() {
   const { settings, handleSettings } = useSettings();
@@ -19,18 +80,21 @@ export default function Settings() {
   const [isNotificationEnabled, setIsNotificationEnabled] = useState(
     settings.isNotificationEnabled,
   );
+  const [isSoundEnabled, setIsSoundEnabled] = useState(settings.isSoundEnabled ?? true);
 
   const isDirty =
     pomodoro !== toMinutes(settings.durations.pomodoro) ||
     shortBreak !== toMinutes(settings.durations.shortBreak) ||
     longBreak !== toMinutes(settings.durations.longBreak) ||
-    isNotificationEnabled !== settings.isNotificationEnabled;
+    isNotificationEnabled !== settings.isNotificationEnabled ||
+    isSoundEnabled !== (settings.isSoundEnabled ?? true);
 
   useEffect(() => {
     setPomodoro(toMinutes(settings.durations.pomodoro));
     setShortBreak(toMinutes(settings.durations.shortBreak));
     setLongBreak(toMinutes(settings.durations.longBreak));
     setIsNotificationEnabled(settings.isNotificationEnabled);
+    setIsSoundEnabled(settings.isSoundEnabled ?? true);
   }, [settings]);
 
   useEffect(() => {
@@ -84,6 +148,7 @@ export default function Settings() {
         ),
       },
       isNotificationEnabled,
+      isSoundEnabled,
     });
     setIsClosing(true);
   };
@@ -93,6 +158,7 @@ export default function Settings() {
     setShortBreak(toMinutes(settings.durations.shortBreak));
     setLongBreak(toMinutes(settings.durations.longBreak));
     setIsNotificationEnabled(settings.isNotificationEnabled);
+    setIsSoundEnabled(settings.isSoundEnabled ?? true);
     setIsClosing(false);
     setIsEntering(true);
     setIsOpen(true);
@@ -162,7 +228,7 @@ export default function Settings() {
               <div className="flex items-center justify-between border-b border-white/10 px-6 py-4">
                 <div>
                   <h2 className="text-2xl font-semibold tracking-tight">Timer Settings</h2>
-                  <p className="text-sm text-white/65">Adjust your defaults in minutes.</p>
+                  <p className="text-sm text-white/75">Set your focus and break durations.</p>
                 </div>
                 <button
                   type="button"
@@ -181,7 +247,7 @@ export default function Settings() {
                 }}
                 className="space-y-4 p-6"
               >
-                <div className="space-y-2 rounded-xl border border-white/8 bg-white/2 p-5">
+                <div className="space-y-2 rounded-xl bg-white/2 p-5">
                   <label className="block text-base text-white/90 font-medium">
                     Work duration: {pomodoro} min
                   </label>
@@ -198,7 +264,7 @@ export default function Settings() {
                   />
                 </div>
 
-                <div className="space-y-2 rounded-xl border border-white/8 bg-white/2 p-5">
+                <div className="space-y-2 rounded-xl bg-white/2 p-5">
                   <label className="block text-base text-white/90 font-medium">
                     Short break: {shortBreak} min
                   </label>
@@ -215,7 +281,7 @@ export default function Settings() {
                   />
                 </div>
 
-                <div className="space-y-2 rounded-xl border border-white/8 bg-white/2 p-5">
+                <div className="space-y-2 rounded-xl bg-white/2 p-5">
                   <label className="block text-base text-white/90 font-medium">
                     Long break: {longBreak} min
                   </label>
@@ -232,50 +298,36 @@ export default function Settings() {
                   />
                 </div>
 
-                <div className="rounded-xl border border-white/10 bg-white/3 p-4">
-                  <button
-                    type="button"
+                <section className="space-y-3 rounded-xl bg-white/3 p-4">
+                  <div>
+                    <h3 className="text-base font-semibold tracking-wide text-white/92">Alerts</h3>
+                    <p className="mt-1 text-sm text-white/76">
+                      Notifications and sound work together for end-of-session reminders.
+                    </p>
+                  </div>
+
+                  <SettingsToggleCard
+                    enabled={isNotificationEnabled}
                     onClick={handleNotifications}
-                    className={`group flex w-full items-center justify-between rounded-lg border px-4 py-3 text-left transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 ${
-                      isNotificationEnabled
-                        ? "border-indigo-300/30 bg-indigo-400/8 text-white/95 hover:bg-indigo-400/14 focus-visible:ring-indigo-300/45"
-                        : "border-white/16 bg-white/4 text-white/88 hover:bg-white/8 focus-visible:ring-white/35"
-                    }`}
-                  >
-                    <span className="flex items-center gap-3">
-                      <span
-                        className={`inline-flex h-9 w-9 items-center justify-center rounded-full border transition-colors ${
-                          isNotificationEnabled
-                            ? "border-indigo-300/35 bg-indigo-300/18"
-                            : "border-white/18 bg-white/7"
-                        }`}
-                      >
-                        {isNotificationEnabled ? <Bell size={17} /> : <BellOff size={17} />}
-                      </span>
-                      <span className="flex flex-col">
-                        <span className="text-sm font-semibold tracking-tight">
-                          {isNotificationEnabled
-                            ? "Desktop alerts are enabled"
-                            : "Enable desktop alerts"}
-                        </span>
-                        <span className="text-xs text-white/65">
-                          {isNotificationEnabled
-                            ? "You will get a notification when a session ends."
-                            : "Get notified when focus or break sessions complete."}
-                        </span>
-                      </span>
-                    </span>
-                    <span
-                      className={`rounded-full border px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider ${
-                        isNotificationEnabled
-                          ? "border-indigo-300/35 bg-indigo-300/18 text-indigo-100"
-                          : "border-white/16 bg-white/7 text-white/65"
-                      }`}
-                    >
-                      {isNotificationEnabled ? "On" : "Off"}
-                    </span>
-                  </button>
-                </div>
+                    enabledTitle="Notifications are enabled"
+                    disabledTitle="Enable notifications"
+                    enabledDescription="You will get alerts when a session ends."
+                    disabledDescription="Get alerts when focus or break sessions complete."
+                    enabledIcon={<Bell size={17} />}
+                    disabledIcon={<BellOff size={17} />}
+                  />
+
+                  <SettingsToggleCard
+                    enabled={isSoundEnabled}
+                    onClick={() => setIsSoundEnabled((prev) => !prev)}
+                    enabledTitle="Sound is enabled"
+                    disabledTitle="Enable sound"
+                    enabledDescription="Play a sound when a session ends."
+                    disabledDescription="Mute end-of-session sound alerts."
+                    enabledIcon={<Volume2 size={17} />}
+                    disabledIcon={<VolumeX size={17} />}
+                  />
+                </section>
 
                 <div className="flex items-center justify-end gap-2 pt-1">
                   <button

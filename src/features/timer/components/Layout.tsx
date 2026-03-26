@@ -3,8 +3,8 @@ import {
   NOTIFICATION_SOUND_PATH,
   POMODOROS_BEFORE_LONG_BREAK,
   STORAGE_KEYS,
-  TIMER_NOTIFICATION_MESSAGES,
   TIMER_INTERVAL_MS,
+  TIMER_NOTIFICATION_MESSAGES,
   TIMER_TYPES,
 } from "@/constants/consts";
 import { useSettings } from "@/contexts/useSettings";
@@ -52,7 +52,9 @@ export default function TimerLayout({
 
   useEffect(() => {
     if (seconds === 0) {
-      notificationRef.current.play();
+      if (settings.isSoundEnabled ?? true) {
+        notificationRef.current.play();
+      }
 
       if (settings.isNotificationEnabled) {
         const notification =
@@ -95,6 +97,7 @@ export default function TimerLayout({
     setSessions,
     settings.durations,
     settings.isNotificationEnabled,
+    settings.isSoundEnabled,
   ]);
 
   useEffect(() => {
