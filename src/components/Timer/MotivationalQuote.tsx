@@ -2,10 +2,10 @@ import Skeleton from "@/components/Common/Skeleton";
 import { env } from "@/constants/env";
 import useApi from "@/hooks/useApi";
 import type { MotivationalQuote } from "@/types/types";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const MOTIVATIONAL_QUOTES_URL = env.quotesUrl;
-const QUOTE_ROTATION_MS = 30000;
+const QUOTE_ROTATION_MS = 5 * 60 * 1000;
 const QUOTE_TRANSITION_MS = 400;
 
 const FALLBACK_QUOTES: MotivationalQuote[] = [
@@ -26,8 +26,10 @@ export default function MotivationalQuote() {
 
   const [activeIndex, setActiveIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
+  const activeIndexRef = useRef(0);
 
   useEffect(() => {
+    activeIndexRef.current = 0;
     setActiveIndex(0);
     setIsVisible(true);
   }, [quotes.length]);
@@ -35,21 +37,23 @@ export default function MotivationalQuote() {
   useEffect(() => {
     if (quotes.length < 2) return;
 
-    let switchTimeoutId: ReturnType<typeof window.setTimeout> | undefined;
+    let switchTimeoutId: ReturnType<typeof globalThis.setTimeout> | undefined;
 
-    const intervalId = window.setInterval(() => {
+    const intervalId = globalThis.setInterval(() => {
       setIsVisible(false);
 
-      switchTimeoutId = window.setTimeout(() => {
-        setActiveIndex((prev) => (prev + 1) % quotes.length);
+      switchTimeoutId = globalThis.setTimeout(() => {
+        const nextIndex = (activeIndexRef.current + 1) % quotes.length;
+        activeIndexRef.current = nextIndex;
+        setActiveIndex(nextIndex);
         setIsVisible(true);
       }, QUOTE_TRANSITION_MS);
     }, QUOTE_ROTATION_MS);
 
     return () => {
-      window.clearInterval(intervalId);
+      globalThis.clearInterval(intervalId);
       if (switchTimeoutId) {
-        window.clearTimeout(switchTimeoutId);
+        globalThis.clearTimeout(switchTimeoutId);
       }
     };
   }, [quotes.length]);
