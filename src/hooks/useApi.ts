@@ -33,6 +33,22 @@ export default function useApi<T = null>(url: string): UseApiReturn<T | null> {
         }
 
         if (!skip) {
+          const contentType = request.headers.get("content-type") ?? "";
+
+          if (!contentType.includes("application/json")) {
+            const rawBody = await request.text();
+            const preview = rawBody.slice(0, 120).replace(/\s+/g, " ").trim();
+            const message = `Expected JSON but got ${contentType || "unknown content-type"}. Possible /api routing fallback to index.html.`;
+
+            setError(message);
+            console.error("[useApi] Invalid response content type", {
+              url,
+              contentType,
+              preview,
+            });
+            throw new Error(message);
+          }
+
           const data = await request.json();
           setData(data);
         }

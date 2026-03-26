@@ -1,5 +1,6 @@
 import Skeleton from "@/components/Common/Skeleton";
 import { env } from "@/constants/env";
+import fallbackQuotesData from "@/data/motivationalQuotes.json";
 import useApi from "@/hooks/useApi";
 import type { MotivationalQuote } from "@/types/types";
 import { useEffect, useRef, useState } from "react";
@@ -7,18 +8,7 @@ import { useEffect, useRef, useState } from "react";
 const MOTIVATIONAL_QUOTES_URL = env.quotesUrl;
 const QUOTE_ROTATION_MS = 5 * 60 * 1000;
 const QUOTE_TRANSITION_MS = 400;
-
-const FALLBACK_QUOTES: MotivationalQuote[] = [
-  { q: "The secret of getting ahead is getting started.", a: "Mark Twain", h: "" },
-  { q: "Focus on being productive instead of busy.", a: "Tim Ferriss", h: "" },
-  {
-    q: "You don't have to be great to start, but you have to start to be great.",
-    a: "Zig Ziglar",
-    h: "",
-  },
-  { q: "Don't watch the clock; do what it does. Keep going.", a: "Sam Levenson", h: "" },
-  { q: "Either you run the day or the day runs you.", a: "Jim Rohn", h: "" },
-];
+const FALLBACK_QUOTES = fallbackQuotesData as MotivationalQuote[];
 
 export default function MotivationalQuote() {
   const { data, error, isLoading } = useApi<MotivationalQuote[]>(MOTIVATIONAL_QUOTES_URL);
