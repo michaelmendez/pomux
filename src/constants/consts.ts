@@ -11,6 +11,7 @@ export const TIMER_INTERVAL_MS = 1000;
 export const NOTIFICATION_SOUND_PATH = "/notificationSound.ogg";
 
 export const STORAGE_KEYS = {
+  SETTINGS: "settings",
   SESSIONS: "sessions",
   AUTO_START: "autoStart",
 } as const;
@@ -27,7 +28,13 @@ export const TIMER_TYPES = {
   LONG_BREAK: "longBreak",
 } as const;
 
-export const DURATIONS: Record<TimerTypes, number> = {
+export const INITIAL_SESSIONS = {
+  pomodoro: 0,
+  shortBreak: 0,
+  longBreak: 0,
+};
+
+export const DEFAULT_DURATIONS: Record<TimerTypes, number> = {
   [TIMER_TYPES.POMODORO]: TWENTY_FIVE_MINUTES,
   [TIMER_TYPES.LONG_BREAK]: FIFTEEN_MINUTES,
   [TIMER_TYPES.SHORT_BREAK]: FIVE_MINUTES,

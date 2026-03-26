@@ -1,3 +1,4 @@
+import Skeleton from "@/components/Common/Skeleton";
 import { env } from "@/constants/env";
 import useApi from "@/hooks/useApi";
 import type { MotivationalQuote } from "@/types/types";
@@ -25,7 +26,13 @@ export default function MotivationalQuote() {
   const [quote] = data ?? [];
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return (
+      <div className="flex flex-col items-center gap-2 w-full max-w-xs sm:max-w-md md:max-w-lg text-center px-4">
+        <Skeleton className="h-4 w-11/12 rounded-md" />
+        <Skeleton className="h-4 w-8/12 rounded-md" />
+        <Skeleton className="mt-1 h-3 w-28 rounded-md" />
+      </div>
+    );
   }
 
   const displayQuote = error ? getRandomFallback() : quote;

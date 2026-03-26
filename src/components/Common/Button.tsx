@@ -7,6 +7,7 @@ type ButtonProps = {
   title?: string;
   isActive?: boolean;
   disabled?: boolean;
+  type?: "button" | "submit" | "reset";
 };
 
 const styles = (baseClassName: string, isActive: boolean, disabled: boolean) => {
@@ -25,6 +26,7 @@ export default function Button({
   isActive = false,
   className = "font-semibold rounded-full px-4 py-2 text-sm xs:px-3 xs:py-1.5 xs:text-xs",
   disabled = false,
+  type = "button",
 }: Readonly<ButtonProps>) {
   return (
     <button
@@ -32,6 +34,7 @@ export default function Button({
       onClick={onClick}
       title={title}
       disabled={disabled}
+      type={type}
     >
       {children}
     </button>

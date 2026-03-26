@@ -1,7 +1,7 @@
-import Footer from "@/components/Footer";
-import ProgressBar from "@/components/ProgressBar";
-import StationControls from "@/components/StationControls";
-import VolumeBar from "@/components/VolumeBar";
+import Skeleton from "@/components/Common/Skeleton";
+import ProgressBar from "@/components/RadioStation/ProgressBar";
+import StationControls from "@/components/RadioStation/StationControls";
+import VolumeBar from "@/components/RadioStation/VolumeBar";
 import { env } from "@/constants/env";
 import useApi from "@/hooks/useApi";
 import type { RadioStation } from "@/types/types";
@@ -11,7 +11,7 @@ import { useEffect, useRef, useState } from "react";
 const RADIO_STATIONS_URL = env.radioStationsUrl;
 
 export default function Station() {
-  const { data } = useApi<RadioStation[]>(RADIO_STATIONS_URL);
+  const { data, isLoading } = useApi<RadioStation[]>(RADIO_STATIONS_URL);
   const [currentStationIndex, setCurrentStationIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -56,15 +56,18 @@ export default function Station() {
   };
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 bg-zinc-900 border-t border-white/10 shadow-[0_-4px_24px_rgba(0,0,0,0.4)]">
-      {/* Mobile layout */}
+    <>
       <div className="flex sm:hidden flex-col items-center gap-2 px-6 pt-3 pb-1">
         <p className="text-xs uppercase tracking-widest text-indigo-400 font-semibold">
           Radio Station
         </p>
-        <p className="text-sm font-medium text-white/70 truncate">
-          {data?.[currentStationIndex]?.name ?? "Loading ..."}
-        </p>
+        {isLoading ? (
+          <Skeleton className="h-4 w-36 rounded-md" />
+        ) : (
+          <p className="text-sm font-medium text-white/70 truncate">
+            {data?.[currentStationIndex]?.name ?? "Unknown Station"}
+          </p>
+        )}
         <StationControls
           isPlaying={isPlaying}
           onPlay={handlePlay}
@@ -73,17 +76,19 @@ export default function Station() {
         />
         <VolumeBar onChange={handleVolume} />
       </div>
-
-      {/* Desktop layout */}
       <div className="relative hidden sm:flex items-center px-6 pt-3 pb-2">
         <div className="flex items-center w-1/3">
           <div className="flex flex-col items-start min-w-0">
             <p className="text-xs uppercase tracking-widest text-indigo-400 font-semibold">
               Radio Station
             </p>
-            <p className="text-sm font-medium text-white/70 truncate">
-              {data?.[currentStationIndex]?.name ?? "Loading ..."}
-            </p>
+            {isLoading ? (
+              <Skeleton className="mt-1 h-4 w-40 rounded-md" />
+            ) : (
+              <p className="text-sm font-medium text-white/70 truncate">
+                {data?.[currentStationIndex]?.name ?? "Unknown Station"}
+              </p>
+            )}
           </div>
         </div>
         <div className="absolute left-1/2 -translate-x-1/2">
@@ -101,7 +106,6 @@ export default function Station() {
       <div className="hidden sm:flex justify-center px-6 pt-1 pb-2">
         <ProgressBar />
       </div>
-      <Footer />
-    </div>
+    </>
   );
 }

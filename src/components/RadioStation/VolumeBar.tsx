@@ -1,5 +1,6 @@
+import Slider from "@/components/Common/Slider";
 import { Volume1, Volume2, VolumeX } from "lucide-react";
-import React, { useState } from "react";
+import { useState } from "react";
 
 interface VolumeBarProps {
   onChange?: (volume: number) => void;
@@ -10,8 +11,7 @@ const VolumeBar = ({ onChange, initialVolume = 100 }: VolumeBarProps) => {
   const [volume, setVolume] = useState(initialVolume);
   const [prevVolume, setPrevVolume] = useState(initialVolume);
 
-  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newVolume = Number(e.target.value);
+  const handleVolumeChange = (newVolume: number) => {
     setVolume(newVolume);
     onChange?.(newVolume);
   };
@@ -41,17 +41,12 @@ const VolumeBar = ({ onChange, initialVolume = 100 }: VolumeBarProps) => {
       >
         <VolumeIcon size={20} strokeWidth={1.75} />
       </button>
-      <input
-        type="range"
-        min="0"
-        max="100"
+      <Slider
         value={volume}
         onChange={handleVolumeChange}
-        className="volume-slider"
-        style={{
-          background: `linear-gradient(to right, #8b5cf6 ${volume}%, rgba(255,255,255,0.08) ${volume}%)`,
-        }}
-        aria-label="Volume control"
+        showValueBubble={false}
+        showTicks={false}
+        className="w-44"
       />
       <span className="text-white/40 text-sm w-9 text-right tabular-nums font-medium shrink-0">
         {volume}%
