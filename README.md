@@ -61,22 +61,22 @@ The dev server runs at `http://localhost:5173`.
 
 ## Environment Variables
 
-Client variables are optional. If not provided, the app uses sane defaults from `src/constants/env.ts`.
+All variables are validated at startup via `src/constants/env.ts`.
 
-| Variable                  | Description                                                            | Default value                      |
-| ------------------------- | ---------------------------------------------------------------------- | ---------------------------------- |
-| `VITE_RADIO_STATIONS_URL` | Radio stations endpoint used by the app client                         | `/api/stations`                    |
-| `VITE_QUOTES_URL`         | [ZenQuotes API](https://zenquotes.io) endpoint (proxied to avoid CORS) | `/api/quote`                       |
-| `VITE_GITHUB_URL`         | Author GitHub profile URL                                              | `https://github.com/michaelmendez` |
+| Variable                  | Description                                                               | Example value                                                                                            |
+| ------------------------- | ------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| `VITE_RADIO_STATIONS_URL` | [RadioBrowser API](https://www.radio-browser.info/) endpoint for stations | `https://de1.api.radio-browser.info/json/stations/bytag/synthwave?limit=20&hidebroken=true&order=random` |
+| `VITE_QUOTES_URL`         | [ZenQuotes API](https://zenquotes.io) endpoint (proxied to avoid CORS)    | `/api/quote`                                                                                             |
+| `VITE_GITHUB_URL`         | Author GitHub profile URL                                                 | `https://github.com/michaelmendez`                                                                       |
 
-### Cloudflare Pages (runtime variables)
+### Cloudflare Pages (static project)
 
-If you deploy on Cloudflare Pages with `functions/` enabled, set these in the Cloudflare dashboard under your project Worker variables:
+For static deployments, add these as **Build environment variables** in Cloudflare dashboard:
 
-| Variable             | Description                                   | Default fallback used by functions |
-| -------------------- | --------------------------------------------- | ---------------------------------- |
-| `RADIO_STATIONS_URL` | Upstream stations API URL for `/api/stations` | RadioBrowser synthwave endpoint    |
-| `QUOTES_API_URL`     | Upstream quotes API URL for `/api/quote`      | `https://zenquotes.io/api/random`  |
+1. Open your Pages project.
+2. Go to **Settings** -> **Builds & deployments** -> **Environment variables**.
+3. Add `VITE_RADIO_STATIONS_URL`, `VITE_QUOTES_URL`, and `VITE_GITHUB_URL` for both Preview and Production.
+4. Redeploy.
 
 ---
 
