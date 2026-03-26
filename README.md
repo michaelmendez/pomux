@@ -91,6 +91,15 @@ pnpm deploy:pages
 
 `deploy:pages` runs `wrangler pages deploy dist --project-name pomux --functions=functions`. Without `--functions`, `/api/quote` will fall back to HTML.
 
+If your deploy logs show an API path like `/workers/scripts/<name>/versions`, you are deploying as a Worker + assets. In that case use:
+
+```bash
+pnpm build
+pnpm deploy:worker
+```
+
+This uses `wrangler.toml` + `worker.js` to serve static assets and handle `/api/quote` directly in the Worker.
+
 ### Local Development
 
 `pnpm dev` works with `/api/quote` because Vite proxies that route to ZenQuotes during development.
@@ -99,11 +108,13 @@ pnpm deploy:pages
 
 ## Scripts
 
-| Command        | Description                          |
-| -------------- | ------------------------------------ |
-| `pnpm dev`     | Start the development server         |
-| `pnpm build`   | Type-check and build for production  |
-| `pnpm preview` | Preview the production build locally |
+| Command              | Description                                    |
+| -------------------- | ---------------------------------------------- |
+| `pnpm dev`           | Start the development server                   |
+| `pnpm build`         | Type-check and build for production            |
+| `pnpm preview`       | Preview the production build locally           |
+| `pnpm deploy:pages`  | Deploy to Cloudflare Pages with Functions      |
+| `pnpm deploy:worker` | Deploy as Cloudflare Worker with static assets |
 
 ---
 
