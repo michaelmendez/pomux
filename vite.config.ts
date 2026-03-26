@@ -36,6 +36,11 @@ export default defineConfig({
   },
   server: {
     proxy: {
+      '/api/stations': {
+        target: 'https://de1.api.radio-browser.info',
+        changeOrigin: true,
+        rewrite: () => '/json/stations/bytag/synthwave?limit=20&hidebroken=true&order=random',
+      },
       '/api/quote': {
         target: 'https://zenquotes.io',
         changeOrigin: true,
