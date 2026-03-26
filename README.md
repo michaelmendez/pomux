@@ -29,7 +29,7 @@ Built with React 19, TypeScript, Tailwind CSS v4, and Vite.
 - Auto-start toggle — chains sessions without manual input, persisted in localStorage
 - Session counter per timer type, persisted in localStorage
 - Sound notification when a session ends
-- Motivational quotes from [ZenQuotes](https://zenquotes.io), with offline fallbacks
+- Motivational quotes from [ZenQuotes](https://zenquotes.io/) through a same-origin `/api/quote` proxy, rotating every 30 seconds with smooth transitions and offline fallbacks
 - Dynamic browser tab title showing the remaining time
 - Lofi/synthwave radio player powered by the [RadioBrowser API](https://www.radio-browser.info/) — no account required
 - Installable as a Progressive Web App (PWA)
@@ -66,17 +66,25 @@ All variables are validated at startup via `src/constants/env.ts`.
 | Variable                  | Description                                                               | Example value                                                                                            |
 | ------------------------- | ------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
 | `VITE_RADIO_STATIONS_URL` | [RadioBrowser API](https://www.radio-browser.info/) endpoint for stations | `https://de1.api.radio-browser.info/json/stations/bytag/synthwave?limit=20&hidebroken=true&order=random` |
-| `VITE_QUOTES_URL`         | [ZenQuotes API](https://zenquotes.io) endpoint (proxied to avoid CORS)    | `/api/quote`                                                                                             |
+| `VITE_QUOTES_URL`         | Same-origin quote endpoint used by the app                                | `/api/quote`                                                                                             |
 | `VITE_GITHUB_URL`         | Author GitHub profile URL                                                 | `https://github.com/michaelmendez`                                                                       |
 
-### Cloudflare Pages (static project)
+### Cloudflare Pages (with Functions)
 
-For static deployments, add these as **Build environment variables** in Cloudflare dashboard:
+The project includes a Pages Function at `functions/api/quote.js` that proxies ZenQuotes, so browsers avoid CORS issues.
+
+In Cloudflare Pages, add these as **Build environment variables**:
 
 1. Open your Pages project.
 2. Go to **Settings** -> **Builds & deployments** -> **Environment variables**.
 3. Add `VITE_RADIO_STATIONS_URL`, `VITE_QUOTES_URL`, and `VITE_GITHUB_URL` for both Preview and Production.
 4. Redeploy.
+
+Set `VITE_QUOTES_URL=/api/quote` in both environments.
+
+### Local Development
+
+`pnpm dev` works with `/api/quote` because Vite proxies that route to ZenQuotes during development.
 
 ---
 
