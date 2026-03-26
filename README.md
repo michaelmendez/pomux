@@ -82,8 +82,6 @@ In Cloudflare Pages, add these as **Build environment variables**:
 
 Set `VITE_QUOTES_URL=/api/quote` in both environments.
 
-The repo includes `public/_redirects` to ensure `/api/*` is not rewritten to the SPA shell. If `/api/quote` ever returns HTML, verify this file is present in the deployed `dist` output.
-
 ### Local Development
 
 `pnpm dev` works with `/api/quote` because Vite proxies that route to ZenQuotes during development.
