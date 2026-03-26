@@ -15,7 +15,7 @@ export default function Timer({ seconds, totalSeconds, isRunning }: Readonly<Tim
   const strokeDashoffset = CIRCUMFERENCE * (1 - progress);
 
   return (
-    <div className="relative flex items-center justify-center xs:w-60 xs:h-60 w-80 h-80 md:w-112 md:h-112">
+    <div className="relative flex items-center justify-center xs:w-52 xs:h-52 w-68 h-68 md:w-112 md:h-112">
       {/* Ambient glow when running */}
       <div
         className={`absolute inset-0 rounded-full transition-all duration-700 ease-in-out pointer-events-none ${
@@ -56,7 +56,7 @@ export default function Timer({ seconds, totalSeconds, isRunning }: Readonly<Tim
       </svg>
 
       {/* Timer digits */}
-      <span className="relative z-10 text-8xl xs:text-6xl md:text-9xl font-bold tracking-tight tabular-nums leading-none select-none">
+      <span className="relative z-10 text-6xl xs:text-5xl md:text-9xl font-bold tracking-tight tabular-nums leading-none select-none">
         {minutes}
         <span
           className="transition-opacity duration-300"

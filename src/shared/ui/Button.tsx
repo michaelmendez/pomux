@@ -32,7 +32,7 @@ const styles = (
   } else {
     className += isActive
       ? " bg-white/90 text-zinc-900 border-transparent"
-      : " bg-transparent text-white/60 border border-white/15";
+      : " bg-transparent text-white/90 border border-white/35";
     className += disabled
       ? " opacity-40 cursor-not-allowed"
       : " hover:bg-white/10 hover:text-white transition-colors duration-200";

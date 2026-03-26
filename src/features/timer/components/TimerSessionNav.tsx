@@ -30,11 +30,9 @@ export default function TimerSessionNav({
       >
         <Flame size={13} className="shrink-0 opacity-80" />
         <span className="xs:hidden">Pomodoro</span>
-        {sessions.pomodoro > 0 && (
-          <span className="tabular-nums opacity-50 text-[11px] xs:text-[10px]">
-            {sessions.pomodoro}
-          </span>
-        )}
+        <span className="tabular-nums opacity-70 text-sm xs:text-xs leading-none">
+          {sessions.pomodoro}
+        </span>
       </Button>
 
       <Button
@@ -45,11 +43,9 @@ export default function TimerSessionNav({
       >
         <Coffee size={13} className="shrink-0 opacity-80" />
         <span className="xs:hidden">Short Break</span>
-        {sessions.shortBreak > 0 && (
-          <span className="tabular-nums opacity-50 text-[11px] xs:text-[10px]">
-            {sessions.shortBreak}
-          </span>
-        )}
+        <span className="tabular-nums opacity-70 text-sm xs:text-xs leading-none">
+          {sessions.shortBreak}
+        </span>
       </Button>
 
       <Button
@@ -60,11 +56,9 @@ export default function TimerSessionNav({
       >
         <Moon size={13} className="shrink-0 opacity-80" />
         <span className="xs:hidden">Long Break</span>
-        {sessions.longBreak > 0 && (
-          <span className="tabular-nums opacity-50 text-[11px] xs:text-[10px]">
-            {sessions.longBreak}
-          </span>
-        )}
+        <span className="tabular-nums opacity-70 text-sm xs:text-xs leading-none">
+          {sessions.longBreak}
+        </span>
       </Button>
 
       <Button
