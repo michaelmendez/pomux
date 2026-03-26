@@ -81,13 +81,15 @@ export default function Settings() {
     settings.isNotificationEnabled,
   );
   const [isSoundEnabled, setIsSoundEnabled] = useState(settings.isSoundEnabled ?? true);
+  const [isWaveEnabled, setIsWaveEnabled] = useState(settings.isWaveEnabled ?? true);
 
   const isDirty =
     pomodoro !== toMinutes(settings.durations.pomodoro) ||
     shortBreak !== toMinutes(settings.durations.shortBreak) ||
     longBreak !== toMinutes(settings.durations.longBreak) ||
     isNotificationEnabled !== settings.isNotificationEnabled ||
-    isSoundEnabled !== (settings.isSoundEnabled ?? true);
+    isSoundEnabled !== (settings.isSoundEnabled ?? true) ||
+    isWaveEnabled !== (settings.isWaveEnabled ?? true);
 
   useEffect(() => {
     setPomodoro(toMinutes(settings.durations.pomodoro));
@@ -95,6 +97,7 @@ export default function Settings() {
     setLongBreak(toMinutes(settings.durations.longBreak));
     setIsNotificationEnabled(settings.isNotificationEnabled);
     setIsSoundEnabled(settings.isSoundEnabled ?? true);
+    setIsWaveEnabled(settings.isWaveEnabled ?? true);
   }, [settings]);
 
   useEffect(() => {
@@ -149,6 +152,7 @@ export default function Settings() {
       },
       isNotificationEnabled,
       isSoundEnabled,
+      isWaveEnabled,
     });
     setIsClosing(true);
   };
@@ -159,6 +163,7 @@ export default function Settings() {
     setLongBreak(toMinutes(settings.durations.longBreak));
     setIsNotificationEnabled(settings.isNotificationEnabled);
     setIsSoundEnabled(settings.isSoundEnabled ?? true);
+    setIsWaveEnabled(settings.isWaveEnabled ?? true);
     setIsClosing(false);
     setIsEntering(true);
     setIsOpen(true);
@@ -204,7 +209,7 @@ export default function Settings() {
             event.preventDefault();
             closeModal();
           }}
-          className={`fixed inset-0 z-100 m-0 h-full w-full p-4 transition-all duration-200 ease-out ${
+          className={`fixed inset-0 z-100 m-0 h-full w-full p-3 sm:p-4 transition-all duration-200 ease-out ${
             isClosing || isEntering
               ? "bg-black/0 backdrop-blur-none"
               : "bg-black/50 backdrop-blur-md"
@@ -219,7 +224,7 @@ export default function Settings() {
               className="absolute inset-0"
             />
             <div
-              className={`relative z-10 w-full max-w-xl rounded-2xl border border-white/12 bg-[#11131b] text-white shadow-[0_24px_70px_rgba(0,0,0,0.6)] transition-all duration-200 ease-out ${
+              className={`relative z-10 flex max-h-[92vh] w-full max-w-xl flex-col overflow-hidden rounded-2xl border border-white/12 bg-[#11131b] text-white shadow-[0_24px_70px_rgba(0,0,0,0.6)] transition-all duration-200 ease-out ${
                 isClosing || isEntering
                   ? "translate-y-3 scale-[0.98] opacity-0"
                   : "translate-y-0 scale-100 opacity-100"
@@ -245,91 +250,121 @@ export default function Settings() {
                   event.preventDefault();
                   saveSettings();
                 }}
-                className="space-y-4 p-6"
+                className="flex min-h-0 flex-1 flex-col"
               >
-                <div className="space-y-2 rounded-xl bg-white/2 p-5">
-                  <label className="block text-base text-white/90 font-medium">
-                    Work duration: {pomodoro} min
-                  </label>
-                  <Slider
-                    value={pomodoro}
-                    min={SETTINGS_LIMITS.MIN_MINUTES}
-                    max={SETTINGS_LIMITS.MAX_MINUTES}
-                    step={1}
-                    onChange={(v) => setPomodoro(v)}
-                    valueFormatter={(v) => `${v} min`}
-                    minLabel={`${SETTINGS_LIMITS.MIN_MINUTES} min`}
-                    midLabel={`${SETTINGS_LIMITS.MID_MINUTES} min`}
-                    maxLabel={`${SETTINGS_LIMITS.MAX_MINUTES} min`}
-                  />
-                </div>
-
-                <div className="space-y-2 rounded-xl bg-white/2 p-5">
-                  <label className="block text-base text-white/90 font-medium">
-                    Short break: {shortBreak} min
-                  </label>
-                  <Slider
-                    value={shortBreak}
-                    min={SETTINGS_LIMITS.MIN_MINUTES}
-                    max={SETTINGS_LIMITS.MAX_MINUTES}
-                    step={1}
-                    onChange={(v) => setShortBreak(v)}
-                    valueFormatter={(v) => `${v} min`}
-                    minLabel={`${SETTINGS_LIMITS.MIN_MINUTES} min`}
-                    midLabel={`${SETTINGS_LIMITS.MID_MINUTES} min`}
-                    maxLabel={`${SETTINGS_LIMITS.MAX_MINUTES} min`}
-                  />
-                </div>
-
-                <div className="space-y-2 rounded-xl bg-white/2 p-5">
-                  <label className="block text-base text-white/90 font-medium">
-                    Long break: {longBreak} min
-                  </label>
-                  <Slider
-                    value={longBreak}
-                    min={SETTINGS_LIMITS.MIN_MINUTES}
-                    max={SETTINGS_LIMITS.MAX_MINUTES}
-                    step={1}
-                    onChange={(v) => setLongBreak(v)}
-                    valueFormatter={(v) => `${v} min`}
-                    minLabel={`${SETTINGS_LIMITS.MIN_MINUTES} min`}
-                    midLabel={`${SETTINGS_LIMITS.MID_MINUTES} min`}
-                    maxLabel={`${SETTINGS_LIMITS.MAX_MINUTES} min`}
-                  />
-                </div>
-
-                <section className="space-y-3 rounded-xl bg-white/3 p-4">
-                  <div>
-                    <h3 className="text-base font-semibold tracking-wide text-white/92">Alerts</h3>
-                    <p className="mt-1 text-sm text-white/76">
-                      Notifications and sound work together for end-of-session reminders.
-                    </p>
+                <div className="minimal-scrollbar min-h-0 flex-1 space-y-4 overflow-y-auto px-5 py-4 sm:px-6 sm:py-5">
+                  <div className="space-y-2 rounded-xl bg-white/2 p-5">
+                    <label className="block text-base text-white/90 font-medium">
+                      Work duration: {pomodoro} min
+                    </label>
+                    <Slider
+                      value={pomodoro}
+                      min={SETTINGS_LIMITS.MIN_MINUTES}
+                      max={SETTINGS_LIMITS.MAX_MINUTES}
+                      step={1}
+                      onChange={(v) => setPomodoro(v)}
+                      valueFormatter={(v) => `${v} min`}
+                      minLabel={`${SETTINGS_LIMITS.MIN_MINUTES} min`}
+                      midLabel={`${SETTINGS_LIMITS.MID_MINUTES} min`}
+                      maxLabel={`${SETTINGS_LIMITS.MAX_MINUTES} min`}
+                    />
                   </div>
 
-                  <SettingsToggleCard
-                    enabled={isNotificationEnabled}
-                    onClick={handleNotifications}
-                    enabledTitle="Notifications are enabled"
-                    disabledTitle="Enable notifications"
-                    enabledDescription="You will get alerts when a session ends."
-                    disabledDescription="Get alerts when focus or break sessions complete."
-                    enabledIcon={<Bell size={17} />}
-                    disabledIcon={<BellOff size={17} />}
-                  />
+                  <div className="space-y-2 rounded-xl bg-white/2 p-5">
+                    <label className="block text-base text-white/90 font-medium">
+                      Short break: {shortBreak} min
+                    </label>
+                    <Slider
+                      value={shortBreak}
+                      min={SETTINGS_LIMITS.MIN_MINUTES}
+                      max={SETTINGS_LIMITS.MAX_MINUTES}
+                      step={1}
+                      onChange={(v) => setShortBreak(v)}
+                      valueFormatter={(v) => `${v} min`}
+                      minLabel={`${SETTINGS_LIMITS.MIN_MINUTES} min`}
+                      midLabel={`${SETTINGS_LIMITS.MID_MINUTES} min`}
+                      maxLabel={`${SETTINGS_LIMITS.MAX_MINUTES} min`}
+                    />
+                  </div>
 
-                  <SettingsToggleCard
-                    enabled={isSoundEnabled}
-                    onClick={() => setIsSoundEnabled((prev) => !prev)}
-                    enabledTitle="Sound is enabled"
-                    disabledTitle="Enable sound"
-                    enabledDescription="Play a sound when a session ends."
-                    disabledDescription="Mute end-of-session sound alerts."
-                    enabledIcon={<Volume2 size={17} />}
-                    disabledIcon={<VolumeX size={17} />}
-                  />
-                </section>
+                  <div className="space-y-2 rounded-xl bg-white/2 p-5">
+                    <label className="block text-base text-white/90 font-medium">
+                      Long break: {longBreak} min
+                    </label>
+                    <Slider
+                      value={longBreak}
+                      min={SETTINGS_LIMITS.MIN_MINUTES}
+                      max={SETTINGS_LIMITS.MAX_MINUTES}
+                      step={1}
+                      onChange={(v) => setLongBreak(v)}
+                      valueFormatter={(v) => `${v} min`}
+                      minLabel={`${SETTINGS_LIMITS.MIN_MINUTES} min`}
+                      midLabel={`${SETTINGS_LIMITS.MID_MINUTES} min`}
+                      maxLabel={`${SETTINGS_LIMITS.MAX_MINUTES} min`}
+                    />
+                  </div>
 
-                <div className="flex items-center justify-end gap-2 pt-1">
+                  <section className="space-y-3 rounded-xl bg-white/3 p-4">
+                    <div>
+                      <h3 className="text-base font-semibold tracking-wide text-white/92">
+                        Alerts
+                      </h3>
+                      <p className="mt-1 text-sm text-white/76">
+                        Notifications and sound are used for end-of-session reminders.
+                      </p>
+                    </div>
+
+                    <SettingsToggleCard
+                      enabled={isNotificationEnabled}
+                      onClick={handleNotifications}
+                      enabledTitle="Notifications are enabled"
+                      disabledTitle="Enable notifications"
+                      enabledDescription="You will get alerts when a session ends."
+                      disabledDescription="Get alerts when focus or break sessions complete."
+                      enabledIcon={<Bell size={17} />}
+                      disabledIcon={<BellOff size={17} />}
+                    />
+
+                    <SettingsToggleCard
+                      enabled={isSoundEnabled}
+                      onClick={() => setIsSoundEnabled((prev) => !prev)}
+                      enabledTitle="Sound is enabled"
+                      disabledTitle="Enable sound"
+                      enabledDescription="Play a sound when a session ends."
+                      disabledDescription="Mute end-of-session sound alerts."
+                      enabledIcon={<Volume2 size={17} />}
+                      disabledIcon={<VolumeX size={17} />}
+                    />
+                  </section>
+
+                  <section className="space-y-3 rounded-xl bg-white/3 p-4">
+                    <div>
+                      <h3 className="text-base font-semibold tracking-wide text-white/92">
+                        Radio Visuals
+                      </h3>
+                      <p className="mt-1 text-sm text-white/76">
+                        Control playback wave animation in the radio area.
+                      </p>
+                    </div>
+
+                    <SettingsToggleCard
+                      enabled={isWaveEnabled}
+                      onClick={() => setIsWaveEnabled((prev) => !prev)}
+                      enabledTitle="Wave animation is enabled"
+                      disabledTitle="Enable wave animation"
+                      enabledDescription="Show radio wave motion while music is playing."
+                      disabledDescription="Hide radio wave motion for a calmer layout."
+                      enabledIcon={
+                        <span className="inline-block h-3 w-3 rounded-full bg-current" />
+                      }
+                      disabledIcon={
+                        <span className="inline-block h-3 w-3 rounded-full border border-current" />
+                      }
+                    />
+                  </section>
+                </div>
+
+                <div className="flex items-center justify-end gap-2 border-t border-white/10 px-5 py-4 sm:px-6">
                   <button
                     type="button"
                     onClick={closeModal}

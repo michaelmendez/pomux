@@ -1,5 +1,6 @@
 import { AUDIO_VOLUME } from "@/constants/consts";
 import { env } from "@/constants/env";
+import { useSettings } from "@/contexts/useSettings";
 import ProgressBar from "@/features/radio/components/ProgressBar";
 import StationControls from "@/features/radio/components/StationControls";
 import VolumeBar from "@/features/radio/components/VolumeBar";
@@ -15,6 +16,7 @@ const STATION_INDEX_STEP = 1;
 
 export default function Station() {
   const { data, isLoading } = useApi<RadioStation[]>(RADIO_STATIONS_URL);
+  const { settings } = useSettings();
   const [currentStationIndex, setCurrentStationIndex] = useState(INITIAL_STATION_INDEX);
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -112,9 +114,11 @@ export default function Station() {
           <VolumeBar onChange={handleVolume} />
         </div>
       </div>
-      <div className="hidden sm:flex justify-center px-6 pt-1 pb-2">
-        <ProgressBar isPlaying={isPlaying} />
-      </div>
+      {settings.isWaveEnabled && (
+        <div className="hidden sm:flex justify-center px-6 pt-1 pb-2">
+          <ProgressBar isPlaying={isPlaying} />
+        </div>
+      )}
     </>
   );
 }
