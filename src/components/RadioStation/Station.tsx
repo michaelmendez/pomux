@@ -104,7 +104,7 @@ export default function Station() {
         </div>
       </div>
       <div className="hidden sm:flex justify-center px-6 pt-1 pb-2">
-        <ProgressBar />
+        <ProgressBar isPlaying={isPlaying} />
       </div>
     </>
   );
