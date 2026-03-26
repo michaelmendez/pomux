@@ -64,13 +64,13 @@ const Slider = ({
           aria-label={label ?? "slider"}
         />
         {showValueBubble && (
-          <div className="absolute -top-6 right-0 text-xs text-white bg-white/10 px-2 py-0.5 rounded">
+          <div className="absolute -top-7 right-0 text-sm font-medium text-white bg-white/10 px-2 py-0.5 rounded">
             {valueFormatter(internalValue)}
           </div>
         )}
       </div>
       {showTicks && (
-        <div className="mt-2 flex justify-between text-xs text-white/60">
+        <div className="mt-2.5 flex justify-between text-sm font-medium text-white/75">
           <span>{minLabel ?? `${min}`}</span>
           <span>{midTick}</span>
           <span>{maxLabel ?? `${max}`}</span>

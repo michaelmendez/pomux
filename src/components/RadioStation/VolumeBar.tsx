@@ -33,11 +33,11 @@ const VolumeBar = ({ onChange, initialVolume = 100 }: VolumeBarProps) => {
   else if (volume < 50) VolumeIcon = Volume1;
 
   return (
-    <div className="flex items-center gap-2.5">
+    <div className="flex items-end gap-2.5">
       <button
         onClick={handleMuteToggle}
         title={volume === 0 ? "Unmute" : "Mute"}
-        className="text-white/40 hover:text-white transition-colors duration-200 cursor-pointer shrink-0"
+        className="text-white/40 hover:text-white transition-colors duration-200 cursor-pointer shrink-0 leading-none"
       >
         <VolumeIcon size={20} strokeWidth={1.75} />
       </button>
@@ -48,7 +48,7 @@ const VolumeBar = ({ onChange, initialVolume = 100 }: VolumeBarProps) => {
         showTicks={false}
         className="w-44"
       />
-      <span className="text-white/40 text-sm w-9 text-right tabular-nums font-medium shrink-0">
+      <span className="text-white/40 text-sm w-9 text-right tabular-nums font-medium shrink-0 leading-none">
         {volume}%
       </span>
     </div>

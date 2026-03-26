@@ -58,13 +58,13 @@ export default function Station() {
   return (
     <>
       <div className="flex sm:hidden flex-col items-center gap-2 px-6 pt-3 pb-1">
-        <p className="text-xs uppercase tracking-widest text-indigo-400 font-semibold">
+        <p className="text-sm uppercase tracking-widest text-indigo-300 font-semibold">
           Radio Station
         </p>
         {isLoading ? (
-          <Skeleton className="h-4 w-36 rounded-md" />
+          <Skeleton className="mt-1 h-5 w-44 rounded-md" />
         ) : (
-          <p className="text-sm font-medium text-white/70 truncate">
+          <p className="mt-1 text-base font-semibold text-white/80 truncate">
             {data?.[currentStationIndex]?.name ?? "Unknown Station"}
           </p>
         )}
@@ -79,13 +79,13 @@ export default function Station() {
       <div className="relative hidden sm:flex items-center px-6 pt-3 pb-2">
         <div className="flex items-center w-1/3">
           <div className="flex flex-col items-start min-w-0">
-            <p className="text-xs uppercase tracking-widest text-indigo-400 font-semibold">
+            <p className="text-sm uppercase tracking-widest text-indigo-300 font-semibold">
               Radio Station
             </p>
             {isLoading ? (
-              <Skeleton className="mt-1 h-4 w-40 rounded-md" />
+              <Skeleton className="mt-2 h-5 w-48 rounded-md" />
             ) : (
-              <p className="text-sm font-medium text-white/70 truncate">
+              <p className="mt-1.5 text-base font-semibold text-white/80 truncate">
                 {data?.[currentStationIndex]?.name ?? "Unknown Station"}
               </p>
             )}
