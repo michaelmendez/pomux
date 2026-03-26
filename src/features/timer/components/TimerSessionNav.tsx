@@ -12,7 +12,7 @@ type TimerSessionNavProps = {
 };
 
 const NAV_BTN =
-  "inline-flex items-center gap-1.5 font-medium rounded-full px-4 py-2 text-[13px] xs:px-3 xs:py-1.5 xs:text-xs";
+  "inline-flex items-center gap-2 font-semibold rounded-full px-5 py-2.5 text-sm xs:px-4 xs:py-2 xs:text-sm";
 
 export default function TimerSessionNav({
   activeButton,
@@ -21,16 +21,15 @@ export default function TimerSessionNav({
   handleResetSessions,
 }: Readonly<TimerSessionNavProps>) {
   return (
-    <div className="flex flex-wrap justify-center gap-2.5 max-[376px]:gap-2">
+    <div className="mt-2 sm:mt-1 flex flex-wrap justify-center gap-2.5 max-[376px]:gap-2">
       <Button
         isActive={activeButton === TIMER_TYPES.POMODORO}
         onClick={() => handleTimerClick(TIMER_TYPES.POMODORO)}
         title="Pomodoro"
         className={NAV_BTN}
       >
-        <Flame size={13} className="shrink-0 opacity-80" />
-        <span className="xs:hidden">Pomodoro</span>
-        <span className="tabular-nums opacity-70 text-sm xs:text-xs leading-none">
+        <Flame size={17} className="shrink-0 opacity-80" />
+        <span className="tabular-nums opacity-80 text-base xs:text-sm leading-none">
           {sessions.pomodoro}
         </span>
       </Button>
@@ -41,9 +40,8 @@ export default function TimerSessionNav({
         title="Short Break"
         className={NAV_BTN}
       >
-        <Coffee size={13} className="shrink-0 opacity-80" />
-        <span className="xs:hidden">Short Break</span>
-        <span className="tabular-nums opacity-70 text-sm xs:text-xs leading-none">
+        <Coffee size={17} className="shrink-0 opacity-80" />
+        <span className="tabular-nums opacity-80 text-base xs:text-sm leading-none">
           {sessions.shortBreak}
         </span>
       </Button>
@@ -54,9 +52,8 @@ export default function TimerSessionNav({
         title="Long Break"
         className={NAV_BTN}
       >
-        <Moon size={13} className="shrink-0 opacity-80" />
-        <span className="xs:hidden">Long Break</span>
-        <span className="tabular-nums opacity-70 text-sm xs:text-xs leading-none">
+        <Moon size={17} className="shrink-0 opacity-80" />
+        <span className="tabular-nums opacity-80 text-base xs:text-sm leading-none">
           {sessions.longBreak}
         </span>
       </Button>
@@ -67,7 +64,7 @@ export default function TimerSessionNav({
         disabled={Object.values(sessions).every((s: number) => s === 0)}
         className="inline-flex items-center rounded-full p-2 text-sm"
       >
-        <Trash2 size={ICON_SIZE.SM} />
+        <Trash2 size={ICON_SIZE.MD} />
       </Button>
     </div>
   );

@@ -32,7 +32,7 @@ function SettingsToggleCard({
       <button
         type="button"
         onClick={onClick}
-        className={`group flex w-full items-center justify-between rounded-lg px-4 py-3.5 text-left transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 ${
+        className={`group flex w-full items-center justify-between rounded-lg px-4 py-2.5 text-left transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 ${
           enabled
             ? "bg-emerald-500/14 text-emerald-50 hover:bg-emerald-500/20 focus-visible:ring-emerald-300/45"
             : "bg-rose-400/10 text-white/92 hover:bg-rose-400/16 focus-visible:ring-rose-300/35"
@@ -40,7 +40,7 @@ function SettingsToggleCard({
       >
         <span className="flex items-center gap-3">
           <span
-            className={`inline-flex h-9 w-9 items-center justify-center rounded-full transition-colors ${
+            className={`inline-flex h-7 w-7 items-center justify-center rounded-full transition-colors ${
               enabled ? "bg-emerald-300/22 text-emerald-50" : "bg-rose-300/22"
             }`}
           >
@@ -224,7 +224,7 @@ export default function Settings() {
               className="absolute inset-0"
             />
             <div
-              className={`relative z-10 flex max-h-[92vh] w-full max-w-xl flex-col overflow-hidden rounded-2xl border border-white/12 bg-[#11131b] text-white shadow-[0_24px_70px_rgba(0,0,0,0.6)] transition-all duration-200 ease-out ${
+              className={`relative z-10 flex max-h-[92vh] w-full max-w-2xl flex-col overflow-hidden rounded-2xl border border-white/12 bg-[#11131b] text-white shadow-[0_24px_70px_rgba(0,0,0,0.6)] transition-all duration-200 ease-out ${
                 isClosing || isEntering
                   ? "translate-y-3 scale-[0.98] opacity-0"
                   : "translate-y-0 scale-100 opacity-100"
@@ -321,8 +321,8 @@ export default function Settings() {
                       disabledTitle="Enable notifications"
                       enabledDescription="You will get alerts when a session ends."
                       disabledDescription="Get alerts when focus or break sessions complete."
-                      enabledIcon={<Bell size={17} />}
-                      disabledIcon={<BellOff size={17} />}
+                      enabledIcon={<Bell size={15} />}
+                      disabledIcon={<BellOff size={15} />}
                     />
 
                     <SettingsToggleCard
@@ -332,8 +332,8 @@ export default function Settings() {
                       disabledTitle="Enable sound"
                       enabledDescription="Play a sound when a session ends."
                       disabledDescription="Mute end-of-session sound alerts."
-                      enabledIcon={<Volume2 size={17} />}
-                      disabledIcon={<VolumeX size={17} />}
+                      enabledIcon={<Volume2 size={15} />}
+                      disabledIcon={<VolumeX size={15} />}
                     />
                   </section>
 
@@ -355,10 +355,10 @@ export default function Settings() {
                       enabledDescription="Show radio wave motion while music is playing."
                       disabledDescription="Hide radio wave motion for a calmer layout."
                       enabledIcon={
-                        <span className="inline-block h-3 w-3 rounded-full bg-current" />
+                        <span className="inline-block h-2.5 w-2.5 rounded-full bg-current" />
                       }
                       disabledIcon={
-                        <span className="inline-block h-3 w-3 rounded-full border border-current" />
+                        <span className="inline-block h-2.5 w-2.5 rounded-full border border-current" />
                       }
                     />
                   </section>

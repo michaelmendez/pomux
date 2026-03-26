@@ -8,6 +8,7 @@ import useApi from "@/hooks/useApi";
 import Skeleton from "@/shared/ui/Skeleton";
 import type { RadioStation } from "@/types/types";
 import { toHttps } from "@/utils/toHttps";
+import { ChevronDown } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 const RADIO_STATIONS_URL = env.radioStationsUrl;
@@ -19,6 +20,7 @@ export default function Station() {
   const { settings } = useSettings();
   const [currentStationIndex, setCurrentStationIndex] = useState(INITIAL_STATION_INDEX);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isMobileExpanded, setIsMobileExpanded] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
@@ -68,24 +70,59 @@ export default function Station() {
 
   return (
     <>
-      <div className="flex sm:hidden flex-col items-center gap-2 px-6 pt-3 pb-1">
-        <p className="text-sm uppercase tracking-widest text-indigo-300 font-semibold">
-          Radio Station
-        </p>
-        {isLoading ? (
-          <Skeleton className="mt-1 h-5 w-44 rounded-md" />
-        ) : (
-          <p className="mt-1 text-base font-semibold text-white/80 truncate">
-            {data?.[currentStationIndex]?.name ?? "Unknown Station"}
-          </p>
-        )}
-        <StationControls
-          isPlaying={isPlaying}
-          onPlay={handlePlay}
-          onPrev={() => handleNextPrev("prev")}
-          onNext={() => handleNextPrev("next")}
-        />
-        <VolumeBar onChange={handleVolume} />
+      <div className="sm:hidden w-full px-4 pt-2 pb-1">
+        <button
+          type="button"
+          onClick={() => setIsMobileExpanded((prev) => !prev)}
+          className="flex w-full items-center justify-between rounded-xl border border-white/10 bg-white/3 px-4 py-2.5 text-left"
+          aria-expanded={isMobileExpanded}
+          aria-label="Toggle radio controls"
+        >
+          <span className="min-w-0">
+            <span className="block text-[11px] uppercase tracking-widest text-indigo-300/90 font-semibold">
+              Radio
+            </span>
+            <span className="mt-0.5 block truncate text-sm font-semibold text-white/82">
+              {data?.[currentStationIndex]?.name ?? "Unknown Station"}
+            </span>
+          </span>
+          <span className="inline-flex items-center gap-2 text-white/75">
+            <span className="text-xs">{isMobileExpanded ? "Hide" : "Show"}</span>
+            <span
+              className={`transition-transform duration-300 ease-out ${
+                isMobileExpanded ? "rotate-180" : "rotate-0"
+              }`}
+            >
+              <ChevronDown size={16} />
+            </span>
+          </span>
+        </button>
+
+        <div
+          className={`grid transition-all duration-300 ease-out ${
+            isMobileExpanded ? "mt-2 grid-rows-[1fr] opacity-100" : "mt-0 grid-rows-[0fr] opacity-0"
+          }`}
+          aria-hidden={!isMobileExpanded}
+        >
+          <div className="overflow-hidden">
+            <div className="flex flex-col items-center gap-2 px-2 pb-1 pt-1">
+              {isLoading ? (
+                <Skeleton className="mt-1 h-5 w-44 rounded-md" />
+              ) : (
+                <p className="mt-1 text-base font-semibold text-white/80 truncate">
+                  {data?.[currentStationIndex]?.name ?? "Unknown Station"}
+                </p>
+              )}
+              <StationControls
+                isPlaying={isPlaying}
+                onPlay={handlePlay}
+                onPrev={() => handleNextPrev("prev")}
+                onNext={() => handleNextPrev("next")}
+              />
+              <VolumeBar onChange={handleVolume} />
+            </div>
+          </div>
+        </div>
       </div>
       <div className="relative hidden sm:flex items-center px-6 pt-3 pb-2">
         <div className="flex items-center w-1/3">

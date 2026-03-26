@@ -139,7 +139,7 @@ export default function TimerLayout({
   };
 
   return (
-    <>
+    <div className="mx-auto mt-8 flex w-full flex-col items-center gap-4 sm:mt-0 sm:gap-5">
       <TimerSessionNav
         activeButton={activeButton}
         handleTimerClick={handleTimerClick}
@@ -160,7 +160,9 @@ export default function TimerLayout({
         autoStart={autoStart}
         setAutoStart={setAutoStart}
       />
-      <MotivationalQuote />
-    </>
+      <div className="hidden sm:block">
+        <MotivationalQuote />
+      </div>
+    </div>
   );
 }
