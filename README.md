@@ -6,17 +6,7 @@ Built with React 19, TypeScript, Tailwind CSS v4, and Vite.
 
 ---
 
-**Desktop**
-
-![Desktop](./docs/web-sample.webp)
-
-**Mobile**
-
-<img src="./docs/mobile-sample.webp" alt="Mobile" width="320" />
-
-**PWA**
-
-<img src="./docs/pwa-sample.webp" alt="PWA" width="320" />
+![Pomux](./docs/sample.webp)
 
 ---
 
