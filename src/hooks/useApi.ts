@@ -37,7 +37,10 @@ export default function useApi<T = null>(url: string): UseApiReturn<T | null> {
 
           if (!contentType.includes("application/json")) {
             const rawBody = await request.text();
-            const preview = rawBody.slice(0, 120).replace(/\s+/g, " ").trim();
+            const preview = rawBody
+              .slice(0, 120)
+              .replaceAll(/\s+/g, " ")
+              .trim();
             const message = `Expected JSON but got ${contentType || "unknown content-type"}. Possible /api routing fallback to index.html.`;
 
             setError(message);

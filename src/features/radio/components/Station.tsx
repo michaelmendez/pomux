@@ -1,7 +1,7 @@
-import Skeleton from "@/components/Common/Skeleton";
-import ProgressBar from "@/components/RadioStation/ProgressBar";
-import StationControls from "@/components/RadioStation/StationControls";
-import VolumeBar from "@/components/RadioStation/VolumeBar";
+import Skeleton from "@/shared/ui/Skeleton";
+import ProgressBar from "@/features/radio/components/ProgressBar";
+import StationControls from "@/features/radio/components/StationControls";
+import VolumeBar from "@/features/radio/components/VolumeBar";
 import { env } from "@/constants/env";
 import useApi from "@/hooks/useApi";
 import type { RadioStation } from "@/types/types";

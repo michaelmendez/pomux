@@ -1,4 +1,4 @@
-import Button from "@/components/Common/Button";
+import Button from "@/shared/ui/Button";
 import { ICON_SIZE, TIMER_TYPES } from "@/constants/consts";
 import type { Sessions } from "@/contexts/SettingsProvider";
 import type { TimerTypes } from "@/types/types";

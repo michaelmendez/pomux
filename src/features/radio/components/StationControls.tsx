@@ -1,4 +1,4 @@
-import Button from "@/components/Common/Button";
+import Button from "@/shared/ui/Button";
 import { ICON_SIZE } from "@/constants/consts";
 import { ChevronLeft, ChevronRight, Pause, Play } from "lucide-react";
 

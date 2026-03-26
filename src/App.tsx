@@ -1,6 +1,6 @@
-import FooterLayout from "@/components/Footer/Layout";
-import HeaderLayout from "@/components/Header/Layout";
-import TimerLayout from "@/components/Timer/Layout";
+import FooterLayout from "@/features/footer/components/Layout";
+import HeaderLayout from "@/features/header/components/Layout";
+import TimerLayout from "@/features/timer/components/Layout";
 import { APP_NAME, BASE_HEAD_TITLE } from "@/constants/consts";
 import { SettingsProvider } from "@/contexts/SettingsProvider";
 import { formatTime } from "@/utils/formatTime";

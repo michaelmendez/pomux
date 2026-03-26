@@ -1,6 +1,6 @@
-import Header from "@/components/Header/Header";
-import Settings from "@/components/Header/Settings";
-import WaveDivider from "@/components/Header/WaveDivider";
+import Header from "@/features/header/components/Header";
+import Settings from "@/features/header/components/Settings";
+import WaveDivider from "@/features/header/components/WaveDivider";
 
 export default function HeaderLayout() {
   return (

@@ -1,4 +1,4 @@
-import Slider from "@/components/Common/Slider";
+import Slider from "@/shared/ui/Slider";
 import { Volume1, Volume2, VolumeX } from "lucide-react";
 import { useState } from "react";
 

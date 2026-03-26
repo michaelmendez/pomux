@@ -1,5 +1,5 @@
-import Footer from "@/components/Footer/Footer";
-import Station from "@/components/RadioStation/Station";
+import Footer from "@/features/footer/components/Footer";
+import Station from "@/features/radio/components/Station";
 
 export default function FooterLayout() {
   return (

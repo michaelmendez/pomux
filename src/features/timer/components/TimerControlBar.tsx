@@ -1,4 +1,4 @@
-import Button from "@/components/Common/Button";
+import Button from "@/shared/ui/Button";
 import { DEFAULT_DURATIONS, ICON_SIZE } from "@/constants/consts";
 import type { TimerTypes } from "@/types/types";
 import { Repeat, RotateCcw } from "lucide-react";

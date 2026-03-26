@@ -1,7 +1,7 @@
-import MotivationalQuote from "@/components/Timer/MotivationalQuote";
-import Timer from "@/components/Timer/Timer";
-import TimerControlBar from "@/components/Timer/TimerControlBar";
-import TimerSessionNav from "@/components/Timer/TimerSessionNav";
+import MotivationalQuote from "@/features/timer/components/MotivationalQuote";
+import Timer from "@/features/timer/components/Timer";
+import TimerControlBar from "@/features/timer/components/TimerControlBar";
+import TimerSessionNav from "@/features/timer/components/TimerSessionNav";
 import {
   TIMER_TYPES,
   STORAGE_KEYS,

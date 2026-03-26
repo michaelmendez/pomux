@@ -1,4 +1,4 @@
-import Slider from "@/components/Common/Slider";
+import Slider from "@/shared/ui/Slider";
 import { useSettings } from "@/contexts/useSettings";
 import { toMinutes, toSeconds } from "@/utils/timeConversion";
 import { Settings2, X } from "lucide-react";

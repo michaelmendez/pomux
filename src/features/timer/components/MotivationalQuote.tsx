@@ -1,4 +1,4 @@
-import Skeleton from "@/components/Common/Skeleton";
+import Skeleton from "@/shared/ui/Skeleton";
 import { env } from "@/constants/env";
 import fallbackQuotesData from "@/data/motivationalQuotes.json";
 import useApi from "@/hooks/useApi";
