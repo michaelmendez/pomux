@@ -1,4 +1,6 @@
 import {
+  APP_NAME,
+  BASE_HEAD_TITLE,
   INITIAL_SESSIONS,
   NOTIFICATION_SOUND_PATH,
   POMODOROS_BEFORE_LONG_BREAK,
@@ -14,28 +16,21 @@ import TimerControlBar from "@/features/timer/components/TimerControlBar";
 import TimerSessionNav from "@/features/timer/components/TimerSessionNav";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import type { TimerTypes } from "@/types/types";
+import { formatTime } from "@/utils/formatTime";
 import { notifySessionEnd } from "@/utils/notifications";
+import { getStoredPomodoroSeconds } from "@/utils/settingsStorage";
 import { useEffect, useRef, useState } from "react";
 
-type TimerLayoutProps = {
-  seconds: number;
-  isTimerRunning: boolean;
-  setSeconds: React.Dispatch<React.SetStateAction<number>>;
-  setIsTimerRunning: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
-export default function TimerLayout({
-  seconds,
-  isTimerRunning,
-  setSeconds,
-  setIsTimerRunning,
-}: Readonly<TimerLayoutProps>) {
+export default function TimerLayout() {
+  const [isTimerRunning, setIsTimerRunning] = useState<boolean>(false);
+  const [seconds, setSeconds] = useState<number>(getStoredPomodoroSeconds);
   const [activeButton, setActiveButton] = useState<TimerTypes>(TIMER_TYPES.POMODORO);
   const [pomodoroCount, setPomodoroCount] = useState<number>(0);
   const [autoStart, setAutoStart] = useLocalStorage<boolean>(STORAGE_KEYS.AUTO_START, true);
   const notificationRef = useRef<HTMLAudioElement>(new Audio(NOTIFICATION_SOUND_PATH));
   const [sessions, setSessions] = useLocalStorage(STORAGE_KEYS.SESSIONS, INITIAL_SESSIONS);
   const { settings } = useSettings();
+  const titleText = isTimerRunning ? `${formatTime(seconds)} · ${APP_NAME}` : BASE_HEAD_TITLE;
 
   // Track running state in a ref so the reset effect only fires on mode/duration
   // changes — NOT when the timer is merely paused/resumed.
@@ -140,6 +135,7 @@ export default function TimerLayout({
 
   return (
     <div className="mx-auto mt-8 flex w-full flex-col items-center gap-4 sm:mt-5 sm:gap-5 md:mt-6">
+      <title>{titleText}</title>
       <TimerSessionNav
         activeButton={activeButton}
         handleTimerClick={handleTimerClick}
