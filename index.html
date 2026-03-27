@@ -8,80 +8,196 @@
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
 
     <!-- Viewport & Theme -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#4021a9" media="(prefers-color-scheme: dark)" />
     <meta name="theme-color" content="#4021a9" media="(prefers-color-scheme: light)" />
 
+    <!-- Mobile / PWA App Meta -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Pomux" />
+    <meta name="application-name" content="Pomux" />
+    <meta name="msapplication-TileColor" content="#4021a9" />
+    <meta name="format-detection" content="telephone=no" />
+
     <!-- Primary Meta Tags -->
-    <title>Pomux — Free Pomodoro Timer</title>
-    <meta name="title" content="Pomux — Free Pomodoro Timer" />
+    <title>Pomux — Free Minimal Pomodoro Timer | Stay Focused</title>
+    <meta name="title" content="Pomux — Free Minimal Pomodoro Timer | Stay Focused" />
     <meta
       name="description"
-      content="Pomux is a free Pomodoro timer to help you stay focused and productive. Features Pomodoro, Short Break, and Long Break modes, session tracking, motivational quotes, a built-in lofi radio player, and offline PWA support."
+      content="Boost productivity with Pomux — the free, minimal & modern Pomodoro timer. Track sessions, listen to lofi radio, get motivated & work offline. No signup needed."
     />
     <meta
       name="keywords"
-      content="pomodoro timer, focus timer, productivity timer, pomodoro technique, study timer, pomodoro app, work timer, lofi radio, progressive web app, time management, break timer, free pomodoro, online timer, concentration timer"
+      content="pomodoro timer, free pomodoro timer, online pomodoro timer, minimal pomodoro timer, modern pomodoro timer, pomodoro technique, focus timer, study timer, productivity timer, work timer, concentration timer, pomodoro app, lofi pomodoro, lofi radio timer, break timer, time management app, 25 minute timer, focus app, deep work timer, free focus timer, pwa timer, offline pomodoro, installable timer app, free study timer, timer for students"
     />
     <meta name="author" content="Pomux" />
-    <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://pomux.netlify.app/" />
+    <meta
+      name="robots"
+      content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
+    />
+    <link rel="canonical" href="https://pomux.xyz/" />
+
+    <!-- Performance Hints (Core Web Vitals) -->
+    <link rel="dns-prefetch" href="//pomux.xyz" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://pomux.netlify.app/" />
+    <meta property="og:url" content="https://pomux.xyz/" />
     <meta property="og:site_name" content="Pomux" />
-    <meta property="og:title" content="Pomux — Free Pomodoro Timer" />
+    <meta property="og:title" content="Pomux — Free Minimal Pomodoro Timer | Stay Focused" />
     <meta
       property="og:description"
-      content="Free Pomodoro timer with lofi radio, session tracking, motivational quotes, and offline PWA support. Stay focused, stay productive."
+      content="Boost productivity with Pomux — the free, minimal & modern Pomodoro timer. Lofi radio, session tracking, motivational quotes & offline PWA. No signup needed."
     />
-    <meta property="og:image" content="https://pomux.netlify.app/pwa-512x512.png" />
-    <meta property="og:image:width" content="512" />
-    <meta property="og:image:height" content="512" />
-    <meta property="og:image:alt" content="Pomux — Your Productivity Companion" />
+    <meta property="og:image" content="https://pomux.xyz/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:alt" content="Pomux — Free Minimal Pomodoro Timer" />
     <meta property="og:locale" content="en_US" />
 
     <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:url" content="https://pomux.netlify.app/" />
-    <meta name="twitter:title" content="Pomux — Free Pomodoro Timer" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://pomux.xyz/" />
+    <meta name="twitter:title" content="Pomux — Free Minimal Pomodoro Timer | Stay Focused" />
     <meta
       name="twitter:description"
-      content="Free Pomodoro timer with lofi radio, session tracking, motivational quotes, and offline PWA support. Stay focused, stay productive."
+      content="Boost productivity with Pomux — the free, minimal & modern Pomodoro timer. Lofi radio, session tracking, motivational quotes & offline PWA. No signup needed."
     />
-    <meta name="twitter:image" content="https://pomux.netlify.app/pwa-512x512.png" />
-    <meta name="twitter:image:alt" content="Pomux — Your Productivity Companion" />
+    <meta name="twitter:image" content="https://pomux.xyz/og-image.png" />
+    <meta name="twitter:image:alt" content="Pomux — Free Minimal Pomodoro Timer" />
 
-    <!-- JSON-LD Structured Data -->
+    <!-- JSON-LD: WebSite (enables Sitelinks Search Box) -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "WebApplication",
+        "@type": "WebSite",
         "name": "Pomux",
-        "url": "https://pomux.netlify.app/",
-        "description": "Free Pomodoro timer to help you stay focused and productive. Features Pomodoro, Short Break, and Long Break modes, session tracking, motivational quotes, a lofi radio player, and offline PWA support.",
+        "url": "https://pomux.xyz/",
+        "description": "Free, minimal and modern Pomodoro timer. Stay focused and productive with Pomux.",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://pomux.xyz/?q={search_term_string}"
+          },
+          "query-input": "required name=search_term_string"
+        }
+      }
+    </script>
+
+    <!-- JSON-LD: SoftwareApplication -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Pomux",
+        "alternateName": ["Pomodoro Timer", "Pomux Timer", "Free Pomodoro App"],
+        "url": "https://pomux.xyz/",
+        "description": "Free, minimal and modern Pomodoro timer. Features Pomodoro, Short Break and Long Break modes, session tracking, motivational quotes, built-in lofi radio, and offline PWA support.",
         "applicationCategory": "ProductivityApplication",
+        "applicationSubCategory": "TimeManagementApplication",
         "operatingSystem": "Any",
         "browserRequirements": "Requires a modern web browser with JavaScript enabled.",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
         "offers": {
           "@type": "Offer",
           "price": "0",
           "priceCurrency": "USD"
         },
-        "screenshot": "https://pomux.netlify.app/pwa-512x512.png",
+        "image": "https://pomux.xyz/og-image.png",
+        "screenshot": "https://pomux.xyz/og-image.png",
         "featureList": [
-          "Pomodoro timer (25 minutes)",
-          "Short Break timer (5 minutes)",
-          "Long Break timer (15 minutes)",
-          "Session counter with localStorage persistence",
-          "Sound notification on session end",
-          "Motivational quotes",
+          "25-minute Pomodoro focus timer",
+          "5-minute short break timer",
+          "15-minute long break timer",
+          "Automatic session counter with localStorage persistence",
+          "Desktop & browser sound notifications at session end",
+          "Daily motivational quotes to keep you inspired",
           "Built-in lofi & synthwave radio player",
-          "Offline support",
-          "Progressive Web App (PWA) — installable"
+          "Fully offline capable with Service Worker",
+          "Progressive Web App (PWA) — installable on any device",
+          "Minimal, distraction-free modern design",
+          "Customizable timer settings",
+          "No account or signup required — completely free"
+        ],
+        "keywords": "pomodoro timer, focus timer, productivity timer, study timer, lofi radio, minimal timer, modern timer, free pomodoro, pwa timer",
+        "creator": {
+          "@type": "Organization",
+          "name": "Pomux",
+          "url": "https://pomux.xyz/"
+        }
+      }
+    </script>
+
+    <!-- JSON-LD: FAQPage (triggers Google rich snippets / featured snippets) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the Pomodoro Technique?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The Pomodoro Technique is a time management method that breaks work into 25-minute focused sessions called 'Pomodoros', separated by short 5-minute breaks. After every 4 Pomodoros you take a longer 15-minute break. It helps improve focus, reduce mental fatigue, and boost productivity."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How long is a Pomodoro session?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A standard Pomodoro session lasts 25 minutes. After each session, you take a 5-minute short break. After completing 4 Pomodoros, you take a longer 15-minute break. Pomux lets you customize these durations to fit your workflow."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is Pomux free to use?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, Pomux is completely free to use. There is no account, no subscription, and no hidden fees. Simply visit the website and start your first Pomodoro timer immediately."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does Pomux work offline?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Pomux is a Progressive Web App (PWA) with full offline support via a Service Worker. You can install it on your desktop or mobile device and use it without an internet connection."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I listen to music while using Pomux?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes! Pomux has a built-in lofi and synthwave radio player. You can listen to focus-enhancing music directly inside the app while your Pomodoro timer runs — no separate tab needed."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does Pomux send notifications when the timer ends?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Pomux plays a sound and can send a browser desktop notification when each Pomodoro or break session ends, so you never miss a transition even if you switch tabs."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I install Pomux on my phone or desktop?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Pomux is a Progressive Web App (PWA) and can be installed directly from your browser on Android, iOS, Windows, and macOS — no app store required. It works like a native app."
+            }
+          }
         ]
       }
     </script>

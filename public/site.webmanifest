@@ -1,6 +1,18 @@
 {
-  "name": "Pomux",
+  "id": "/",
+  "name": "Pomux — Free Minimal Pomodoro Timer",
   "short_name": "Pomux",
+  "description": "Free, minimal and modern Pomodoro timer. Boost focus and productivity with session tracking, lofi radio, motivational quotes and offline support.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "browser"],
+  "orientation": "any",
+  "lang": "en",
+  "dir": "ltr",
+  "theme_color": "#4021a9",
+  "background_color": "#4021a9",
+  "categories": ["productivity", "utilities", "education"],
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",
@@ -13,9 +25,29 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
+    },
+    {
+      "src": "/favicon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
     }
   ],
-  "theme_color": "#4021a9",
-  "background_color": "#4021a9",
-  "display": "standalone"
+  "shortcuts": [
+    {
+      "name": "Start Pomodoro",
+      "short_name": "Pomodoro",
+      "description": "Jump directly to a 25-minute Pomodoro focus session",
+      "url": "/?mode=pomodoro",
+      "icons": [{ "src": "/favicon-96x96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Short Break",
+      "short_name": "Break",
+      "description": "Start a 5-minute short break",
+      "url": "/?mode=short-break",
+      "icons": [{ "src": "/favicon-96x96.png", "sizes": "96x96" }]
+    }
+  ],
+  "prefer_related_applications": false
 }
