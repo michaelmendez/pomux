@@ -209,10 +209,8 @@ export default function Settings() {
             event.preventDefault();
             closeModal();
           }}
-          className={`fixed inset-0 z-100 m-0 h-full w-full p-3 sm:p-4 transition-all duration-200 ease-out ${
-            isClosing || isEntering
-              ? "bg-black/0 backdrop-blur-none"
-              : "bg-black/50 backdrop-blur-md"
+          className={`fixed inset-0 z-100 m-0 h-full w-full bg-black/50 p-3 backdrop-blur-md transition-opacity duration-200 ease-out sm:p-4 ${
+            isClosing || isEntering ? "opacity-0" : "opacity-100"
           }`}
         >
           <div className="relative flex min-h-full items-center justify-center">
