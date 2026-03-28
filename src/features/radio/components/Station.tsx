@@ -80,8 +80,14 @@ export default function Station() {
           aria-label="Toggle radio controls"
         >
           <span className="min-w-0">
-            <span className="block text-[11px] uppercase tracking-widest text-indigo-300/90 font-semibold">
+            <span className="flex items-center gap-1.5 text-[11px] uppercase tracking-widest text-indigo-300/90 font-semibold">
               Radio
+              <span
+                className={`inline-block w-1.5 h-1.5 rounded-full ${
+                  isPlaying ? "bg-indigo-400 animate-pulse" : "bg-white/20"
+                }`}
+                aria-label={isPlaying ? "Playing" : "Stopped"}
+              />
             </span>
             {isLoading ? (
               <Skeleton className="mt-1 h-4 w-28 rounded-md" />

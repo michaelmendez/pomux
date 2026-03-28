@@ -3,20 +3,19 @@ import { env } from "@/constants/env";
 export default function Footer() {
   return (
     <footer className="w-full p-2">
-      <div className="flex items-center justify-center gap-2 text-xs sm:text-sm text-white/40 py-1">
-        <span>Built by Michael Méndez</span>
-        <span aria-hidden="true">·</span>
+      <div className="flex items-center justify-center gap-2 text-[15px] text-white/40 py-1">
         <a
           href={env.githubUrl}
           target="_blank"
           rel="noopener noreferrer"
           aria-label="GitHub repository"
-          className="text-white/40 hover:text-white/70 transition-colors"
+          className="flex items-center gap-2 hover:text-white/70 transition-colors"
         >
+          <span>Built by Michael Méndez</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
+            width="15"
+            height="15"
             viewBox="0 0 24 24"
             fill="currentColor"
             aria-hidden="true"
