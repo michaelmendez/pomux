@@ -13,18 +13,11 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: 'autoUpdate',
-      manifest: {
-        name: 'Pomux',
-        short_name: 'Pomux',
-        description: 'Stay focused with the Pomodoro Technique. Built-in lofi radio, session tracking, motivational quotes, and offline support.',
-        theme_color: '#4021a9',
-        background_color: '#ffffff',
-        display: 'standalone',
-        icons: [
-          { src: 'favicon-96x96.png', sizes: '96x96', type: 'image/png' },
-          { src: 'web-app-manifest-192x192.png', sizes: '192x192', type: 'image/png' },
-          { src: 'web-app-manifest-512x512.png', sizes: '512x512', type: 'image/png' },
-          { src: 'web-app-manifest-512x512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
+      workbox: {
+        navigateFallback: '/index.html',
+        navigateFallbackDenylist: [
+          /^\/sitemap\.xml$/,
+          /^\/robots\.txt$/,
         ],
       },
     }),
