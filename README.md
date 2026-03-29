@@ -4,6 +4,8 @@ A Pomodoro timer built to help you stay focused without getting in the way. Thre
 
 Built with React 19, TypeScript, Tailwind CSS v4, and Vite.
 
+Live demo: <a href="https://pomux.xyz" target="_blank" rel="noopener noreferrer">https://pomux.xyz</a>
+
 ---
 
 ![Pomux](./docs/sample.webp)
