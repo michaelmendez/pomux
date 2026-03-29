@@ -1,6 +1,6 @@
 # Pomux
 
-A Pomodoro timer built to help you stay focused without getting in the way. Three modes — Pomodoro, Short Break, Long Break — automatic cycle progression following the classic Pomodoro Technique, a settings modal for custom timer durations, session tracking that survives page refreshes, a motivational quote pulled on load, and a built-in lofi radio player to keep you in the zone. It works offline and can be installed as a PWA.
+A Pomodoro timer built to help you stay focused without getting in the way. Three modes — Pomodoro, Short Break, Long Break — automatic cycle progression following the classic Pomodoro Technique, a settings modal for custom timer durations, session tracking that survives page refreshes, a motivational quote pulled on load, and a built-in synthwave radio player to keep you in the zone. It works offline and can be installed as a PWA.
 
 Built with React 19, TypeScript, Tailwind CSS v4, and Vite.
 
@@ -20,10 +20,9 @@ Built with React 19, TypeScript, Tailwind CSS v4, and Vite.
 - Session counter per timer type, persisted in localStorage
 - End-of-session alerts with independent toggles for desktop notifications and sound
 - Notification permission flow handled from Settings (user-triggered, no intrusive auto-prompt)
-- Motivational quotes from [ZenQuotes](https://zenquotes.io/) through a same-origin `/api/quote` proxy, rotating every 30 seconds with smooth transitions and offline fallbacks
+- Motivational quotes from [ZenQuotes](https://zenquotes.io/) through a same-origin `/api/quote` proxy, rotating every 5 minutes with smooth transitions and offline fallbacks
 - Dynamic browser tab title showing the remaining time
-- Lofi/synthwave radio player powered by the [RadioBrowser API](https://www.radio-browser.info/) — no account required
-- Optional radio wave animation toggle (desktop)
+- Synthwave radio player powered by the [RadioBrowser API](https://www.radio-browser.info/) — no account required
 - Mobile-optimized radio section with a collapsible control panel to save vertical space
 - Installable as a Progressive Web App (PWA)
 - Fully responsive
