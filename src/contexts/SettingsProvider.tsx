@@ -15,7 +15,6 @@ export type SettingsContextProps = {
   durations: Durations;
   isNotificationEnabled: boolean;
   isSoundEnabled: boolean;
-  isWaveEnabled: boolean;
 };
 
 export type SettingsContextValue = {
@@ -30,7 +29,6 @@ export function SettingsProvider({ children }: Readonly<SettingsProviderProps>) 
     durations: DEFAULT_DURATIONS,
     isNotificationEnabled: false,
     isSoundEnabled: true,
-    isWaveEnabled: true,
   });
 
   useEffect(() => {
@@ -38,12 +36,6 @@ export function SettingsProvider({ children }: Readonly<SettingsProviderProps>) 
       setSettings((prev) => ({ ...prev, isSoundEnabled: true }));
     }
   }, [setSettings, settings.isSoundEnabled]);
-
-  useEffect(() => {
-    if (settings.isWaveEnabled === undefined) {
-      setSettings((prev) => ({ ...prev, isWaveEnabled: true }));
-    }
-  }, [setSettings, settings.isWaveEnabled]);
 
   const handleSettings = useCallback(
     (newSettings: Partial<SettingsContextProps>) => {

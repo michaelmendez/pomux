@@ -81,15 +81,13 @@ export default function Settings() {
     settings.isNotificationEnabled,
   );
   const [isSoundEnabled, setIsSoundEnabled] = useState(settings.isSoundEnabled ?? true);
-  const [isWaveEnabled, setIsWaveEnabled] = useState(settings.isWaveEnabled ?? true);
 
   const isDirty =
     pomodoro !== toMinutes(settings.durations.pomodoro) ||
     shortBreak !== toMinutes(settings.durations.shortBreak) ||
     longBreak !== toMinutes(settings.durations.longBreak) ||
     isNotificationEnabled !== settings.isNotificationEnabled ||
-    isSoundEnabled !== (settings.isSoundEnabled ?? true) ||
-    isWaveEnabled !== (settings.isWaveEnabled ?? true);
+    isSoundEnabled !== (settings.isSoundEnabled ?? true);
 
   useEffect(() => {
     setPomodoro(toMinutes(settings.durations.pomodoro));
@@ -97,7 +95,6 @@ export default function Settings() {
     setLongBreak(toMinutes(settings.durations.longBreak));
     setIsNotificationEnabled(settings.isNotificationEnabled);
     setIsSoundEnabled(settings.isSoundEnabled ?? true);
-    setIsWaveEnabled(settings.isWaveEnabled ?? true);
   }, [settings]);
 
   useEffect(() => {
@@ -152,7 +149,6 @@ export default function Settings() {
       },
       isNotificationEnabled,
       isSoundEnabled,
-      isWaveEnabled,
     });
     setIsClosing(true);
   };
@@ -163,7 +159,6 @@ export default function Settings() {
     setLongBreak(toMinutes(settings.durations.longBreak));
     setIsNotificationEnabled(settings.isNotificationEnabled);
     setIsSoundEnabled(settings.isSoundEnabled ?? true);
-    setIsWaveEnabled(settings.isWaveEnabled ?? true);
     setIsClosing(false);
     setIsEntering(true);
     setIsOpen(true);
@@ -332,32 +327,6 @@ export default function Settings() {
                       disabledDescription="Mute end-of-session sound alerts."
                       enabledIcon={<Volume2 size={18} />}
                       disabledIcon={<VolumeX size={18} />}
-                    />
-                  </section>
-
-                  <section className="hidden space-y-3 rounded-xl bg-white/3 p-4 sm:block">
-                    <div>
-                      <h3 className="text-base font-semibold tracking-wide text-white/92">
-                        Radio Visuals
-                      </h3>
-                      <p className="mt-1 text-sm text-white/76">
-                        Control playback wave animation in the radio area.
-                      </p>
-                    </div>
-
-                    <SettingsToggleCard
-                      enabled={isWaveEnabled}
-                      onClick={() => setIsWaveEnabled((prev) => !prev)}
-                      enabledTitle="Wave animation is enabled"
-                      disabledTitle="Enable wave animation"
-                      enabledDescription="Show radio wave motion while music is playing."
-                      disabledDescription="Hide radio wave motion for a calmer layout."
-                      enabledIcon={
-                        <span className="inline-block h-3 w-3 rounded-full bg-current" />
-                      }
-                      disabledIcon={
-                        <span className="inline-block h-3 w-3 rounded-full border border-current" />
-                      }
                     />
                   </section>
                 </div>
