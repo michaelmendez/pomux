@@ -22,6 +22,7 @@ export default function Station() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMobileExpanded, setIsMobileExpanded] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const volumeRef = useRef<number>(AUDIO_VOLUME.DEFAULT);
   const stationName = data?.[currentStationIndex]?.name;
 
   useEffect(() => {
@@ -57,6 +58,7 @@ export default function Station() {
 
     audioRef.current?.pause();
     audioRef.current = new Audio(toHttps(data?.[updatedStationIndex].url));
+    audioRef.current.volume = volumeRef.current / AUDIO_VOLUME.MAX;
     if (isPlaying) {
       audioRef.current.play();
     }
@@ -64,6 +66,7 @@ export default function Station() {
   };
 
   const handleVolume = (volume: number) => {
+    volumeRef.current = volume;
     if (audioRef.current) {
       audioRef.current.volume = volume / AUDIO_VOLUME.MAX;
     }
