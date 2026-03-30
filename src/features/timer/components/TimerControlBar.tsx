@@ -1,7 +1,7 @@
-import { DEFAULT_DURATIONS, ICON_SIZE } from "@/constants/consts";
+import { DEFAULT_DURATIONS, ICON_SIZE, TIMER_TYPES } from "@/constants/consts";
 import Button from "@/shared/ui/Button";
 import type { TimerTypes } from "@/types/types";
-import { Repeat, RotateCcw } from "lucide-react";
+import { FastForward, Repeat, RotateCcw } from "lucide-react";
 
 type TimerControlBarProps = {
   isTimerRunning: boolean;
@@ -11,6 +11,7 @@ type TimerControlBarProps = {
   seconds: number;
   autoStart: boolean;
   setAutoStart: (newValue: boolean | ((prev: boolean) => boolean)) => void;
+  handleSkipToNextPhase: () => void;
 };
 
 export default function TimerControlBar({
@@ -21,6 +22,7 @@ export default function TimerControlBar({
   seconds,
   autoStart,
   setAutoStart,
+  handleSkipToNextPhase,
 }: Readonly<TimerControlBarProps>) {
   return (
     <div className="flex items-center gap-3">
@@ -33,6 +35,14 @@ export default function TimerControlBar({
         {isTimerRunning ? "Pause" : "Start"}
       </Button>
       <Button
+        isActive={autoStart}
+        onClick={() => setAutoStart((prev: boolean) => !prev)}
+        title={autoStart ? "Auto-start on" : "Auto-start off"}
+        className="font-semibold rounded-full p-2.5 text-sm"
+      >
+        <Repeat size={ICON_SIZE.MD} />
+      </Button>
+      <Button
         onClick={handleRefreshTime}
         title="Restart timer"
         disabled={seconds === DEFAULT_DURATIONS[activeButton]}
@@ -41,12 +51,14 @@ export default function TimerControlBar({
         <RotateCcw size={ICON_SIZE.MD} />
       </Button>
       <Button
-        isActive={autoStart}
-        onClick={() => setAutoStart((prev: boolean) => !prev)}
-        title={autoStart ? "Auto-start on" : "Auto-start off"}
+        onClick={handleSkipToNextPhase}
+        title={activeButton === TIMER_TYPES.POMODORO ? "Skip to Break" : "Skip to Focus Session"}
+        aria-label={
+          activeButton === TIMER_TYPES.POMODORO ? "Skip to Break" : "Skip to Focus Session"
+        }
         className="font-semibold rounded-full p-2.5 text-sm"
       >
-        <Repeat size={ICON_SIZE.MD} />
+        <FastForward size={ICON_SIZE.MD} />
       </Button>
     </div>
   );

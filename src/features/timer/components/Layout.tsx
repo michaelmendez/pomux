@@ -95,6 +95,10 @@ export default function TimerLayout() {
     settings.isSoundEnabled,
   ]);
 
+  const handleSkipToNextPhase = () => {
+    setSeconds(0);
+  };
+
   useEffect(() => {
     let timerId: number | undefined;
 
@@ -155,6 +159,7 @@ export default function TimerLayout() {
         seconds={seconds}
         autoStart={autoStart}
         setAutoStart={setAutoStart}
+        handleSkipToNextPhase={handleSkipToNextPhase}
       />
       <div className="hidden sm:block">
         <MotivationalQuote />
