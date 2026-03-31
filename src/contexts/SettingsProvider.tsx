@@ -1,4 +1,4 @@
-import { DEFAULT_DURATIONS, STORAGE_KEYS } from "@/constants/consts";
+import { DEFAULT_DURATIONS, STORAGE_KEYS, TIMER_DISPLAY_STYLES } from "@/constants/consts";
 import { SettingsContext } from "@/contexts/settingsContext";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { useCallback, useEffect, useMemo } from "react";
@@ -9,12 +9,15 @@ export type Durations = {
   longBreak: number;
 };
 
+export type TimerDisplayStyle = (typeof TIMER_DISPLAY_STYLES)[keyof typeof TIMER_DISPLAY_STYLES];
+
 export type Sessions = { pomodoro: number; shortBreak: number; longBreak: number };
 
 export type SettingsContextProps = {
   durations: Durations;
   isNotificationEnabled: boolean;
   isSoundEnabled: boolean;
+  timerDisplayStyle: TimerDisplayStyle;
 };
 
 export type SettingsContextValue = {
@@ -29,6 +32,7 @@ export function SettingsProvider({ children }: Readonly<SettingsProviderProps>) 
     durations: DEFAULT_DURATIONS,
     isNotificationEnabled: false,
     isSoundEnabled: true,
+    timerDisplayStyle: TIMER_DISPLAY_STYLES.RING,
   });
 
   useEffect(() => {

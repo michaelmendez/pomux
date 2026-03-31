@@ -1,4 +1,5 @@
-import { SETTINGS_LIMITS } from "@/constants/consts";
+import { SETTINGS_LIMITS, TIMER_DISPLAY_STYLES } from "@/constants/consts";
+import type { TimerDisplayStyle } from "@/contexts/SettingsProvider";
 import { useSettings } from "@/contexts/useSettings";
 import Slider from "@/shared/ui/Slider";
 import { ensureNotificationPermission } from "@/utils/notifications";
@@ -88,13 +89,17 @@ export default function Settings() {
     settings.isNotificationEnabled,
   );
   const [isSoundEnabled, setIsSoundEnabled] = useState(settings.isSoundEnabled ?? true);
+  const [timerDisplayStyle, setTimerDisplayStyle] = useState<TimerDisplayStyle>(
+    settings.timerDisplayStyle,
+  );
 
   const isDirty =
     pomodoro !== toMinutes(settings.durations.pomodoro) ||
     shortBreak !== toMinutes(settings.durations.shortBreak) ||
     longBreak !== toMinutes(settings.durations.longBreak) ||
     isNotificationEnabled !== settings.isNotificationEnabled ||
-    isSoundEnabled !== (settings.isSoundEnabled ?? true);
+    isSoundEnabled !== (settings.isSoundEnabled ?? true) ||
+    timerDisplayStyle !== settings.timerDisplayStyle;
 
   useEffect(() => {
     setPomodoro(toMinutes(settings.durations.pomodoro));
@@ -102,6 +107,7 @@ export default function Settings() {
     setLongBreak(toMinutes(settings.durations.longBreak));
     setIsNotificationEnabled(settings.isNotificationEnabled);
     setIsSoundEnabled(settings.isSoundEnabled ?? true);
+    setTimerDisplayStyle(settings.timerDisplayStyle);
   }, [settings]);
 
   useEffect(() => {
@@ -156,6 +162,7 @@ export default function Settings() {
       },
       isNotificationEnabled,
       isSoundEnabled,
+      timerDisplayStyle,
     });
     setIsClosing(true);
   };
@@ -166,6 +173,7 @@ export default function Settings() {
     setLongBreak(toMinutes(settings.durations.longBreak));
     setIsNotificationEnabled(settings.isNotificationEnabled);
     setIsSoundEnabled(settings.isSoundEnabled ?? true);
+    setTimerDisplayStyle(settings.timerDisplayStyle);
     setIsClosing(false);
     setIsEntering(true);
     setIsOpen(true);
@@ -303,6 +311,60 @@ export default function Settings() {
                       maxLabel={`${SETTINGS_LIMITS.MAX_MINUTES} min`}
                     />
                   </div>
+
+                  <section className="space-y-3 rounded-xl bg-white/3 p-4">
+                    <div>
+                      <h3 className="text-base font-semibold tracking-wide text-white/92">
+                        Timer display
+                      </h3>
+                      <p className="mt-1 text-sm text-white/76">
+                        Pick how the timer should look while you work.
+                      </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+                      {(
+                        [
+                          {
+                            key: TIMER_DISPLAY_STYLES.RING,
+                            label: "Ring",
+                            description: "Progress ring + digits",
+                          },
+                          {
+                            key: TIMER_DISPLAY_STYLES.MINIMAL,
+                            label: "Minimal",
+                            description: "Large digital-only timer",
+                          },
+                          {
+                            key: TIMER_DISPLAY_STYLES.PILL,
+                            label: "Pill",
+                            description: "Capsule timer with glow",
+                          },
+                        ] as const
+                      ).map((option) => {
+                        const isActive = timerDisplayStyle === option.key;
+
+                        return (
+                          <button
+                            key={option.key}
+                            type="button"
+                            onClick={() => setTimerDisplayStyle(option.key)}
+                            className={`rounded-xl border px-3 py-2.5 text-left transition-all focus-visible:outline-none focus-visible:ring-2 ${
+                              isActive
+                                ? "border-violet-400/80 bg-violet-500/18 text-white shadow-[0_8px_24px_rgba(124,58,237,0.28)] focus-visible:ring-violet-300/65"
+                                : "border-white/14 bg-white/4 text-white/88 hover:bg-white/8 focus-visible:ring-white/35"
+                            }`}
+                            aria-pressed={isActive}
+                          >
+                            <div className="text-sm font-semibold tracking-wide">
+                              {option.label}
+                            </div>
+                            <div className="mt-0.5 text-xs text-white/70">{option.description}</div>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </section>
 
                   <section className="space-y-3 rounded-xl bg-white/3 p-4">
                     <div>

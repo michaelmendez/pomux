@@ -50,6 +50,12 @@ export const TIMER_TYPES = {
   LONG_BREAK: "longBreak",
 } as const;
 
+export const TIMER_DISPLAY_STYLES = {
+  RING: "ring",
+  MINIMAL: "minimal",
+  PILL: "pill",
+} as const;
+
 export const INITIAL_SESSIONS = {
   pomodoro: 0,
   shortBreak: 0,
