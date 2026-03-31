@@ -1,6 +1,6 @@
-import { AUDIO_VOLUME, ICON_SIZE } from "@/constants/consts";
+import { AUDIO_VOLUME } from "@/constants/consts";
 import Slider from "@/shared/ui/Slider";
-import { Volume1, Volume2, VolumeX } from "lucide-react";
+import { SpeakerWaveIcon, SpeakerXMarkIcon } from "@heroicons/react/24/solid";
 import { useState } from "react";
 
 interface VolumeBarProps {
@@ -29,9 +29,9 @@ const VolumeBar = ({ onChange, initialVolume = AUDIO_VOLUME.DEFAULT }: VolumeBar
     }
   };
 
-  let VolumeIcon = Volume2;
-  if (volume === AUDIO_VOLUME.MIN) VolumeIcon = VolumeX;
-  else if (volume < AUDIO_VOLUME.LOW_THRESHOLD) VolumeIcon = Volume1;
+  let VolumeIcon = SpeakerWaveIcon;
+  if (volume === AUDIO_VOLUME.MIN) VolumeIcon = SpeakerXMarkIcon;
+  else if (volume < AUDIO_VOLUME.LOW_THRESHOLD) VolumeIcon = SpeakerWaveIcon; // low and normal uses same icon for now
 
   return (
     <div className="flex items-end gap-2.5">
@@ -40,7 +40,7 @@ const VolumeBar = ({ onChange, initialVolume = AUDIO_VOLUME.DEFAULT }: VolumeBar
         title={volume === AUDIO_VOLUME.MIN ? "Unmute" : "Mute"}
         className="text-white/40 hover:text-white transition-colors duration-200 cursor-pointer shrink-0 leading-none"
       >
-        <VolumeIcon size={ICON_SIZE.MD} strokeWidth={1.75} />
+        <VolumeIcon className="h-5 w-5" />
       </button>
       <Slider
         value={volume}

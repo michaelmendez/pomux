@@ -3,7 +3,14 @@ import { useSettings } from "@/contexts/useSettings";
 import Slider from "@/shared/ui/Slider";
 import { ensureNotificationPermission } from "@/utils/notifications";
 import { toMinutes, toSeconds } from "@/utils/timeConversion";
-import { Bell, BellOff, Settings2, Volume2, VolumeX, X } from "lucide-react";
+import {
+  BellIcon,
+  BellSlashIcon,
+  Cog6ToothIcon,
+  SpeakerWaveIcon,
+  SpeakerXMarkIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/solid";
 import { useEffect, useRef, useState } from "react";
 
 type SettingsToggleCardProps = {
@@ -191,7 +198,7 @@ export default function Settings() {
           title="Open settings"
           className="inline-flex items-center gap-2.5 rounded-full border border-white/30 bg-white/10 px-5 py-2.5 text-sm font-semibold text-white/95 backdrop-blur transition-colors hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
         >
-          <Settings2 size={16} />
+          <Cog6ToothIcon className="h-4 w-4" />
           Settings
         </button>
       </div>
@@ -234,7 +241,7 @@ export default function Settings() {
                   onClick={closeModal}
                   className="rounded-full border border-white/20 p-2 text-white/75 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
                 >
-                  <X size={16} />
+                  <XMarkIcon className="h-4 w-4" />
                 </button>
               </div>
 
@@ -314,8 +321,8 @@ export default function Settings() {
                       disabledTitle="Enable notifications"
                       enabledDescription="You will get alerts when a session ends."
                       disabledDescription="Get alerts when focus or break sessions complete."
-                      enabledIcon={<Bell size={18} />}
-                      disabledIcon={<BellOff size={18} />}
+                      enabledIcon={<BellIcon className="h-4 w-4" />}
+                      disabledIcon={<BellSlashIcon className="h-4 w-4" />}
                     />
 
                     <SettingsToggleCard
@@ -325,8 +332,8 @@ export default function Settings() {
                       disabledTitle="Enable sound"
                       enabledDescription="Play a sound when a session ends."
                       disabledDescription="Mute end-of-session sound alerts."
-                      enabledIcon={<Volume2 size={18} />}
-                      disabledIcon={<VolumeX size={18} />}
+                      enabledIcon={<SpeakerWaveIcon className="h-4 w-4" />}
+                      disabledIcon={<SpeakerXMarkIcon className="h-4 w-4" />}
                     />
                   </section>
                 </div>

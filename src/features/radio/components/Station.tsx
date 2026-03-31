@@ -7,7 +7,7 @@ import useApi from "@/hooks/useApi";
 import Skeleton from "@/shared/ui/Skeleton";
 import type { RadioStation } from "@/types/types";
 import { toHttps } from "@/utils/toHttps";
-import { ChevronDown } from "lucide-react";
+import { ChevronDownIcon } from "@heroicons/react/24/solid";
 import { useEffect, useRef, useState } from "react";
 
 const RADIO_STATIONS_URL = env.radioStationsUrl;
@@ -105,7 +105,7 @@ export default function Station() {
                 isMobileExpanded ? "rotate-180" : "rotate-0"
               }`}
             >
-              <ChevronDown size={16} />
+              <ChevronDownIcon className="h-4 w-4" />
             </span>
           </span>
         </button>

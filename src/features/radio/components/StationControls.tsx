@@ -1,6 +1,5 @@
 import Button from "@/shared/ui/Button";
-import { ICON_SIZE } from "@/constants/consts";
-import { ChevronLeft, ChevronRight, Pause, Play } from "lucide-react";
+import { ChevronLeftIcon, ChevronRightIcon, PauseIcon, PlayIcon } from "@heroicons/react/24/solid";
 
 type Props = {
   isPlaying: boolean;
@@ -13,13 +12,13 @@ export default function StationControls({ isPlaying, onPlay, onPrev, onNext }: R
   return (
     <div className="flex items-center justify-center gap-4">
       <Button onClick={onPrev} title="Previous">
-        <ChevronLeft size={ICON_SIZE.SM} />
+        <ChevronLeftIcon className="h-4 w-4" />
       </Button>
       <Button onClick={onPlay} title={isPlaying ? "Pause" : "Play"}>
-        {isPlaying ? <Pause size={ICON_SIZE.MD} /> : <Play size={ICON_SIZE.MD} />}
+        {isPlaying ? <PauseIcon className="h-5 w-5" /> : <PlayIcon className="h-5 w-5" />}
       </Button>
       <Button onClick={onNext} title="Next">
-        <ChevronRight size={ICON_SIZE.SM} />
+        <ChevronRightIcon className="h-4 w-4" />
       </Button>
     </div>
   );

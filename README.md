@@ -119,7 +119,7 @@ This uses `wrangler.toml` + `worker.js` to serve static assets and handle `/api/
 - Tailwind CSS v4
 - Vite 8
 - vite-plugin-pwa + Workbox
-- lucide-react for icons
+- Heroicons for icons
 
 ---
 

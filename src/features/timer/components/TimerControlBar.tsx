@@ -1,7 +1,11 @@
-import { DEFAULT_DURATIONS, ICON_SIZE, TIMER_TYPES } from "@/constants/consts";
+import { DEFAULT_DURATIONS, TIMER_TYPES } from "@/constants/consts";
 import Button from "@/shared/ui/Button";
 import type { TimerTypes } from "@/types/types";
-import { FastForward, Repeat, RotateCcw } from "lucide-react";
+import {
+  ArrowPathIcon,
+  ArrowPathRoundedSquareIcon,
+  ArrowRightIcon,
+} from "@heroicons/react/24/solid";
 
 type TimerControlBarProps = {
   isTimerRunning: boolean;
@@ -40,7 +44,7 @@ export default function TimerControlBar({
         title={autoStart ? "Auto-start on" : "Auto-start off"}
         className="font-semibold rounded-full p-2.5 text-sm"
       >
-        <Repeat size={ICON_SIZE.MD} />
+        <ArrowPathIcon className="h-5 w-5" />
       </Button>
       <Button
         onClick={handleRefreshTime}
@@ -48,7 +52,7 @@ export default function TimerControlBar({
         disabled={seconds === DEFAULT_DURATIONS[activeButton]}
         className="font-semibold rounded-full p-2.5 text-sm"
       >
-        <RotateCcw size={ICON_SIZE.MD} />
+        <ArrowPathRoundedSquareIcon className="h-5 w-5" />
       </Button>
       <Button
         onClick={handleSkipToNextPhase}
@@ -58,7 +62,7 @@ export default function TimerControlBar({
         }
         className="font-semibold rounded-full p-2.5 text-sm"
       >
-        <FastForward size={ICON_SIZE.MD} />
+        <ArrowRightIcon className="h-5 w-5" />
       </Button>
     </div>
   );
