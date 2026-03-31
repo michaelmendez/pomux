@@ -34,22 +34,24 @@ const VolumeBar = ({ onChange, initialVolume = AUDIO_VOLUME.DEFAULT }: VolumeBar
   else if (volume < AUDIO_VOLUME.LOW_THRESHOLD) VolumeIcon = SpeakerWaveIcon; // low and normal uses same icon for now
 
   return (
-    <div className="flex items-end gap-2.5">
+    <div className="flex items-center gap-2.5">
       <button
         onClick={handleMuteToggle}
         title={volume === AUDIO_VOLUME.MIN ? "Unmute" : "Mute"}
-        className="text-white/40 hover:text-white transition-colors duration-200 cursor-pointer shrink-0 leading-none"
+        className="inline-flex h-5 w-5 items-center justify-center text-white/40 hover:text-white transition-colors duration-200 cursor-pointer shrink-0 leading-none"
       >
         <VolumeIcon className="h-5 w-5" />
       </button>
-      <Slider
-        value={volume}
-        onChange={handleVolumeChange}
-        showValueBubble={false}
-        showTicks={false}
-        className="w-44"
-      />
-      <span className="text-white/40 text-sm w-9 text-right tabular-nums font-medium shrink-0 leading-none">
+      <div className="w-44 flex items-center">
+        <Slider
+          value={volume}
+          onChange={handleVolumeChange}
+          showValueBubble={false}
+          showTicks={false}
+          className="w-44"
+        />
+      </div>
+      <span className="text-white/40 text-sm w-9 h-5 inline-flex items-center justify-end tabular-nums font-medium shrink-0 leading-none">
         {volume}%
       </span>
     </div>

@@ -1,8 +1,8 @@
-import { ICON_SIZE, TIMER_TYPES } from "@/constants/consts";
+import { TIMER_TYPES } from "@/constants/consts";
 import type { Sessions } from "@/contexts/SettingsProvider";
 import Button from "@/shared/ui/Button";
 import type { TimerTypes } from "@/types/types";
-import { FireIcon, MoonIcon, BoltIcon, TrashIcon } from "@heroicons/react/24/solid";
+import { BoltIcon, FireIcon, MoonIcon, TrashIcon } from "@heroicons/react/24/solid";
 
 type TimerSessionNavProps = {
   activeButton: TimerTypes;
@@ -28,7 +28,7 @@ export default function TimerSessionNav({
         title="Pomodoro"
         className={NAV_BTN}
       >
-        <FireIcon style={{ width: 17, height: 17 }} className="shrink-0 opacity-80" />
+        <FireIcon className="h-4 w-4 shrink-0 opacity-80" />
         <span className="tabular-nums opacity-80 text-base xs:text-sm leading-none">
           {sessions.pomodoro}
         </span>
@@ -40,7 +40,7 @@ export default function TimerSessionNav({
         title="Short Break"
         className={NAV_BTN}
       >
-        <BoltIcon style={{ width: 17, height: 17 }} className="shrink-0 opacity-80" />
+        <BoltIcon className="h-4 w-4 shrink-0 opacity-80" />
         <span className="tabular-nums opacity-80 text-base xs:text-sm leading-none">
           {sessions.shortBreak}
         </span>
@@ -52,7 +52,7 @@ export default function TimerSessionNav({
         title="Long Break"
         className={NAV_BTN}
       >
-        <MoonIcon style={{ width: 17, height: 17 }} className="shrink-0 opacity-80" />
+        <MoonIcon className="h-4 w-4 shrink-0 opacity-80" />
         <span className="tabular-nums opacity-80 text-base xs:text-sm leading-none">
           {sessions.longBreak}
         </span>
@@ -64,7 +64,7 @@ export default function TimerSessionNav({
         disabled={Object.values(sessions).every((s: number) => s === 0)}
         className="inline-flex items-center rounded-full p-2 text-sm"
       >
-        <TrashIcon style={{ width: ICON_SIZE.MD, height: ICON_SIZE.MD }} />
+        <TrashIcon className="h-5 w-5" />
       </Button>
     </div>
   );

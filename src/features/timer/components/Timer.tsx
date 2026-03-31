@@ -51,7 +51,7 @@ export default function Timer({ seconds, totalSeconds, isRunning }: Readonly<Tim
           strokeLinecap="round"
           strokeDasharray={CIRCUMFERENCE}
           strokeDashoffset={strokeDashoffset}
-          style={{ transition: isRunning ? "stroke-dashoffset 1s linear" : "none" }}
+          className={isRunning ? "transition-[stroke-dashoffset] duration-1000 ease-linear" : ""}
         />
       </svg>
 
@@ -59,8 +59,7 @@ export default function Timer({ seconds, totalSeconds, isRunning }: Readonly<Tim
       <span className="relative z-10 text-6xl xs:text-5xl md:text-9xl font-bold tracking-tight tabular-nums leading-none select-none">
         {minutes}
         <span
-          className="transition-opacity duration-300"
-          style={{ opacity: isRunning ? 0.55 : 0.85 }}
+          className={`transition-opacity duration-300 ${isRunning ? "opacity-60" : "opacity-80"}`}
         >
           :
         </span>

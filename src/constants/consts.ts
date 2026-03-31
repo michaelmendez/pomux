@@ -44,12 +44,6 @@ export const STORAGE_KEYS = {
   AUTO_START: "autoStart",
 } as const;
 
-export const ICON_SIZE = {
-  XS: 16,
-  SM: 18,
-  MD: 20,
-} as const;
-
 export const TIMER_TYPES = {
   POMODORO: "pomodoro",
   SHORT_BREAK: "shortBreak",

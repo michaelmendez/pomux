@@ -12,10 +12,9 @@ export default function ProgressBar({ isPlaying }: Readonly<Props>) {
         <div
           className={`h-full rounded-full transition-all duration-500 ease-out ${
             isPlaying
-              ? "bg-linear-to-r from-indigo-600 via-indigo-500 to-indigo-400"
-              : "bg-slate-400/60"
+              ? "bg-linear-to-r from-indigo-600 via-indigo-500 to-indigo-400 w-full"
+              : "bg-slate-400/60 w-4/5"
           }`}
-          style={{ width: isPlaying ? "100%" : "80%" }}
         >
           {isPlaying && (
             <div className="h-full w-full animate-[progressShine_1.8s_linear_infinite] bg-linear-to-r from-indigo-100/0 via-indigo-100/30 to-indigo-100/0" />

@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import styles from "./Slider.module.css";
 
 const DEFAULT_SLIDER_VALUE = 100;
 const DEFAULT_SLIDER_MIN = 0;
 const DEFAULT_SLIDER_MAX = 100;
 const DEFAULT_SLIDER_STEP = 1;
-const PERCENT_MULTIPLIER = 100;
 const MIDPOINT_DIVISOR = 2;
 
 interface SliderProps {
@@ -39,10 +39,20 @@ const Slider = ({
   className,
 }: SliderProps) => {
   const [internalValue, setInternalValue] = useState(value);
+  const sliderRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     setInternalValue(value);
   }, [value]);
+
+  useEffect(() => {
+    const input = sliderRef.current;
+    if (!input) return;
+
+    const range = max - min;
+    const pct = range <= 0 ? 0 : ((internalValue - min) / range) * 100;
+    input.style.setProperty("--value", `${pct}%`);
+  }, [internalValue, min, max]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const next = Number(e.target.value);
@@ -50,7 +60,6 @@ const Slider = ({
     onChange?.(next);
   };
 
-  const valuePct = ((internalValue - min) / (max - min)) * PERCENT_MULTIPLIER;
   const midTick = midLabel ?? `${Math.round((min + max) / MIDPOINT_DIVISOR)}`;
 
   return (
@@ -58,16 +67,14 @@ const Slider = ({
       {label && <p className="text-sm text-white/75 mb-1 font-medium">{label}</p>}
       <div className="relative">
         <input
+          ref={sliderRef}
           type="range"
           min={min}
           max={max}
           step={step}
           value={internalValue}
           onChange={handleChange}
-          className="volume-slider w-full"
-          style={{
-            background: `linear-gradient(to right, #8b5cf6 ${valuePct}%, rgba(255,255,255,0.08) ${valuePct}%)`,
-          }}
+          className={`${styles.slider} w-full`}
           aria-label={label ?? "slider"}
         />
         {showValueBubble && (
