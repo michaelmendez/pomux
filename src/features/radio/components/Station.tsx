@@ -4,6 +4,7 @@ import ProgressBar from "@/features/radio/components/ProgressBar";
 import StationControls from "@/features/radio/components/StationControls";
 import VolumeBar from "@/features/radio/components/VolumeBar";
 import useApi from "@/hooks/useApi";
+import useLocalStorage from "@/hooks/useLocalStorage";
 import Skeleton from "@/shared/ui/Skeleton";
 import type { RadioStation } from "@/types/types";
 import { toHttps } from "@/utils/toHttps";
@@ -19,13 +20,25 @@ export default function Station() {
   const [currentStationIndex, setCurrentStationIndex] = useState(INITIAL_STATION_INDEX);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMobileExpanded, setIsMobileExpanded] = useState(false);
+  const [volume, setVolume] = useLocalStorage<number>("volume", AUDIO_VOLUME.DEFAULT);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const volumeRef = useRef<number>(AUDIO_VOLUME.DEFAULT);
+  const volumeRef = useRef<number>(volume);
   const stationName = data?.[currentStationIndex]?.name;
 
   useEffect(() => {
-    audioRef.current = new Audio(toHttps(data?.at(INITIAL_STATION_INDEX)?.url));
+    if (!data?.length) return;
+
+    const url = toHttps(data?.at(INITIAL_STATION_INDEX)?.url);
+    audioRef.current = new Audio(url);
+    audioRef.current.volume = volumeRef.current / AUDIO_VOLUME.MAX;
   }, [data]);
+
+  useEffect(() => {
+    volumeRef.current = volume;
+    if (audioRef.current) {
+      audioRef.current.volume = volume / AUDIO_VOLUME.MAX;
+    }
+  }, [volume]);
 
   const handlePlay = () => {
     if (isPlaying) {
@@ -63,10 +76,10 @@ export default function Station() {
     setCurrentStationIndex(updatedStationIndex);
   };
 
-  const handleVolume = (volume: number) => {
-    volumeRef.current = volume;
+  const handleVolume = (newVolume: number) => {
+    setVolume(newVolume);
     if (audioRef.current) {
-      audioRef.current.volume = volume / AUDIO_VOLUME.MAX;
+      audioRef.current.volume = newVolume / AUDIO_VOLUME.MAX;
     }
   };
 
@@ -124,7 +137,7 @@ export default function Station() {
                 onPrev={() => handleNextPrev("prev")}
                 onNext={() => handleNextPrev("next")}
               />
-              <VolumeBar onChange={handleVolume} />
+              <VolumeBar volume={volume} onChange={handleVolume} />
             </div>
           </div>
         </div>
@@ -153,7 +166,7 @@ export default function Station() {
           />
         </div>
         <div className="flex items-center justify-end ml-auto w-1/3">
-          <VolumeBar onChange={handleVolume} />
+          <VolumeBar volume={volume} onChange={handleVolume} />
         </div>
       </div>
       <div className="hidden sm:flex justify-center px-6 pt-1 pb-2">

@@ -1,37 +1,23 @@
 import { AUDIO_VOLUME } from "@/constants/consts";
 import Slider from "@/shared/ui/Slider";
 import { SpeakerWaveIcon, SpeakerXMarkIcon } from "@heroicons/react/24/solid";
-import { useState } from "react";
 
 interface VolumeBarProps {
   onChange?: (volume: number) => void;
-  initialVolume?: number;
+  volume?: number;
 }
 
-const VolumeBar = ({ onChange, initialVolume = AUDIO_VOLUME.DEFAULT }: VolumeBarProps) => {
-  const [volume, setVolume] = useState(initialVolume);
-  const [prevVolume, setPrevVolume] = useState(initialVolume);
-
+const VolumeBar = ({ onChange, volume = AUDIO_VOLUME.DEFAULT }: VolumeBarProps) => {
   const handleVolumeChange = (newVolume: number) => {
-    setVolume(newVolume);
     onChange?.(newVolume);
   };
 
   const handleMuteToggle = () => {
-    if (volume > AUDIO_VOLUME.MIN) {
-      setPrevVolume(volume);
-      setVolume(AUDIO_VOLUME.MIN);
-      onChange?.(AUDIO_VOLUME.MIN);
-    } else {
-      const restored = prevVolume > AUDIO_VOLUME.MIN ? prevVolume : AUDIO_VOLUME.RESTORE_FALLBACK;
-      setVolume(restored);
-      onChange?.(restored);
-    }
+    const nextValue = volume === AUDIO_VOLUME.MIN ? AUDIO_VOLUME.RESTORE_FALLBACK : AUDIO_VOLUME.MIN;
+    onChange?.(nextValue);
   };
 
-  let VolumeIcon = SpeakerWaveIcon;
-  if (volume === AUDIO_VOLUME.MIN) VolumeIcon = SpeakerXMarkIcon;
-  else if (volume < AUDIO_VOLUME.LOW_THRESHOLD) VolumeIcon = SpeakerWaveIcon; // low and normal uses same icon for now
+  const VolumeIcon = volume === AUDIO_VOLUME.MIN ? SpeakerXMarkIcon : SpeakerWaveIcon;
 
   return (
     <div className="flex items-center gap-2.5">
