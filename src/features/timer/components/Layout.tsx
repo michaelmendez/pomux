@@ -25,7 +25,7 @@ export default function TimerLayout() {
   const [isTimerRunning, setIsTimerRunning] = useState<boolean>(false);
   const [seconds, setSeconds] = useState<number>(getStoredPomodoroSeconds);
   const [activeButton, setActiveButton] = useState<TimerTypes>(TIMER_TYPES.POMODORO);
-  const [pomodoroCount, setPomodoroCount] = useState<number>(0);
+  const pomodoroCountRef = useRef<number>(0);
   const [autoStart, setAutoStart] = useLocalStorage<boolean>(STORAGE_KEYS.AUTO_START, true);
   const notificationRef = useRef<HTMLAudioElement>(new Audio(NOTIFICATION_SOUND_PATH));
   const [sessions, setSessions] = useLocalStorage(STORAGE_KEYS.SESSIONS, INITIAL_SESSIONS);
@@ -60,11 +60,11 @@ export default function TimerLayout() {
         notifySessionEnd(notification);
       }
 
-      let nextPomodoroCount = pomodoroCount;
+      let nextPomodoroCount = pomodoroCountRef.current;
       let nextType: TimerTypes;
 
       if (activeButton === TIMER_TYPES.POMODORO) {
-        nextPomodoroCount = pomodoroCount + 1;
+        nextPomodoroCount = pomodoroCountRef.current + 1;
         nextType =
           nextPomodoroCount % POMODOROS_BEFORE_LONG_BREAK === 0
             ? TIMER_TYPES.LONG_BREAK
@@ -73,7 +73,7 @@ export default function TimerLayout() {
         nextType = TIMER_TYPES.POMODORO;
       }
 
-      setPomodoroCount(nextPomodoroCount);
+      pomodoroCountRef.current = nextPomodoroCount;
       setSessions((prev) => ({
         ...prev,
         [activeButton]: prev[activeButton] + 1,
@@ -85,7 +85,7 @@ export default function TimerLayout() {
   }, [
     activeButton,
     autoStart,
-    pomodoroCount,
+    pomodoroCountRef,
     seconds,
     setIsTimerRunning,
     setSeconds,

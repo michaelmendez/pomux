@@ -82,9 +82,9 @@ export default function Settings() {
   const [isClosing, setIsClosing] = useState(false);
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const [pomodoro, setPomodoro] = useState(toMinutes(settings.durations.pomodoro));
-  const [shortBreak, setShortBreak] = useState(toMinutes(settings.durations.shortBreak));
-  const [longBreak, setLongBreak] = useState(toMinutes(settings.durations.longBreak));
+  const [pomodoro, setPomodoro] = useState(() => toMinutes(settings.durations.pomodoro));
+  const [shortBreak, setShortBreak] = useState(() => toMinutes(settings.durations.shortBreak));
+  const [longBreak, setLongBreak] = useState(() => toMinutes(settings.durations.longBreak));
   const [isNotificationEnabled, setIsNotificationEnabled] = useState(
     settings.isNotificationEnabled,
   );

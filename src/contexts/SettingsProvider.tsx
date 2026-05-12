@@ -3,7 +3,7 @@ import { SettingsContext } from "@/contexts/settingsContext";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { useCallback, useEffect, useMemo } from "react";
 
-export type Durations = {
+type Durations = {
   pomodoro: number;
   shortBreak: number;
   longBreak: number;
