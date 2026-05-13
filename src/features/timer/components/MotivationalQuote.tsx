@@ -1,19 +1,12 @@
-import { env } from "@/constants/env";
 import fallbackQuotesData from "@/data/motivationalQuotes.json";
-import useApi from "@/hooks/useApi";
-import Skeleton from "@/shared/ui/Skeleton";
 import type { MotivationalQuote } from "@/types/types";
 import { useEffect, useRef, useState } from "react";
 
-const MOTIVATIONAL_QUOTES_URL = env.quotesUrl;
 const QUOTE_ROTATION_MS = 5 * 60 * 1000;
 const QUOTE_TRANSITION_MS = 400;
-const FALLBACK_QUOTES = fallbackQuotesData as MotivationalQuote[];
+const quotes = fallbackQuotesData as MotivationalQuote[];
 
 export default function MotivationalQuote() {
-  const { data, error, isLoading } = useApi<MotivationalQuote[]>(MOTIVATIONAL_QUOTES_URL);
-  const quotes = error || !data || data.length === 0 ? FALLBACK_QUOTES : data;
-
   const [activeIndex, setActiveIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
   const activeIndexRef = useRef(0);
@@ -22,7 +15,7 @@ export default function MotivationalQuote() {
     activeIndexRef.current = 0;
     setActiveIndex(0);
     setIsVisible(true);
-  }, [quotes.length]);
+  }, []);
 
   useEffect(() => {
     if (quotes.length < 2) return;
@@ -46,38 +39,9 @@ export default function MotivationalQuote() {
         globalThis.clearTimeout(switchTimeoutId);
       }
     };
-  }, [quotes.length]);
-
-  useEffect(() => {
-    if (error) {
-      console.error("[MotivationalQuote] Falling back to local quotes due to API error", {
-        url: MOTIVATIONAL_QUOTES_URL,
-        error,
-      });
-      return;
-    }
-
-    if (!isLoading && (!data || data.length === 0)) {
-      console.warn(
-        "[MotivationalQuote] Falling back to local quotes because API returned no data",
-        {
-          url: MOTIVATIONAL_QUOTES_URL,
-        },
-      );
-    }
-  }, [data, error, isLoading]);
+  }, []);
 
   const displayQuote = quotes[activeIndex % quotes.length];
-
-  if (isLoading) {
-    return (
-      <div className="flex flex-col items-center gap-2 w-full max-w-xs sm:max-w-md md:max-w-lg text-center px-4 xs:px-2">
-        <Skeleton className="h-4 w-11/12 rounded-md" />
-        <Skeleton className="h-4 w-8/12 rounded-md" />
-        <Skeleton className="mt-1 h-3 w-28 rounded-md" />
-      </div>
-    );
-  }
 
   return (
     <div className="flex flex-col items-center gap-1.5 w-full max-w-xs sm:max-w-md md:max-w-lg text-center px-4 xs:px-2">

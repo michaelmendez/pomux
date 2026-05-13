@@ -22,7 +22,7 @@ Live demo: <a href="https://pomux.xyz" target="_blank" rel="noopener noreferrer"
 - Session counter per timer type, persisted in localStorage
 - End-of-session alerts with independent toggles for desktop notifications and sound
 - Notification permission flow handled from Settings (user-triggered, no intrusive auto-prompt)
-- Motivational quotes from [ZenQuotes](https://zenquotes.io/) through a same-origin `/api/quote` proxy, rotating every 5 minutes with smooth transitions and offline fallbacks
+- Motivational quotes loaded from local app data with smooth transitions and offline behavior
 - Dynamic browser tab title showing the remaining time
 - Synthwave radio player powered by the [RadioBrowser API](https://www.radio-browser.info/) — no account required
 - Mobile-optimized radio section with a collapsible control panel to save vertical space
@@ -60,43 +60,13 @@ All variables are validated at startup via `src/constants/env.ts`.
 | Variable                  | Description                                                               | Example value                                                                                            |
 | ------------------------- | ------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
 | `VITE_RADIO_STATIONS_URL` | [RadioBrowser API](https://www.radio-browser.info/) endpoint for stations | `https://de1.api.radio-browser.info/json/stations/bytag/synthwave?limit=20&hidebroken=true&order=random` |
-| `VITE_QUOTES_URL`         | Same-origin quote endpoint used by the app                                | `/api/quote`                                                                                             |
 | `VITE_GITHUB_URL`         | Author GitHub profile URL                                                 | `https://github.com/michaelmendez`                                                                       |
 
-### Cloudflare Pages (with Functions)
+### Deployment
 
-The project includes a Pages Function at `functions/api/quote.js` that proxies ZenQuotes, so browsers avoid CORS issues.
+Motivational quotes are now loaded from local app data and do not require ZenQuotes or an API proxy.
 
-In Cloudflare Pages, add these as **Build environment variables**:
-
-1. Open your Pages project.
-2. Go to **Settings** -> **Builds & deployments** -> **Environment variables**.
-3. Add `VITE_RADIO_STATIONS_URL`, `VITE_QUOTES_URL`, and `VITE_GITHUB_URL` for both Preview and Production.
-4. Redeploy.
-
-Set `VITE_QUOTES_URL=/api/quote` in both environments.
-
-If you deploy via Wrangler CLI, make sure you include the Functions directory:
-
-```bash
-pnpm build
-pnpm deploy:pages
-```
-
-`deploy:pages` runs `wrangler pages deploy dist --project-name pomux --functions=functions`. Without `--functions`, `/api/quote` will fall back to HTML.
-
-If your deploy logs show an API path like `/workers/scripts/<name>/versions`, you are deploying as a Worker + assets. In that case use:
-
-```bash
-pnpm build
-pnpm deploy:worker
-```
-
-This uses `wrangler.toml` + `worker.js` to serve static assets and handle `/api/quote` directly in the Worker.
-
-### Local Development
-
-`pnpm dev` works with `/api/quote` because Vite proxies that route to ZenQuotes during development.
+For local development, run `pnpm dev` normally. The app no longer depends on `/api/quote` or any external quote proxy.
 
 ---
 

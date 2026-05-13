@@ -28,15 +28,6 @@ export default defineConfig(() => {
         '@': path.resolve(__dirname, './src'),
       },
     },
-    server: {
-      proxy: {
-        '/api/quote': {
-          target: 'https://zenquotes.io',
-          changeOrigin: true,
-          rewrite: () => '/api/quotes/random?limit=20',
-        },
-      },
-    },
     test: {
       globals: true,
       environment: 'jsdom',
