@@ -94,11 +94,11 @@ export default function Station() {
           aria-label="Toggle radio controls"
         >
           <span className="min-w-0">
-            <span className="flex items-center gap-1.5 text-[11px] uppercase tracking-widest text-indigo-300/90 font-semibold">
+            <span className="flex items-center gap-1.5 text-[11px] uppercase tracking-widest text-violet-300/90 font-semibold">
               Radio
               <span
-                className={`inline-block w-1.5 h-1.5 rounded-full ${
-                  isPlaying ? "bg-indigo-400 animate-pulse" : "bg-white/20"
+                className={`inline-block size-1.5 rounded-full ${
+                  isPlaying ? "bg-violet-400 animate-pulse" : "bg-white/20"
                 }`}
                 aria-label={isPlaying ? "Playing" : "Stopped"}
               />
@@ -118,7 +118,7 @@ export default function Station() {
                 isMobileExpanded ? "rotate-180" : "rotate-0"
               }`}
             >
-              <ChevronDownIcon className="h-4 w-4" />
+              <ChevronDownIcon className="size-4" />
             </span>
           </span>
         </button>
@@ -145,7 +145,7 @@ export default function Station() {
       <div className="relative hidden sm:flex items-center px-6 pt-3 pb-2">
         <div className="flex items-center w-1/3">
           <div className="flex flex-col items-start min-w-0">
-            <p className="text-sm uppercase tracking-widest text-indigo-300 font-semibold">
+            <p className="text-sm uppercase tracking-widest text-violet-300 font-semibold">
               Radio Station
             </p>
             {isLoading ? (

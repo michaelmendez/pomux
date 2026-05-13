@@ -17,7 +17,7 @@ export default function RingTimerDisplay({
   separatorOpacity,
 }: Readonly<RingTimerDisplayProps>) {
   return (
-    <div className="relative flex scale-[1.2] items-center justify-center xs:w-52 xs:h-52 w-68 h-68 md:scale-[0.94] md:w-md md:h-112 lg:scale-100 my-4 sm:my-0">
+    <div className="relative flex scale-[1.2] items-center justify-center size-68 xs:size-52 md:h-112 md:w-md md:scale-[0.94] lg:scale-100 my-4 sm:my-0">
       <div
         className={`absolute inset-0 rounded-full transition-all duration-700 ease-in-out pointer-events-none ${
           isRunning
@@ -28,7 +28,7 @@ export default function RingTimerDisplay({
 
       <svg
         viewBox="0 0 260 260"
-        className="absolute inset-0 w-full h-full -rotate-90"
+        className="absolute inset-0 size-full -rotate-90"
         aria-hidden="true"
       >
         <circle

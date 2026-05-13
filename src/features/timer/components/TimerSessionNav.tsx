@@ -28,7 +28,7 @@ export default function TimerSessionNav({
         title="Pomodoro"
         className={NAV_BTN}
       >
-        <FireIcon className="h-4 w-4 shrink-0 opacity-80" />
+        <FireIcon className="size-4 shrink-0 opacity-80" />
         <span className="tabular-nums opacity-80 text-base xs:text-sm leading-none">
           {sessions.pomodoro}
         </span>
@@ -40,7 +40,7 @@ export default function TimerSessionNav({
         title="Short Break"
         className={NAV_BTN}
       >
-        <BoltIcon className="h-4 w-4 shrink-0 opacity-80" />
+        <BoltIcon className="size-4 shrink-0 opacity-80" />
         <span className="tabular-nums opacity-80 text-base xs:text-sm leading-none">
           {sessions.shortBreak}
         </span>
@@ -52,7 +52,7 @@ export default function TimerSessionNav({
         title="Long Break"
         className={NAV_BTN}
       >
-        <MoonIcon className="h-4 w-4 shrink-0 opacity-80" />
+        <MoonIcon className="size-4 shrink-0 opacity-80" />
         <span className="tabular-nums opacity-80 text-base xs:text-sm leading-none">
           {sessions.longBreak}
         </span>
@@ -64,7 +64,7 @@ export default function TimerSessionNav({
         disabled={Object.values(sessions).every((s: number) => s === 0)}
         className="inline-flex items-center rounded-full p-2 text-sm"
       >
-        <TrashIcon className="h-5 w-5" />
+        <TrashIcon className="size-5" />
       </Button>
     </div>
   );

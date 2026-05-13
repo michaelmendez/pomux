@@ -8,16 +8,16 @@ export default function ProgressBar({ isPlaying }: Readonly<Props>) {
       className="relative mx-auto w-52 sm:w-56"
       aria-label={isPlaying ? "Radio playing" : "Radio paused"}
     >
-      <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-500/20 shadow-inner">
+      <div className="h-1.5 w-full overflow-hidden rounded-full bg-zinc-500/20 shadow-inner">
         <div
           className={`h-full rounded-full transition-all duration-500 ease-out ${
             isPlaying
-              ? "bg-linear-to-r from-indigo-600 via-indigo-500 to-indigo-400 w-full"
-              : "bg-slate-400/60 w-4/5"
+              ? "bg-linear-to-r from-brand via-violet-500 to-fuchsia-400 w-full"
+              : "bg-zinc-400/60 w-4/5"
           }`}
         >
           {isPlaying && (
-            <div className="h-full w-full animate-[progressShine_1.8s_linear_infinite] bg-linear-to-r from-indigo-100/0 via-indigo-100/30 to-indigo-100/0" />
+            <div className="size-full animate-[progressShine_1.8s_linear_infinite] bg-linear-to-r from-violet-100/0 via-violet-100/30 to-violet-100/0" />
           )}
         </div>
       </div>

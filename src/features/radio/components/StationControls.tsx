@@ -12,13 +12,13 @@ export default function StationControls({ isPlaying, onPlay, onPrev, onNext }: R
   return (
     <div className="flex items-center justify-center gap-4">
       <Button onClick={onPrev} title="Previous">
-        <ChevronLeftIcon className="h-4 w-4" />
+        <ChevronLeftIcon className="size-4" />
       </Button>
       <Button onClick={onPlay} title={isPlaying ? "Pause" : "Play"}>
-        {isPlaying ? <PauseIcon className="h-5 w-5" /> : <PlayIcon className="h-5 w-5" />}
+        {isPlaying ? <PauseIcon className="size-5" /> : <PlayIcon className="size-5" />}
       </Button>
       <Button onClick={onNext} title="Next">
-        <ChevronRightIcon className="h-4 w-4" />
+        <ChevronRightIcon className="size-4" />
       </Button>
     </div>
   );

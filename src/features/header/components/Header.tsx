@@ -9,9 +9,9 @@ const Header = () => {
           alt="Pomux logo"
           loading="eager"
           fetchPriority="high"
-          className="h-12 w-12 sm:h-16 sm:w-16 object-contain"
+          className="size-12 object-contain sm:size-16"
         />
-        <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight font-[Outfit]">POMUX</h1>
+        <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight font-[Outfit]">POMUX</h1>
       </div>
     </header>
   );

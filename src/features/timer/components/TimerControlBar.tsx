@@ -44,7 +44,7 @@ export default function TimerControlBar({
         title={autoStart ? "Auto-start on" : "Auto-start off"}
         className="font-semibold rounded-full p-2.5 text-sm"
       >
-        <ArrowPathIcon className="h-5 w-5" />
+        <ArrowPathIcon className="size-5" />
       </Button>
       <Button
         onClick={handleRefreshTime}
@@ -52,7 +52,7 @@ export default function TimerControlBar({
         disabled={seconds === DEFAULT_DURATIONS[activeButton]}
         className="font-semibold rounded-full p-2.5 text-sm"
       >
-        <ArrowPathRoundedSquareIcon className="h-5 w-5" />
+        <ArrowPathRoundedSquareIcon className="size-5" />
       </Button>
       <Button
         onClick={handleSkipToNextPhase}
@@ -62,7 +62,7 @@ export default function TimerControlBar({
         }
         className="font-semibold rounded-full p-2.5 text-sm"
       >
-        <ArrowRightIcon className="h-5 w-5" />
+        <ArrowRightIcon className="size-5" />
       </Button>
     </div>
   );
