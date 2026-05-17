@@ -1,4 +1,4 @@
-import { DEFAULT_DURATIONS, TIMER_TYPES } from "@/constants/consts";
+import { TIMER_TYPES } from "@/constants/consts";
 import Button from "@/shared/ui/Button";
 import type { TimerTypes } from "@/types/types";
 import {
@@ -13,6 +13,7 @@ type TimerControlBarProps = {
   handleRefreshTime: () => void;
   activeButton: TimerTypes;
   seconds: number;
+  totalSeconds: number;
   autoStart: boolean;
   setAutoStart: (newValue: boolean | ((prev: boolean) => boolean)) => void;
   handleSkipToNextPhase: () => void;
@@ -24,6 +25,7 @@ export default function TimerControlBar({
   handleRefreshTime,
   activeButton,
   seconds,
+  totalSeconds,
   autoStart,
   setAutoStart,
   handleSkipToNextPhase,
@@ -49,7 +51,7 @@ export default function TimerControlBar({
       <Button
         onClick={handleRefreshTime}
         title="Restart timer"
-        disabled={seconds === DEFAULT_DURATIONS[activeButton]}
+        disabled={seconds === totalSeconds && !isTimerRunning}
         className="font-semibold rounded-full p-2.5 text-sm"
       >
         <ArrowPathRoundedSquareIcon className="size-5" />

@@ -63,15 +63,12 @@ function onKeyDown(event: KeyboardEvent) {
 
 type TimerAction =
   | { type: "TICK" }
-  | {
-      type: "COMPLETE";
-      autoStart: boolean;
-      durations: Record<TimerTypes, number>;
-      isSoundEnabled: boolean;
-      isNotificationEnabled: boolean;
-      pomodorosBeforeLongBreak: number;
-      onSessionUpdate: () => void;
-    }
+    | {
+        type: "COMPLETE";
+        autoStart: boolean;
+        durations: Record<TimerTypes, number>;
+        pomodorosBeforeLongBreak: number;
+      }
   | {
       type: "SET_MODE";
       mode: TimerTypes;
@@ -83,18 +80,7 @@ type TimerAction =
   | { type: "SKIP" };
 
 function handleComplete(state: TimerState, action: TimerAction & { type: "COMPLETE" }): TimerState {
-  const { autoStart, durations, isNotificationEnabled, pomodorosBeforeLongBreak, onSessionUpdate } =
-    action;
-
-  if (isNotificationEnabled) {
-    const notification =
-      state.activeButton === TIMER_TYPES.POMODORO
-        ? TIMER_NOTIFICATION_MESSAGES.POMODORO_COMPLETE
-        : TIMER_NOTIFICATION_MESSAGES.BREAK_COMPLETE;
-    notifySessionEnd(notification);
-  }
-
-  onSessionUpdate();
+  const { autoStart, durations, pomodorosBeforeLongBreak } = action;
 
   if (state.activeButton === TIMER_TYPES.POMODORO) {
     const nextPomodoroCount = state.pomodoroCount + 1;
@@ -124,7 +110,7 @@ function timerReducer(state: TimerState, action: TimerAction): TimerState {
     case "TICK": {
       if (!state.isTimerRunning) return state;
       if (state.seconds <= 1) {
-        return { ...state, seconds: 0, isTimerRunning: false };
+        return { ...state, seconds: 0 };
       }
       return { ...state, seconds: state.seconds - 1 };
     }
@@ -141,9 +127,9 @@ function timerReducer(state: TimerState, action: TimerAction): TimerState {
     case "TOGGLE_RUNNING":
       return { ...state, isTimerRunning: !state.isTimerRunning };
     case "RESET":
-      return { ...state, seconds: action.seconds };
+      return { ...state, seconds: action.seconds, isTimerRunning: false };
     case "SKIP":
-      return { ...state, seconds: 0 };
+      return { ...state, seconds: 0, isTimerRunning: true };
     default:
       return state;
   }
@@ -164,15 +150,20 @@ export default function TimerLayout() {
     { date: "", count: 0 },
   );
   const { settings } = useSettings();
+  const isTimerRunningRef = useRef(state.isTimerRunning);
   const titleText = state.isTimerRunning
     ? `${formatTime(state.seconds)} · ${APP_NAME}`
     : BASE_HEAD_TITLE;
 
   useEffect(() => {
-    if (!state.isTimerRunning) {
+    isTimerRunningRef.current = state.isTimerRunning;
+  }, [state.isTimerRunning]);
+
+  useEffect(() => {
+    if (!isTimerRunningRef.current) {
       dispatch({ type: "RESET", seconds: settings.durations[state.activeButton] });
     }
-  }, [state.activeButton, settings.durations, state.isTimerRunning]);
+  }, [state.activeButton, settings.durations]);
 
   useEffect(() => {
     let timerId: number | undefined;
@@ -193,7 +184,7 @@ export default function TimerLayout() {
   };
 
   const handleRefreshTime = () => {
-    handleTimerClick(state.activeButton);
+    dispatch({ type: "RESET", seconds: settings.durations[state.activeButton] });
   };
 
   const handleTimerClick = (type: TimerTypes) => {
@@ -207,6 +198,7 @@ export default function TimerLayout() {
 
   const handleResetSessions = () => {
     setSessions(INITIAL_SESSIONS);
+    setDailyData({ date: new Date().toISOString().slice(0, 10), count: 0 });
   };
 
   useEffect(() => {
@@ -214,10 +206,8 @@ export default function TimerLayout() {
       space: () => dispatch({ type: "TOGGLE_RUNNING" }),
       r: () =>
         dispatch({
-          type: "SET_MODE",
-          mode: state.activeButton,
-          durations: settings.durations,
-          isRunning: state.isTimerRunning,
+          type: "RESET",
+          seconds: settings.durations[state.activeButton],
         }),
       s: () => dispatch({ type: "SKIP" }),
     };
@@ -236,24 +226,32 @@ export default function TimerLayout() {
       notificationRef.current.play();
     }
 
+    if (settings.isNotificationEnabled) {
+      const notification =
+        state.activeButton === TIMER_TYPES.POMODORO
+          ? TIMER_NOTIFICATION_MESSAGES.POMODORO_COMPLETE
+          : TIMER_NOTIFICATION_MESSAGES.BREAK_COMPLETE;
+      notifySessionEnd(notification);
+    }
+
+    setSessions((prev) => ({
+      ...prev,
+      [state.activeButton]: prev[state.activeButton] + 1,
+    }));
+
+    if (state.activeButton === TIMER_TYPES.POMODORO) {
+      setDailyData((prev) => {
+        const today = new Date().toISOString().slice(0, 10);
+        if (prev.date !== today) return { date: today, count: 1 };
+        return { ...prev, count: prev.count + 1 };
+      });
+    }
+
     dispatch({
       type: "COMPLETE",
       autoStart,
       durations: settings.durations,
-      isSoundEnabled: settings.isSoundEnabled ?? true,
-      isNotificationEnabled: settings.isNotificationEnabled,
       pomodorosBeforeLongBreak: settings.pomodorosBeforeLongBreak,
-      onSessionUpdate: () => {
-        setSessions((prev) => ({
-          ...prev,
-          [state.activeButton]: prev[state.activeButton] + 1,
-        }));
-        setDailyData((prev) => {
-          const today = new Date().toISOString().slice(0, 10);
-          if (prev.date !== today) return { date: today, count: 1 };
-          return { ...prev, count: prev.count + 1 };
-        });
-      },
     });
   }, [
     state.seconds,
@@ -307,6 +305,7 @@ export default function TimerLayout() {
         handleRefreshTime={handleRefreshTime}
         activeButton={state.activeButton}
         seconds={state.seconds}
+        totalSeconds={settings.durations[state.activeButton]}
         autoStart={autoStart}
         setAutoStart={setAutoStart}
         handleSkipToNextPhase={handleSkipToNextPhase}
