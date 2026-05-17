@@ -19,119 +19,151 @@ import type { TimerTypes } from "@/types/types";
 import { formatTime } from "@/utils/formatTime";
 import { notifySessionEnd } from "@/utils/notifications";
 import { getStoredPomodoroSeconds } from "@/utils/settingsStorage";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useReducer } from "react";
+
+type TimerState = {
+  isTimerRunning: boolean;
+  seconds: number;
+  activeButton: TimerTypes;
+  pomodoroCount: number;
+};
+
+type TimerAction =
+  | { type: "TICK" }
+  | { type: "COMPLETE"; autoStart: boolean; durations: Record<TimerTypes, number>; isSoundEnabled: boolean; isNotificationEnabled: boolean; onSessionUpdate: () => void }
+  | { type: "SET_MODE"; mode: TimerTypes; durations: Record<TimerTypes, number>; isRunning: boolean }
+  | { type: "TOGGLE_RUNNING" }
+  | { type: "RESET"; seconds: number }
+  | { type: "SKIP" };
+
+function timerReducer(state: TimerState, action: TimerAction): TimerState {
+  switch (action.type) {
+    case "TICK": {
+      if (!state.isTimerRunning) return state;
+      if (state.seconds <= 1) {
+        return { ...state, seconds: 0, isTimerRunning: false };
+      }
+      return { ...state, seconds: state.seconds - 1 };
+    }
+    case "COMPLETE": {
+      const { autoStart, durations, isSoundEnabled, isNotificationEnabled, onSessionUpdate } = action;
+
+      if (isSoundEnabled ?? true) {
+        // notification handled via ref in component
+      }
+
+      if (isNotificationEnabled) {
+        const notification =
+          state.activeButton === TIMER_TYPES.POMODORO
+            ? TIMER_NOTIFICATION_MESSAGES.POMODORO_COMPLETE
+            : TIMER_NOTIFICATION_MESSAGES.BREAK_COMPLETE;
+        notifySessionEnd(notification);
+      }
+
+      onSessionUpdate();
+
+      let nextPomodoroCount = state.pomodoroCount;
+      let nextType: TimerTypes;
+
+      if (state.activeButton === TIMER_TYPES.POMODORO) {
+        nextPomodoroCount = state.pomodoroCount + 1;
+        nextType =
+          nextPomodoroCount % POMODOROS_BEFORE_LONG_BREAK === 0
+            ? TIMER_TYPES.LONG_BREAK
+            : TIMER_TYPES.SHORT_BREAK;
+      } else {
+        nextType = TIMER_TYPES.POMODORO;
+      }
+
+      return {
+        isTimerRunning: autoStart,
+        seconds: durations[nextType],
+        activeButton: nextType,
+        pomodoroCount: nextPomodoroCount,
+      };
+    }
+    case "SET_MODE": {
+      if (action.isRunning) return state;
+      return {
+        ...state,
+        seconds: action.durations[action.mode],
+        activeButton: action.mode,
+      };
+    }
+    case "TOGGLE_RUNNING":
+      return { ...state, isTimerRunning: !state.isTimerRunning };
+    case "RESET":
+      return { ...state, seconds: action.seconds };
+    case "SKIP":
+      return { ...state, seconds: 0 };
+    default:
+      return state;
+  }
+}
 
 export default function TimerLayout() {
-  const [isTimerRunning, setIsTimerRunning] = useState<boolean>(false);
-  const [seconds, setSeconds] = useState<number>(getStoredPomodoroSeconds);
-  const [activeButton, setActiveButton] = useState<TimerTypes>(TIMER_TYPES.POMODORO);
-  const pomodoroCountRef = useRef<number>(0);
+  const [state, dispatch] = useReducer(timerReducer, {
+    isTimerRunning: false,
+    seconds: getStoredPomodoroSeconds(),
+    activeButton: TIMER_TYPES.POMODORO,
+    pomodoroCount: 0,
+  });
   const [autoStart, setAutoStart] = useLocalStorage<boolean>(STORAGE_KEYS.AUTO_START, true);
   const notificationRef = useRef<HTMLAudioElement>(new Audio(NOTIFICATION_SOUND_PATH));
   const [sessions, setSessions] = useLocalStorage(STORAGE_KEYS.SESSIONS, INITIAL_SESSIONS);
   const { settings } = useSettings();
-  const titleText = isTimerRunning ? `${formatTime(seconds)} · ${APP_NAME}` : BASE_HEAD_TITLE;
-
-  // Track running state in a ref so the reset effect only fires on mode/duration
-  // changes — NOT when the timer is merely paused/resumed.
-  const isTimerRunningRef = useRef(isTimerRunning);
-  useEffect(() => {
-    isTimerRunningRef.current = isTimerRunning;
-  }, [isTimerRunning]);
+  const titleText = state.isTimerRunning ? `${formatTime(state.seconds)} · ${APP_NAME}` : BASE_HEAD_TITLE;
 
   useEffect(() => {
-    if (!isTimerRunningRef.current) {
-      setSeconds(settings.durations[activeButton]);
+    if (state.seconds === 0 && state.isTimerRunning) {
+      if (settings.isSoundEnabled ?? true) {
+        notificationRef.current.play();
+      }
+      dispatch({
+        type: "COMPLETE",
+        autoStart,
+        durations: settings.durations,
+        isSoundEnabled: settings.isSoundEnabled ?? true,
+        isNotificationEnabled: settings.isNotificationEnabled,
+        onSessionUpdate: () =>
+          setSessions((prev) => ({
+            ...prev,
+            [state.activeButton]: prev[state.activeButton] + 1,
+          })),
+      });
     }
-  }, [activeButton, settings.durations, setSeconds]);
+  }, [state.seconds, state.isTimerRunning, state.activeButton, autoStart, settings, setSessions]);
 
   useEffect(() => {
-    if (seconds !== 0) return;
-
-    if (isTimerRunning) {
-      setIsTimerRunning(false);
+    if (!state.isTimerRunning) {
+      dispatch({ type: "RESET", seconds: settings.durations[state.activeButton] });
     }
-
-    if (settings.isSoundEnabled ?? true) {
-      notificationRef.current.play();
-    }
-
-    if (settings.isNotificationEnabled) {
-      const notification =
-        activeButton === TIMER_TYPES.POMODORO
-          ? TIMER_NOTIFICATION_MESSAGES.POMODORO_COMPLETE
-          : TIMER_NOTIFICATION_MESSAGES.BREAK_COMPLETE;
-
-      notifySessionEnd(notification);
-    }
-
-    let nextPomodoroCount = pomodoroCountRef.current;
-    let nextType: TimerTypes;
-
-    if (activeButton === TIMER_TYPES.POMODORO) {
-      nextPomodoroCount = pomodoroCountRef.current + 1;
-      nextType =
-        nextPomodoroCount % POMODOROS_BEFORE_LONG_BREAK === 0
-          ? TIMER_TYPES.LONG_BREAK
-          : TIMER_TYPES.SHORT_BREAK;
-    } else {
-      nextType = TIMER_TYPES.POMODORO;
-    }
-
-    pomodoroCountRef.current = nextPomodoroCount;
-    setSessions((prev) => ({
-      ...prev,
-      [activeButton]: prev[activeButton] + 1,
-    }));
-    setActiveButton(nextType);
-    setSeconds(settings.durations[nextType]);
-    setIsTimerRunning(autoStart);
-  }, [
-    activeButton,
-    autoStart,
-    seconds,
-    isTimerRunning,
-    setSessions,
-    settings.durations,
-    settings.isNotificationEnabled,
-    settings.isSoundEnabled,
-  ]);
-
-  const handleSkipToNextPhase = () => {
-    setSeconds(0);
-  };
+  }, [state.activeButton, settings.durations, state.isTimerRunning]);
 
   useEffect(() => {
     let timerId: number | undefined;
 
-    if (isTimerRunning) {
-      timerId = setInterval(
-        () =>
-          setSeconds((prevSeconds) => {
-            if (prevSeconds <= 1) {
-              return 0;
-            }
-            return prevSeconds - 1;
-          }),
-        TIMER_INTERVAL_MS,
-      );
+    if (state.isTimerRunning) {
+      timerId = setInterval(() => dispatch({ type: "TICK" }), TIMER_INTERVAL_MS);
     }
 
     return () => clearInterval(timerId);
-  }, [isTimerRunning, setSeconds]);
+  }, [state.isTimerRunning]);
+
+  const handleSkipToNextPhase = () => {
+    dispatch({ type: "SKIP" });
+  };
 
   const handleStartTimer = () => {
-    setIsTimerRunning(!isTimerRunning);
+    dispatch({ type: "TOGGLE_RUNNING" });
   };
 
   const handleRefreshTime = () => {
-    handleTimerClick(activeButton);
+    handleTimerClick(state.activeButton);
   };
 
   const handleTimerClick = (type: TimerTypes) => {
-    setIsTimerRunning(false);
-    setSeconds(settings.durations[type]);
-    setActiveButton(type);
+    dispatch({ type: "SET_MODE", mode: type, durations: settings.durations, isRunning: state.isTimerRunning });
   };
 
   const handleResetSessions = () => {
@@ -142,22 +174,22 @@ export default function TimerLayout() {
     <div className="mx-auto mt-8 flex w-full flex-col items-center gap-4 sm:mt-5 sm:gap-5 md:mt-6">
       <title>{titleText}</title>
       <TimerSessionNav
-        activeButton={activeButton}
+        activeButton={state.activeButton}
         handleTimerClick={handleTimerClick}
         sessions={sessions}
         handleResetSessions={handleResetSessions}
       />
       <Timer
-        seconds={seconds}
-        totalSeconds={settings.durations[activeButton]}
-        isRunning={isTimerRunning}
+        seconds={state.seconds}
+        totalSeconds={settings.durations[state.activeButton]}
+        isRunning={state.isTimerRunning}
       />
       <TimerControlBar
-        isTimerRunning={isTimerRunning}
+        isTimerRunning={state.isTimerRunning}
         handleStartTimer={handleStartTimer}
         handleRefreshTime={handleRefreshTime}
-        activeButton={activeButton}
-        seconds={seconds}
+        activeButton={state.activeButton}
+        seconds={state.seconds}
         autoStart={autoStart}
         setAutoStart={setAutoStart}
         handleSkipToNextPhase={handleSkipToNextPhase}
