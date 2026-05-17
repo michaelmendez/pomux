@@ -1,6 +1,7 @@
 import { AUDIO_VOLUME } from "@/constants/consts";
 import Slider from "@/shared/ui/Slider";
 import { SpeakerWaveIcon, SpeakerXMarkIcon } from "@heroicons/react/24/solid";
+import { useRef } from "react";
 
 interface VolumeBarProps {
   onChange?: (volume: number) => void;
@@ -8,13 +9,20 @@ interface VolumeBarProps {
 }
 
 const VolumeBar = ({ onChange, volume = AUDIO_VOLUME.DEFAULT }: VolumeBarProps) => {
+  const previousVolumeRef = useRef<number>(volume);
+
   const handleVolumeChange = (newVolume: number) => {
+    previousVolumeRef.current = newVolume;
     onChange?.(newVolume);
   };
 
   const handleMuteToggle = () => {
-    const nextValue = volume === AUDIO_VOLUME.MIN ? AUDIO_VOLUME.RESTORE_FALLBACK : AUDIO_VOLUME.MIN;
-    onChange?.(nextValue);
+    if (volume === AUDIO_VOLUME.MIN) {
+      onChange?.(previousVolumeRef.current);
+    } else {
+      previousVolumeRef.current = volume;
+      onChange?.(AUDIO_VOLUME.MIN);
+    }
   };
 
   const VolumeIcon = volume === AUDIO_VOLUME.MIN ? SpeakerXMarkIcon : SpeakerWaveIcon;
