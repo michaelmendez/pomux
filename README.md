@@ -15,11 +15,13 @@ Live demo: <a href="https://pomux.xyz" target="_blank" rel="noopener noreferrer"
 ## Features
 
 - Three timer modes: Pomodoro (25 min), Short Break (5 min), Long Break (15 min)
-- Settings modal with slider controls to customize work/short/long durations (1-100 min)
+- Settings modal with slider controls to customize work/short/long durations and daily goal
 - Custom durations persisted in localStorage and shared through context
 - Automatic Pomodoro cycle — every 4th Pomodoro triggers a long break, otherwise a short break; breaks return to Pomodoro automatically
 - Auto-start toggle — chains sessions without manual input, persisted in localStorage
 - Session counter per timer type, persisted in localStorage
+- Daily goal tracker with progress bar showing completed pomodoros vs daily target, persisted in localStorage
+- Reset sessions clears both session counts and daily goal progress
 - End-of-session alerts with independent toggles for desktop notifications and sound
 - Notification permission flow handled from Settings (user-triggered, no intrusive auto-prompt)
 - Motivational quotes loaded from local app data with smooth transitions and offline behavior
