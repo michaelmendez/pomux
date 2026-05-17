@@ -10,6 +10,7 @@ import {
 } from "@/constants/consts";
 import { useSettings } from "@/contexts/useSettings";
 import MotivationalQuote from "@/features/timer/components/MotivationalQuote";
+import Timer from "@/features/timer/components/Timer";
 import TimerControlBar from "@/features/timer/components/TimerControlBar";
 import TimerSessionNav from "@/features/timer/components/TimerSessionNav";
 import useLocalStorage from "@/hooks/useLocalStorage";
@@ -17,9 +18,7 @@ import type { TimerTypes } from "@/types/types";
 import { formatTime } from "@/utils/formatTime";
 import { notifySessionEnd } from "@/utils/notifications";
 import { getStoredPomodoroSeconds } from "@/utils/settingsStorage";
-import { lazy, useEffect, useRef, useReducer, Suspense } from "react";
-
-const Timer = lazy(() => import("@/features/timer/components/Timer"));
+import { useEffect, useRef, useReducer } from "react";
 
 type TimerState = {
   isTimerRunning: boolean;
@@ -295,13 +294,11 @@ export default function TimerLayout() {
           <span className="text-[12px] text-white/50 font-medium">Today</span>
         </span>
       </div>
-      <Suspense fallback={<div className="h-40 flex items-center justify-center" />}>
-        <Timer
-          seconds={state.seconds}
-          totalSeconds={settings.durations[state.activeButton]}
-          isRunning={state.isTimerRunning}
-        />
-      </Suspense>
+      <Timer
+        seconds={state.seconds}
+        totalSeconds={settings.durations[state.activeButton]}
+        isRunning={state.isTimerRunning}
+      />
       <TimerControlBar
         isTimerRunning={state.isTimerRunning}
         handleStartTimer={handleStartTimer}
