@@ -15,11 +15,11 @@ describe('Button', () => {
   })
 
   it('calls onClick when clicked', async () => {
-    const handleClick = vi.fn()
+    const handleButtonClick = vi.fn()
     const user = userEvent.setup()
-    render(<Button onClick={handleClick}>Click me</Button>)
+    render(<Button onClick={handleButtonClick}>Click me</Button>)
 
     await user.click(screen.getByRole('button', { name: /click me/i }))
-    expect(handleClick).toHaveBeenCalledTimes(1)
+    expect(handleButtonClick).toHaveBeenCalledTimes(1)
   })
 })

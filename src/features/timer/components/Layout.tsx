@@ -46,49 +46,51 @@ export default function TimerLayout() {
   }, [activeButton, settings.durations, setSeconds]);
 
   useEffect(() => {
-    if (seconds === 0) {
-      if (settings.isSoundEnabled ?? true) {
-        notificationRef.current.play();
-      }
+    if (seconds !== 0) return;
 
-      if (settings.isNotificationEnabled) {
-        const notification =
-          activeButton === TIMER_TYPES.POMODORO
-            ? TIMER_NOTIFICATION_MESSAGES.POMODORO_COMPLETE
-            : TIMER_NOTIFICATION_MESSAGES.BREAK_COMPLETE;
-
-        notifySessionEnd(notification);
-      }
-
-      let nextPomodoroCount = pomodoroCountRef.current;
-      let nextType: TimerTypes;
-
-      if (activeButton === TIMER_TYPES.POMODORO) {
-        nextPomodoroCount = pomodoroCountRef.current + 1;
-        nextType =
-          nextPomodoroCount % POMODOROS_BEFORE_LONG_BREAK === 0
-            ? TIMER_TYPES.LONG_BREAK
-            : TIMER_TYPES.SHORT_BREAK;
-      } else {
-        nextType = TIMER_TYPES.POMODORO;
-      }
-
-      pomodoroCountRef.current = nextPomodoroCount;
-      setSessions((prev) => ({
-        ...prev,
-        [activeButton]: prev[activeButton] + 1,
-      }));
-      setActiveButton(nextType);
-      setSeconds(settings.durations[nextType]);
-      setIsTimerRunning(autoStart);
+    if (isTimerRunning) {
+      setIsTimerRunning(false);
     }
+
+    if (settings.isSoundEnabled ?? true) {
+      notificationRef.current.play();
+    }
+
+    if (settings.isNotificationEnabled) {
+      const notification =
+        activeButton === TIMER_TYPES.POMODORO
+          ? TIMER_NOTIFICATION_MESSAGES.POMODORO_COMPLETE
+          : TIMER_NOTIFICATION_MESSAGES.BREAK_COMPLETE;
+
+      notifySessionEnd(notification);
+    }
+
+    let nextPomodoroCount = pomodoroCountRef.current;
+    let nextType: TimerTypes;
+
+    if (activeButton === TIMER_TYPES.POMODORO) {
+      nextPomodoroCount = pomodoroCountRef.current + 1;
+      nextType =
+        nextPomodoroCount % POMODOROS_BEFORE_LONG_BREAK === 0
+          ? TIMER_TYPES.LONG_BREAK
+          : TIMER_TYPES.SHORT_BREAK;
+    } else {
+      nextType = TIMER_TYPES.POMODORO;
+    }
+
+    pomodoroCountRef.current = nextPomodoroCount;
+    setSessions((prev) => ({
+      ...prev,
+      [activeButton]: prev[activeButton] + 1,
+    }));
+    setActiveButton(nextType);
+    setSeconds(settings.durations[nextType]);
+    setIsTimerRunning(autoStart);
   }, [
     activeButton,
     autoStart,
-    pomodoroCountRef,
     seconds,
-    setIsTimerRunning,
-    setSeconds,
+    isTimerRunning,
     setSessions,
     settings.durations,
     settings.isNotificationEnabled,
@@ -107,7 +109,6 @@ export default function TimerLayout() {
         () =>
           setSeconds((prevSeconds) => {
             if (prevSeconds <= 1) {
-              setIsTimerRunning(false);
               return 0;
             }
             return prevSeconds - 1;
@@ -117,7 +118,7 @@ export default function TimerLayout() {
     }
 
     return () => clearInterval(timerId);
-  }, [isTimerRunning, setIsTimerRunning, setSeconds]);
+  }, [isTimerRunning, setSeconds]);
 
   const handleStartTimer = () => {
     setIsTimerRunning(!isTimerRunning);

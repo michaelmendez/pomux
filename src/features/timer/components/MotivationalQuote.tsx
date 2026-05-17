@@ -15,9 +15,7 @@ export default function MotivationalQuote() {
     activeIndexRef.current = 0;
     setActiveIndex(0);
     setIsVisible(true);
-  }, []);
 
-  useEffect(() => {
     if (quotes.length < 2) return;
 
     let switchTimeoutId: ReturnType<typeof globalThis.setTimeout> | undefined;

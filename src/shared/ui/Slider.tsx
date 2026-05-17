@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import styles from "./Slider.module.css";
 
 const DEFAULT_SLIDER_VALUE = 100;
@@ -38,25 +38,17 @@ const Slider = ({
   valueFormatter = (v) => `${v}`,
   className,
 }: SliderProps) => {
-  const [internalValue, setInternalValue] = useState(value);
   const sliderRef = useRef<HTMLInputElement | null>(null);
 
-  useEffect(() => {
-    setInternalValue(value);
-  }, [value]);
+  const range = max - min;
+  const pct = range <= 0 ? 0 : ((value - min) / range) * 100;
 
   useEffect(() => {
-    const input = sliderRef.current;
-    if (!input) return;
+    sliderRef.current?.style.setProperty("--value", `${pct}%`);
+  }, [pct]);
 
-    const range = max - min;
-    const pct = range <= 0 ? 0 : ((internalValue - min) / range) * 100;
-    input.style.setProperty("--value", `${pct}%`);
-  }, [internalValue, min, max]);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSliderInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const next = Number(e.target.value);
-    setInternalValue(next);
     onChange?.(next);
   };
 
@@ -72,17 +64,17 @@ const Slider = ({
           min={min}
           max={max}
           step={step}
-          value={internalValue}
-          onChange={handleChange}
+          value={value}
+          onChange={handleSliderInput}
           className={`${styles.slider} w-full`}
           aria-label={label ?? "slider"}
           aria-valuemin={min}
           aria-valuemax={max}
-          aria-valuetext={valueFormatter(internalValue)}
+          aria-valuetext={valueFormatter(value)}
         />
         {showValueBubble && (
           <div className="absolute -top-7 right-0 text-sm font-medium text-white bg-white/10 px-2 py-0.5 rounded">
-            {valueFormatter(internalValue)}
+            {valueFormatter(value)}
           </div>
         )}
       </div>

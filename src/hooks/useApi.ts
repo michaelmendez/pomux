@@ -7,24 +7,30 @@ type UseApiReturn<T = null> = {
   error: string;
 };
 
+type ApiState<T> = {
+  data: T | null;
+  isLoading: boolean;
+  error: string;
+};
+
 export default function useApi<T = null>(url: string): UseApiReturn<T | null> {
-  const [data, setData] = useState<T | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [state, setState] = useState<ApiState<T>>({
+    data: null,
+    isLoading: true,
+    error: "",
+  });
 
   useEffect(() => {
-    let skip = false;
+    let cancelled = false;
 
-    const fetchData = async () => {
-      setIsLoading(true);
-      setError("");
+    const run = async () => {
+      setState((prev) => ({ ...prev, isLoading: true, error: "" }));
 
       try {
         const request = await fetch(url);
 
         if (!request.ok) {
           const message = `Request failed (${request.status} ${request.statusText})`;
-          setError(message);
           console.error("[useApi] Non-OK response", {
             url,
             status: request.status,
@@ -33,54 +39,51 @@ export default function useApi<T = null>(url: string): UseApiReturn<T | null> {
           throw new Error(message);
         }
 
-        if (!skip) {
-          const contentType = request.headers.get("content-type") ?? "";
+        if (cancelled) return;
 
-          if (!contentType.includes("application/json")) {
-            const rawBody = await request.text();
-            const preview = rawBody
-              .slice(0, API_RESPONSE_PREVIEW_CHARS)
-              .replaceAll(/\s+/g, " ")
-              .trim();
-            const message = `Expected JSON but got ${contentType || "unknown content-type"}. Possible /api routing fallback to index.html.`;
+        const contentType = request.headers.get("content-type") ?? "";
 
-            setError(message);
-            console.error("[useApi] Invalid response content type", {
-              url,
-              contentType,
-              preview,
-            });
-            throw new Error(message);
-          }
+        if (!contentType.includes("application/json")) {
+          const rawBody = await request.text();
+          const preview = rawBody
+            .slice(0, API_RESPONSE_PREVIEW_CHARS)
+            .replaceAll(/\s+/g, " ")
+            .trim();
+          const message = `Expected JSON but got ${contentType || "unknown content-type"}. Possible /api routing fallback to index.html.`;
 
-          const data = await request.json();
-          setData(data);
+          console.error("[useApi] Invalid response content type", {
+            url,
+            contentType,
+            preview,
+          });
+          throw new Error(message);
+        }
+
+        const data = await request.json();
+        if (!cancelled) {
+          setState({ data, isLoading: false, error: "" });
         }
       } catch (err) {
         const message = err instanceof Error ? err.message : "Unknown network error";
-
-        if (!skip) {
-          setError(message);
-        }
 
         console.error("[useApi] Fetch failed", {
           url,
           message,
           error: err,
         });
-      } finally {
-        if (!skip) {
-          setIsLoading(false);
+
+        if (!cancelled) {
+          setState((prev) => ({ ...prev, isLoading: false, error: message }));
         }
       }
     };
 
-    fetchData();
+    run();
 
     return () => {
-      skip = true;
+      cancelled = true;
     };
   }, [url]);
 
-  return { data, isLoading, error };
+  return { data: state.data, isLoading: state.isLoading, error: state.error };
 }

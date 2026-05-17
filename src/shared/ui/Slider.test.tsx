@@ -4,13 +4,13 @@ import Slider from './Slider'
 
 describe('Slider', () => {
   it('calls onChange with new value', () => {
-    const handleChange = vi.fn()
-    render(<Slider value={50} onChange={handleChange} min={0} max={100} />)
+    const updateSliderValue = vi.fn()
+    render(<Slider value={50} onChange={updateSliderValue} min={0} max={100} />)
 
     const input = screen.getByRole('slider')
     fireEvent.change(input, { target: { value: '75' } })
 
-    expect(handleChange).toHaveBeenCalledWith(75)
+    expect(updateSliderValue).toHaveBeenCalledWith(75)
   })
 
   it('displays formatted value', () => {
