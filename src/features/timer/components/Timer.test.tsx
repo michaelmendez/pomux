@@ -20,7 +20,8 @@ describe("Timer", () => {
       },
     );
 
-    expect(container.firstChild?.textContent?.replaceAll(/\s+/g, "")).toBe("01:30");
+    const timeElement = container.querySelector('[class*="text-"]');
+    expect(timeElement?.textContent?.replaceAll(/\s+/g, "")).toBe("01:30");
   });
 
   it("renders ring timer display and applies correct stroke offset", () => {
@@ -36,7 +37,8 @@ describe("Timer", () => {
       },
     );
 
-    expect(container.firstChild?.textContent?.replaceAll(/\s+/g, "")).toBe("01:30");
+    const timeElement = container.querySelector('[class*="tabular-nums"]');
+    expect(timeElement?.textContent?.replaceAll(/\s+/g, "")).toBe("01:30");
     const progressCircle = container.querySelector("circle[stroke-dashoffset]");
 
     expect(progressCircle).toBeInTheDocument();

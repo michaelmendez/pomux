@@ -23,7 +23,7 @@ export default function Timer({ seconds, totalSeconds, isRunning }: Readonly<Tim
 
   if (settings.timerDisplayStyle === TIMER_DISPLAY_STYLES.MINIMAL) {
     return (
-      <MinimalTimerDisplay minutes={minutes} secs={secs} separatorOpacity={separatorOpacity} />
+      <MinimalTimerDisplay minutes={minutes} secs={secs} isRunning={isRunning} separatorOpacity={separatorOpacity} />
     );
   }
 

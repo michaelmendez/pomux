@@ -11,6 +11,9 @@ export default function PillTimerDisplay({
   isRunning,
   separatorOpacity,
 }: Readonly<PillTimerDisplayProps>) {
+  const timeDisplay = `${minutes}:${secs}`;
+  const statusLabel = isRunning ? "Timer running" : "Timer paused";
+
   return (
     <div className="relative isolate flex items-center justify-center my-4 sm:my-0">
       <div
@@ -23,6 +26,9 @@ export default function PillTimerDisplay({
             "radial-gradient(ellipse at center, rgba(0,0,0,0) 62%, rgba(129,92,255,0.35) 70%, rgba(112,69,235,0) 79%)",
         }}
       />
+      <div aria-live="polite" aria-atomic="true" className="sr-only">
+        {statusLabel}, {timeDisplay}
+      </div>
       <div
         className={`relative z-10 rounded-full px-11 py-4 backdrop-blur-md sm:px-14 sm:py-5 ${
           isRunning

@@ -76,6 +76,9 @@ const Slider = ({
           onChange={handleChange}
           className={`${styles.slider} w-full`}
           aria-label={label ?? "slider"}
+          aria-valuemin={min}
+          aria-valuemax={max}
+          aria-valuetext={valueFormatter(internalValue)}
         />
         {showValueBubble && (
           <div className="absolute -top-7 right-0 text-sm font-medium text-white bg-white/10 px-2 py-0.5 rounded">

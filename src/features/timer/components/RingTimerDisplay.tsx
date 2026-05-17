@@ -16,6 +16,9 @@ export default function RingTimerDisplay({
   strokeDashoffset,
   separatorOpacity,
 }: Readonly<RingTimerDisplayProps>) {
+  const timeDisplay = `${minutes}:${secs}`;
+  const statusLabel = isRunning ? "Timer running" : "Timer paused";
+
   return (
     <div className="relative flex scale-[1.2] items-center justify-center size-68 xs:size-52 md:h-112 md:w-md md:scale-[0.94] lg:scale-100 my-4 sm:my-0">
       <div
@@ -25,6 +28,10 @@ export default function RingTimerDisplay({
             : "shadow-none"
         }`}
       />
+
+      <div aria-live="polite" aria-atomic="true" className="sr-only">
+        {statusLabel}, {timeDisplay}
+      </div>
 
       <svg
         viewBox="0 0 260 260"
