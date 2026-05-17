@@ -26,6 +26,8 @@ describe("Settings", () => {
         isNotificationEnabled: false,
         isSoundEnabled: true,
         timerDisplayStyle: TIMER_DISPLAY_STYLES.RING,
+        pomodorosBeforeLongBreak: 4,
+        dailyGoal: 8,
       },
     });
 

@@ -52,7 +52,7 @@ const Slider = ({
     onChange?.(next);
   };
 
-  const midTick = midLabel ?? `${Math.round((min + max) / MIDPOINT_DIVISOR)}`;
+  const midTick = midLabel ?? `${Math.floor((min + max) / MIDPOINT_DIVISOR)}`;
 
   return (
     <div className={className ?? "w-full"}>

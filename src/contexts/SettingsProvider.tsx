@@ -1,39 +1,14 @@
-import { DEFAULT_DURATIONS, STORAGE_KEYS, TIMER_DISPLAY_STYLES } from "@/constants/consts";
+import { STORAGE_KEYS } from "@/constants/consts";
 import { SettingsContext } from "@/contexts/settingsContext";
+import type { SettingsContextProps, SettingsContextValue } from "@/contexts/settingsTypes";
+import { DEFAULT_SETTINGS } from "@/contexts/settingsTypes";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { useCallback, useEffect, useMemo } from "react";
-
-type Durations = {
-  pomodoro: number;
-  shortBreak: number;
-  longBreak: number;
-};
-
-export type TimerDisplayStyle = (typeof TIMER_DISPLAY_STYLES)[keyof typeof TIMER_DISPLAY_STYLES];
-
-export type Sessions = { pomodoro: number; shortBreak: number; longBreak: number };
-
-export type SettingsContextProps = {
-  durations: Durations;
-  isNotificationEnabled: boolean;
-  isSoundEnabled: boolean;
-  timerDisplayStyle: TimerDisplayStyle;
-};
-
-export type SettingsContextValue = {
-  settings: SettingsContextProps;
-  handleSettings: (newSettings: Partial<SettingsContextProps>) => void;
-};
 
 type SettingsProviderProps = { children: React.ReactNode };
 
 export function SettingsProvider({ children }: Readonly<SettingsProviderProps>) {
-  const [settings, setSettings] = useLocalStorage<SettingsContextProps>(STORAGE_KEYS.SETTINGS, {
-    durations: DEFAULT_DURATIONS,
-    isNotificationEnabled: false,
-    isSoundEnabled: true,
-    timerDisplayStyle: TIMER_DISPLAY_STYLES.RING,
-  });
+  const [settings, setSettings] = useLocalStorage<SettingsContextProps>(STORAGE_KEYS.SETTINGS, DEFAULT_SETTINGS);
 
   useEffect(() => {
     if (settings.isSoundEnabled === undefined) {

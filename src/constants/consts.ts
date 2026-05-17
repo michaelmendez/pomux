@@ -2,7 +2,6 @@ import type { TimerTypes } from "@/types/types";
 
 export const APP_NAME = "Pomux";
 export const BASE_HEAD_TITLE = "Pomux — Free Pomodoro Timer";
-export const POMODOROS_BEFORE_LONG_BREAK = 4;
 export const SECONDS_PER_MINUTE = 60;
 export const TWENTY_FIVE_MINUTES = 25 * SECONDS_PER_MINUTE;
 export const FIFTEEN_MINUTES = 15 * SECONDS_PER_MINUTE;
@@ -42,6 +41,7 @@ export const STORAGE_KEYS = {
   SETTINGS: "settings",
   SESSIONS: "sessions",
   AUTO_START: "autoStart",
+  DAILY_SESSIONS: "dailySessions",
 } as const;
 
 export const TIMER_TYPES = {

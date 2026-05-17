@@ -16,6 +16,8 @@ describe("Timer", () => {
           isNotificationEnabled: false,
           isSoundEnabled: true,
           timerDisplayStyle: TIMER_DISPLAY_STYLES.MINIMAL,
+          pomodorosBeforeLongBreak: 4,
+          dailyGoal: 8,
         },
       },
     );
@@ -33,6 +35,8 @@ describe("Timer", () => {
           isNotificationEnabled: false,
           isSoundEnabled: true,
           timerDisplayStyle: TIMER_DISPLAY_STYLES.RING,
+          pomodorosBeforeLongBreak: 4,
+          dailyGoal: 8,
         },
       },
     );

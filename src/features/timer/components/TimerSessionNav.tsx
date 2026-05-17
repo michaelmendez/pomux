@@ -1,5 +1,5 @@
 import { TIMER_TYPES } from "@/constants/consts";
-import type { Sessions } from "@/contexts/SettingsProvider";
+import type { Sessions } from "@/contexts/settingsTypes";
 import Button from "@/shared/ui/Button";
 import type { TimerTypes } from "@/types/types";
 import { BoltIcon, FireIcon, MoonIcon, TrashIcon } from "@heroicons/react/24/solid";

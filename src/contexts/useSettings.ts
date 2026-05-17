@@ -1,4 +1,4 @@
-import { type SettingsContextValue } from "@/contexts/SettingsProvider";
+import { type SettingsContextValue } from "@/contexts/settingsTypes";
 import { SettingsContext } from "@/contexts/settingsContext";
 import { use } from "react";
 
